@@ -1,0 +1,7 @@
+{
+  "name": "pokeFinder",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
