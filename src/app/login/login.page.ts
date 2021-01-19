@@ -12,4 +12,14 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  login(formulari)
+  {
+    /* 
+    
+       this.authService.login(form.value).subscribe((res)=>{
+      this.router.navigateByUrl('home');
+    });
+
+    */
+  }
 }
