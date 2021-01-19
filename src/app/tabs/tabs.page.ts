@@ -9,7 +9,7 @@ export class TabsPage {
 
   home_actiu = true;
   perfil_actiu = true;
-  buscador_actiu = false;
+  buscador_actiu = true;
   
 
   constructor() {}

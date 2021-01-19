@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 /* import { NativeStorage } from '@ionic-native/native-storage/ngx'; */
 
@@ -14,6 +15,7 @@ export class LoginPage implements OnInit {
   resposta_server = 0;
 
   constructor(
+    private _router: Router,
    public service: AuthService
   ) { }
 
@@ -36,6 +38,7 @@ export class LoginPage implements OnInit {
       
       // this.service.setToken(el.user.uid);
       console.log("logejat ok");
+      this._router.navigateByUrl('/buscador'); // trucazo
     })
       .catch((err) => {
         if (err.code == 'auth/user-not-found') {
