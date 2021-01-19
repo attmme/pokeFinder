@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../shared/services/firebase/auth.service';
+/* import { NativeStorage } from '@ionic-native/native-storage/ngx'; */
 
 @Component({
   selector: 'app-login',
@@ -7,19 +10,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  submitted = false;
+  resposta_server = 0;
+
+  constructor(
+   public service: AuthService
+  ) { }
 
   ngOnInit() {
+
   }
 
-  login(formulari)
-  {
-    /* 
-    
-       this.authService.login(form.value).subscribe((res)=>{
-      this.router.navigateByUrl('home');
-    });
+  login(formulari) {
+    console.log("formulari: ", formulari);
 
-    */
+    let e = formulari.form.value.email;
+    let p = formulari.form.value.password;
+
+     
+    this.service.login(e, p).then(el => {
+      // this.resposta_server = 0; // resetejem
+      this.service.setToken(el.user.uid);
+      // Redirigeix si està login
+      if (true) { }
+      // this.trucazo_router.navigateByUrl('/tasks');
+      console.log("logejat ok");
+    })
+      .catch((err) => {
+        if (err.code == 'auth/user-not-found') {
+
+          // this.resposta_server = 1;
+          console.log("auth/user-not-found");
+        }
+        else if (err.code == 'auth/wrong-password') {
+
+          // this.resposta_server = 2;
+          console.log("auth/wrong-password");
+        }
+      });
   }
 }
