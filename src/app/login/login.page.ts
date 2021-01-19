@@ -27,13 +27,14 @@ export class LoginPage implements OnInit {
     let e = formulari.form.value.email;
     let p = formulari.form.value.password;
 
+    console.log("email: ", e);
+    console.log("password: ", p);
      
-    this.service.login(e, p).then(el => {
+    this.service.login(e, p).then((el) => {
       // this.resposta_server = 0; // resetejem
-      this.service.setToken(el.user.uid);
-      // Redirigeix si està login
-      if (true) { }
-      // this.trucazo_router.navigateByUrl('/tasks');
+      console.log("retorn: ", el);
+      
+      // this.service.setToken(el.user.uid);
       console.log("logejat ok");
     })
       .catch((err) => {
