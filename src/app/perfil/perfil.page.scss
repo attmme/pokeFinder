@@ -1,0 +1,61 @@
+$bgColor: rgb(216, 7, 7);
+$borderCol: rgb(9, 85, 179);
+//$borderCol: rgb(48, 108, 180);
+$btnTextCol: rgb(20, 78, 149);
+$buttonCol: rgb(255, 203, 5);
+
+$imgSize: 30vh;
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+
+    button {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 12px;
+        padding: 8px;
+
+        border-radius: 8px;
+        border: 5px solid $borderCol;
+        background-color: $buttonCol;
+        color: $btnTextCol;
+    }
+
+    /* Per la vista web */
+    button:hover {
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10vh;
+
+    font-family: pokemon;
+
+    width: 100%;
+    height: 100%;
+
+    .profile {
+        img {
+            width: $imgSize;
+            height: $imgSize;
+            border-radius: 50%;
+
+            border: 5px solid rgb(185, 185, 185);
+        }
+    }
+
+    .content {
+        ul {
+            li {
+            }
+        }
+    }
+}
