@@ -1,9 +1,36 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>perfil</ion-title>
-  </ion-toolbar>
+    <section class="header">
+        <button>
+            Cancelar
+        </button>
+
+        <button>
+            Aceptar
+        </button>
+    </section>
 </ion-header>
 
 <ion-content>
+
+    <section class="content">
+        <!-- Botons Cancel i OK -->
+
+
+        <!-- Imatge perfil -->
+        <article class="profile">
+            <img src={{perfil.img}} alt="img">
+        </article>
+
+        <!-- Informació de l'usuari -->
+        <article class="content">
+            <ul>
+                <li> Nom: {{perfil.nom}}</li>
+                <li> Cognom: {{perfil.cognoms}}</li>
+                <li> Edat: {{perfil.edat}} </li>
+            </ul>
+
+        </article>
+
+    </section>
 
 </ion-content>
