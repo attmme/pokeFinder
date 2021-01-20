@@ -4,40 +4,91 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <form  #form="ngForm" (ngSubmit)="register(form)">
+<ion-content>
+  <!--  -->
+  <form #form="ngForm" (ngSubmit)="register(form)" [formGroup]="registerForm">
     <ion-grid>
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
           <div text-center>
-            <h3>Create your account!</h3>
+            <h3>{{llistatApartats.titol}}</h3>
           </div>
+
           <div padding>
+            <!-- Nom -->
             <ion-item>
-              <ion-input  name="name" type="text" placeholder="Name" ngModel required></ion-input>
+              <ion-input name="name" type="text" placeholder="Nombre" formControlName="nom" required></ion-input>
             </ion-item>
+
+            <!-- Email -->
             <ion-item>
-              <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
+              <ion-input name="email" type="email" placeholder="nombre@email.com" formControlName="email" required>
+              </ion-input>
             </ion-item>
+
+            <!-- Password -->
             <ion-item>
-              <ion-input name="password" type="password" placeholder="Password" ngModel required></ion-input>
+              <ion-input name="password" type="password" placeholder="Contraseña" formControlName="password" required>
+              </ion-input>
             </ion-item>
+
+            <!-- Confirmació password -->
             <ion-item>
-              <ion-input name="confirm" type="password" placeholder="Password again" ngModel required></ion-input>
+              <ion-input name="confirm" type="password" placeholder="Repetir contraseña" formControlName="confirm"
+                required>
+              </ion-input>
             </ion-item>
           </div>
+
           <div padding>
-            <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Register</ion-button>
+            <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
+              {{llistatApartats.boto}}</ion-button>
           </div>
+
+          <!-- Mostra els errors -->
+          <ion-list>
+            <!-- Error nom -->
+            <ion-item class="error" *ngIf="registerForm.hasError('required', 'nom')">
+              {{llistatErrors.nomBuit}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
+              {{llistatErrors.nomLength}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
+              {{llistatErrors.nomLengthMax}}</ion-item>
+
+            <!-- Error email -->
+            <ion-item class="error" *ngIf="registerForm.hasError('required', 'email')">
+              {{llistatErrors.emailBuit}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('pattern', 'email')">
+              {{llistatErrors.emailFormat}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'email')">
+              {{llistatErrors.emailLengthmax}}</ion-item>
+
+            <!-- Error password -->
+            <ion-item class="error" *ngIf="registerForm.hasError('required', 'password')">
+              {{llistatErrors.passBuit}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'password')">
+              {{llistatErrors.passLength}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'password')">
+              {{llistatErrors.passLengthMax}}</ion-item>
+
+            <!-- Error confirmació -->
+            <ion-item class="error" *ngIf="registerForm.hasError('required', 'confirm')">
+              {{llistatErrors.confBuit}}</ion-item>
+            <ion-item class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
+              {{llistatErrors.confErr}}</ion-item>
+
+          </ion-list>
+
         </ion-col>
       </ion-row>
     </ion-grid>
   </form>
 
   <ion-row>
-  <div text-center>
-    Already registered? <a routerLink='/login'>login</a>.
-  </div>
-</ion-row>
+    <div text-center>
+      {{llistatApartats.ferLogin}} <a routerLink='/login'>login</a>.
+    </div>
+  </ion-row>
 
 </ion-content>
