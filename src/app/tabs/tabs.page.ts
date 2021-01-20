@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
+
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
@@ -12,6 +15,20 @@ export class TabsPage {
   buscador_actiu = true;
   
 
-  constructor() {}
+  constructor(
+    public modalController: ModalController
+  ) {}
 
+  async obrir_modal_qr() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'class-modal-perfil',
+      componentProps: {
+        'titol': 'Modal Qr',
+        'contingut': '',
+      }
+    });
+
+    return await modal.present();
+  }
 }

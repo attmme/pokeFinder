@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'buscador',
     loadChildren: () => import('./buscador/buscador.module').then( m => m.BuscadorPageModule)
-  }
+  },
 ];
 @NgModule({
   imports: [

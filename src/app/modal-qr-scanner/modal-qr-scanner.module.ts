@@ -4,21 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BuscadorPageRoutingModule } from './buscador-routing.module';
+import { ModalQrScannerPageRoutingModule } from './modal-qr-scanner-routing.module';
 
-import { BuscadorPage } from './buscador.page';
+import { ModalQrScannerPage } from './modal-qr-scanner.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BuscadorPageRoutingModule
+    ModalQrScannerPageRoutingModule
   ],
-  declarations: [BuscadorPage]
+  declarations: [ModalQrScannerPage]
 })
-export class BuscadorPageModule {
-
-
-
-}
+export class ModalQrScannerPageModule {}
