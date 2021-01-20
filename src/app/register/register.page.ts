@@ -55,8 +55,9 @@ export class RegisterPage implements OnInit {
         Validators.required,
         //Validators.email,
         Validators.maxLength(40),
-        //Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-].+[a-zA-Z0-9-.]+$')
-        Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")
+        //Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+
+        Validators.pattern('')
       ]],
       password: ['', [
         Validators.required,
@@ -78,7 +79,7 @@ export class RegisterPage implements OnInit {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
 
-      if (control.value !== matchingControl.value) {
+      if (control.value != matchingControl.value) {
         matchingControl.setErrors({ passwordNotMatch: true });
       }
     }
