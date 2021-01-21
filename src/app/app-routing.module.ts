@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'buscador',
     loadChildren: () => import('./buscador/buscador.module').then( m => m.BuscadorPageModule)
   },
+  {
+    path: 'qr',
+    loadChildren: () => import('./modal-qr-scanner/modal-qr-scanner.module').then( m => m.ModalQrScannerPageModule)
+  },
 
 
 ];

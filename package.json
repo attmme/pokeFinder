@@ -29,6 +29,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "firebase": "^8.2.3",
+    "jsqr": "^1.3.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
