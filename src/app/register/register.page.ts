@@ -21,6 +21,14 @@ export class RegisterPage implements OnInit {
   formulariCorrecte = false;
   mailRepetit = false;
 
+  // Simulador del mat-error
+  elmClicats = {
+    nom: false,
+    email: false,
+    password: false,
+    confirm: false
+
+  }
   // Text d'errors
   llistatErrors = {
     nomBuit: "El campo del nombre no puede quedar vacío",
@@ -43,6 +51,10 @@ export class RegisterPage implements OnInit {
     boto: "Registrarse",
     ferLogin: "Ya estás registrado?",
     login: "Conéctate!"
+  }
+
+  prova() {
+    console.log("Has clicat: ", this.elmClicats.nom);
   }
 
   // Validacions

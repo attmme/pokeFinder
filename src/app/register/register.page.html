@@ -12,64 +12,72 @@
             </div>
 
             <div padding>
-              <mat-form-field>
+              <!--             <mat-form-field>
+            </mat-form-field> -->
 
-                <!-- Nom -->
-                <ion-item>
-                  <ion-input type="text" placeholder="Nombre" formControlName="nom" required></ion-input>
-                </ion-item>
-                <!-- Error nom -->
+              <!-- Nom -->
+              <ion-item>
+                <input (blur)="elmClicats.nom=true" name="nom" type="text" placeholder="Nombre" formControlName="nom"
+                  required>
+              </ion-item>
 
-                <div>
-                  <ion-item class="error" *ngIf="registerForm.hasError('required', 'nom')">
-                    {{llistatErrors.nomBuit}}</ion-item>
-                  <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
-                    {{llistatErrors.nomLength}}</ion-item>
-                  <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
-                    {{llistatErrors.nomLengthMax}}</ion-item>
-                </div>
+              <!-- <input matInput [readOnly]="readOnly" > -->
 
-                <!-- Email -->
-                <ion-item>
-                  <ion-input name="email" type="email" placeholder="nombre@email.com" formControlName="email" required>
-                  </ion-input>
-                </ion-item>
-                <!-- Error email -->
+              <!-- Error nom -->
+              <ion-label *ngIf="elmClicats.nom">
+                <ion-item class="error" *ngIf="registerForm.hasError('required', 'nom')">
+                  {{llistatErrors.nomBuit}}</ion-item>
+                <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
+                  {{llistatErrors.nomLength}}</ion-item>
+                <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
+                  {{llistatErrors.nomLengthMax}}</ion-item>
+              </ion-label>
+
+              <!-- Email -->
+              <ion-item>
+                <input (blur)="elmClicats.email=true" name="email" type="email" placeholder="nombre@email.com"
+                  formControlName="email" required>
+              </ion-item>
+              <!-- Error email -->
+              <ion-label *ngIf="elmClicats.email">
                 <ion-item class="error" *ngIf="registerForm.hasError('required', 'email')">
                   {{llistatErrors.emailBuit}}</ion-item>
                 <ion-item class="error" *ngIf="registerForm.hasError('pattern', 'email')">
                   {{llistatErrors.emailFormat}}</ion-item>
                 <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'email')">
                   {{llistatErrors.emailLengthmax}}</ion-item>
+              </ion-label>
 
-                <!-- Password -->
-                <ion-item>
-                  <ion-input name="password" type="password" placeholder="Contraseña" formControlName="password"
-                    required>
-                  </ion-input>
-                </ion-item>
-                <!-- Error password -->
+              <!-- Password -->
+              <ion-item>
+                <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="Contraseña"
+                  formControlName="password" required>
+              </ion-item>
+              <!-- Error password -->
+              <ion-label *ngIf="elmClicats.password">
                 <ion-item class="error" *ngIf="registerForm.hasError('required', 'password')">
                   {{llistatErrors.passBuit}}</ion-item>
                 <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'password')">
                   {{llistatErrors.passLength}}</ion-item>
                 <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'password')">
                   {{llistatErrors.passLengthMax}}</ion-item>
+              </ion-label>
 
-                <!-- Confirmació password -->
-                <ion-item>
-                  <ion-input name="confirm" type="password" placeholder="Repetir contraseña" formControlName="confirm"
-                    required>
-                  </ion-input>
-                </ion-item>
-              </mat-form-field>
+              <!-- Confirmació password -->
+              <ion-item>
+                <input (blur)="elmClicats.confirm=true" name="confirm" type="password" placeholder="Repetir contraseña"
+                  formControlName="confirm" required>
+              </ion-item>
+              <!-- </mat-form-field> -->
 
             </div>
             <!-- Error confirmació -->
-            <ion-item class="error" *ngIf="registerForm.hasError('required', 'confirm')">
-              {{llistatErrors.confBuit}}</ion-item>
-            <ion-item class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
-              {{llistatErrors.confErr}}</ion-item>
+            <ion-label *ngIf="elmClicats.confirm">
+              <ion-item class="error" *ngIf="registerForm.hasError('required', 'confirm')">
+                {{llistatErrors.confBuit}}</ion-item>
+              <ion-item class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
+                {{llistatErrors.confErr}}</ion-item>
+            </ion-label>
 
             <!-- Botó -->
             <div padding>
@@ -78,8 +86,10 @@
             </div>
 
             <!-- Error amb email ja existent -->
-            <ion-item class="error" *ngIf="mailRepetit">
-              {{llistatErrors.repeatMail}}</ion-item>
+            <ion-label>
+              <ion-item class="error" *ngIf="mailRepetit">
+                {{llistatErrors.repeatMail}}</ion-item>
+            </ion-label>
 
           </ion-col>
         </ion-row>

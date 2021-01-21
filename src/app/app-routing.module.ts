@@ -27,12 +27,6 @@ const routes: Routes = [
     loadChildren: () => import('./buscador/buscador.module').then( m => m.BuscadorPageModule)
   },
 
-  /* temporal */
-  {
-    path: 'qr',
-    loadChildren: () => import('./modal-qr-scanner/modal-qr-scanner.module').then( m => m.ModalQrScannerPageModule)
-  },
-  /* temporal */
 
 ];
 @NgModule({
