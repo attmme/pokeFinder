@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class RegisterPage implements OnInit {
 
   registerForm: FormGroup;
-
+  
   constructor(
     private _router: Router,
     private fbService: FirebaseService,
@@ -19,6 +19,7 @@ export class RegisterPage implements OnInit {
   ) { }
 
   formulariCorrecte = false;
+  mailRepetit = false;
 
   // Text d'errors
   llistatErrors = {
@@ -33,17 +34,29 @@ export class RegisterPage implements OnInit {
     passLengthMax: "La contraseña no puede tener más de 32 carácteres",
     confBuit: "El campo de confirmación no puede quedar vacío",
     confErr: "La contraseña de confirmación no coincide",
+    repeatMail: "El correo introducido ya está registrado"
   }
 
   // Text que apareix i no són errors
   llistatApartats = {
-    titol: "Registrate!",
+    titol: "Registro de usuario",
     boto: "Registrarse",
     ferLogin: "Ya estás registrado?",
+    login: "Conéctate!"
   }
 
   // Validacions
-  ngOnInit() {
+  ngOnInit(): void {
+
+/* 
+    this.registerForm = this.formBuilder.group({
+      usuari_form: ['', [Validators.required, Validators.minLength(2)]],
+      email_form: ['', [Validators.required, Validators.email]],
+      password_form: ['', [Validators.required, Validators.minLength(6)]],
+      password_check_form: ['', [Validators.required, Validators.minLength(6)]],
+    }, {
+      validator: this.passwords_coincideixen('password_form', 'password_check_form')
+    }); */
 
     this.registerForm = this.formBuilder.group({
       nom: ['', [
@@ -68,7 +81,7 @@ export class RegisterPage implements OnInit {
         Validators.required,
       ]],
     }, {
-      validator: this.checkPasswords("password", "confirm")
+      validator: this.checkPasswords("password", "confirm"),
     });
   }
 
@@ -85,24 +98,42 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  // Acabar - Mira si l'email ja existeix en firebase
-  alreadyExists() {
-
-  }
-
   // Acabar - Fa el registre amb firebase - un cop registrat, guarda id i va al login
   register(formulari) {
 
     // Passar l'objecte entrada
+    if (!this.registerForm.invalid) {
+
+      this.fbService.registrar(
+        formulari.form.value.name,
+        formulari.form.value.email,
+        formulari.form.value.password)
+        .then(() => {
+          this._router.navigateByUrl('/login');
+        }).catch(err => {
+
+          // Si el mail ja existeix
+          if (err.code == "auth/email-already-in-use")
+            this.mailRepetit = true;
+
+          //console.log("error: ", err);
+        });
+    }
+    // return;
+
+    /* 
+    
     this.fbService.registrar(
-      formulari.form.value.name,
-      formulari.form.value.email,
-      formulari.form.value.password)
-      .then(r => {
-        this._router.navigateByUrl('/login');
-      }).catch((err) => {
-        console.log("error: ", err);
-      });
+      this.registerForm.value.usuari_form,
+      this.registerForm.value.email_form,
+      this.registerForm.value.password_form).catch((err) => {
+        if (err.code == "auth/email-already-in-use")
+          this.resposta_server = 1;
+      })
+  this.trucazo_router.navigateByUrl('/login'); // trucazo
+  this.submitted = true;
+    
+    */
 
     /* 
     

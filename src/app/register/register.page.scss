@@ -1,4 +1,72 @@
-.error {
-    font-size: 16px;
-    color: red;
+ion-content {
+    display: flex;
+
+    .background {
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/wallpaper.jpg");
+        filter: opacity(40%);
+
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .main {
+        position: fixed;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        filter: opacity(92%);
+
+        width: 100%;
+        height: 100%;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+
+        .formulari {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+
+            ion-button {
+                margin-top: 40px;
+            }
+
+            // En web 0.8, mòbil 0.7
+            ion-button.button-disabled {
+                opacity: 0.65;
+            }
+        }
+
+        .titol {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+
+            h3 {
+                font-weight: bold;
+                font-size: 24px;
+            }
+        }
+
+        .login-row {
+            display: flex;
+            justify-content: center;
+
+            a {
+                text-decoration: none;
+            }
+        }
+
+        .error {
+            font-size: 13px;
+            color: red;
+        }
+    }
 }
