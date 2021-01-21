@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { LoadingController, Platform, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 
 @Component({
@@ -7,6 +7,8 @@ import jsQR from 'jsqr';
   templateUrl: './modal-qr-scanner.page.html',
   styleUrls: ['./modal-qr-scanner.page.scss'],
 })
+
+// https://devdactic.com/pwa-qr-scanner-ionic/
 
 export class ModalQrScannerPage implements OnInit {
 
@@ -21,8 +23,8 @@ export class ModalQrScannerPage implements OnInit {
   @ViewChild('canvas', { static: false }) canvas: ElementRef;
   @ViewChild('fileinput', { static: false }) fileinput: ElementRef;
 
-
   constructor(
+    private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private plt: Platform
@@ -33,6 +35,16 @@ export class ModalQrScannerPage implements OnInit {
       console.log('I am a an iOS PWA!');
       // E.g. hide the scan functionality!
     }
+
+    this.startScan(); // revisar
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss({
+      'dismissed': true
+    });
+
+    this.stopScan(); // revisar
   }
 
   ngOnInit() {
@@ -156,6 +168,5 @@ export class ModalQrScannerPage implements OnInit {
       requestAnimationFrame(this.scan.bind(this));
     }
   }
-
 
 }
