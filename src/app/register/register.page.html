@@ -11,30 +11,27 @@
               <h3>{{llistatApartats.titol}}</h3>
             </div>
 
-            <div padding>
-              <!--             <mat-form-field>
-            </mat-form-field> -->
-
+            <!-- Elements formulari amb els seus errors -->
+            <div padding class="inputs">
               <!-- Nom -->
-              <ion-item>
-                <input (blur)="elmClicats.nom=true" name="nom" type="text" placeholder="Nombre" formControlName="nom"
+              <ion-item lines="none">
+                <input (blur)="elmClicats.nom=true" name="nom" type="text" placeholder="nombre" formControlName="nom"
                   required>
               </ion-item>
-
-              <!-- <input matInput [readOnly]="readOnly" > -->
-
               <!-- Error nom -->
               <ion-label *ngIf="elmClicats.nom">
                 <ion-item class="error" *ngIf="registerForm.hasError('required', 'nom')">
                   {{llistatErrors.nomBuit}}</ion-item>
-                <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
+<!--                 <ion-item class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
                   {{llistatErrors.nomLength}}</ion-item>
                 <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
-                  {{llistatErrors.nomLengthMax}}</ion-item>
+                  {{llistatErrors.nomLengthMax}}</ion-item> -->
               </ion-label>
 
+              <div class="separador"></div>
+
               <!-- Email -->
-              <ion-item>
+              <ion-item lines="none">
                 <input (blur)="elmClicats.email=true" name="email" type="email" placeholder="nombre@email.com"
                   formControlName="email" required>
               </ion-item>
@@ -48,9 +45,11 @@
                   {{llistatErrors.emailLengthmax}}</ion-item>
               </ion-label>
 
+              <div class="separador"></div>
+
               <!-- Password -->
-              <ion-item>
-                <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="Contraseña"
+              <ion-item lines="none">
+                <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="contraseña"
                   formControlName="password" required>
               </ion-item>
               <!-- Error password -->
@@ -62,26 +61,29 @@
                 <ion-item class="error" *ngIf="registerForm.hasError('maxlength', 'password')">
                   {{llistatErrors.passLengthMax}}</ion-item>
               </ion-label>
+              
+              <div class="separador"></div>
 
               <!-- Confirmació password -->
-              <ion-item>
-                <input (blur)="elmClicats.confirm=true" name="confirm" type="password" placeholder="Repetir contraseña"
+              <ion-item lines="none">
+                <input (blur)="elmClicats.confirm=true" name="confirm" type="password" placeholder="repetir contraseña"
                   formControlName="confirm" required>
               </ion-item>
-              <!-- </mat-form-field> -->
+
+              <!-- Error confirmació -->
+              <ion-label *ngIf="elmClicats.confirm">
+                <ion-item class="error" *ngIf="registerForm.hasError('required', 'confirm')">
+                  {{llistatErrors.confBuit}}</ion-item>
+                <ion-item class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
+                  {{llistatErrors.confErr}}</ion-item>
+              </ion-label>
 
             </div>
-            <!-- Error confirmació -->
-            <ion-label *ngIf="elmClicats.confirm">
-              <ion-item class="error" *ngIf="registerForm.hasError('required', 'confirm')">
-                {{llistatErrors.confBuit}}</ion-item>
-              <ion-item class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
-                {{llistatErrors.confErr}}</ion-item>
-            </ion-label>
+
 
             <!-- Botó -->
             <div padding>
-              <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
+              <ion-button fill="solid" size="large" type="submit" [disabled]="form.invalid" expand="block">
                 {{llistatApartats.boto}}</ion-button>
             </div>
 

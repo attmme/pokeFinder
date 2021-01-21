@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterPage implements OnInit {
 
   registerForm: FormGroup;
-  
+
   constructor(
     private _router: Router,
     private fbService: FirebaseService,
@@ -53,23 +53,8 @@ export class RegisterPage implements OnInit {
     login: "Conéctate!"
   }
 
-  prova() {
-    console.log("Has clicat: ", this.elmClicats.nom);
-  }
-
   // Validacions
   ngOnInit(): void {
-
-/* 
-    this.registerForm = this.formBuilder.group({
-      usuari_form: ['', [Validators.required, Validators.minLength(2)]],
-      email_form: ['', [Validators.required, Validators.email]],
-      password_form: ['', [Validators.required, Validators.minLength(6)]],
-      password_check_form: ['', [Validators.required, Validators.minLength(6)]],
-    }, {
-      validator: this.passwords_coincideixen('password_form', 'password_check_form')
-    }); */
-
     this.registerForm = this.formBuilder.group({
       nom: ['', [
         Validators.required,
@@ -78,11 +63,9 @@ export class RegisterPage implements OnInit {
       ]],
       email: ['', [
         Validators.required,
-        //Validators.email,
+        Validators.email,
         Validators.maxLength(40),
-        //Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-
-        Validators.pattern('')
+        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
       ]],
       password: ['', [
         Validators.required,
@@ -110,16 +93,19 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  // Acabar - Fa el registre amb firebase - un cop registrat, guarda id i va al login
+  // Acabar - Fa el registre amb firebase -> un cop registrat ha d'anar al login
   register(formulari) {
 
     // Passar l'objecte entrada
     if (!this.registerForm.invalid) {
 
-      this.fbService.registrar(
-        formulari.form.value.name,
-        formulari.form.value.email,
-        formulari.form.value.password)
+      // Entrades
+      let nom = formulari.form.value.name;
+      let email = formulari.form.value.email;
+      let password = formulari.form.value.password;
+
+      // Es fa el registre
+      this.fbService.registrar(nom, email, password)
         .then(() => {
           this._router.navigateByUrl('/login');
         }).catch(err => {
@@ -128,13 +114,14 @@ export class RegisterPage implements OnInit {
           if (err.code == "auth/email-already-in-use")
             this.mailRepetit = true;
 
-          //console.log("error: ", err);
+          console.log("error: ", err);
+          this._router.navigateByUrl('/login');
+
         });
     }
     // return;
 
     /* 
-    
     this.fbService.registrar(
       this.registerForm.value.usuari_form,
       this.registerForm.value.email_form,
@@ -142,17 +129,15 @@ export class RegisterPage implements OnInit {
         if (err.code == "auth/email-already-in-use")
           this.resposta_server = 1;
       })
-  this.trucazo_router.navigateByUrl('/login'); // trucazo
-  this.submitted = true;
-    
+    this.trucazo_router.navigateByUrl('/login'); // trucazo
+    this.submitted = true;
     */
 
-    /* 
-    
+    /*
      this.authService.register(form.value).subscribe((res) => {
       this.router.navigateByUrl('home');
     });
-    
     */
   }
+
 }

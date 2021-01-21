@@ -20,12 +20,25 @@ ion-content {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        filter: opacity(92%);
 
         width: 100%;
         height: 100%;
         color: rgb(0, 0, 0);
         font-weight: bold;
+
+        .titol {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 80px;
+
+            h3 {
+                font-weight: bold;
+                color: rgb(255, 199, 64);
+                text-shadow: 2px 2px #000000;
+                font-size: 36px;
+                font-family: power-up;
+            }
+        }
 
         .formulari {
             display: flex;
@@ -36,25 +49,26 @@ ion-content {
 
             input {
                 border: 0;
+                background-color: red;
             }
-            ion-button {
-                margin-top: 40px;
+
+            .inputs {
+                filter: opacity(92%);
+            }
+
+            .separador {
+                height: 1vh;
             }
 
             // En web 0.8, mòbil 0.7
             ion-button.button-disabled {
-                opacity: 0.65;
+                margin-top: 60px;
+                opacity: 0.7;
             }
-        }
 
-        .titol {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-
-            h3 {
-                font-weight: bold;
-                font-size: 24px;
+            ion-item {
+                padding: 0;
+                margin: 0;
             }
         }
 
@@ -69,6 +83,7 @@ ion-content {
 
         .error {
             font-size: 13px;
+            margin-bottom: 4vh;
             color: red;
         }
     }

@@ -115,48 +115,47 @@ export class ModalQrScannerPage implements OnInit {
     requestAnimationFrame(this.scan.bind(this));
   }
 
-  /* 
-      async scan() {
-        if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA) {
-          if (this.loading) {
-            await this.loading.dismiss();
-            this.loading = null;
-            this.scanActive = true;
-          }
-       
-          this.canvasElement.height = this.videoElement.videoHeight;
-          this.canvasElement.width = this.videoElement.videoWidth;
-       
-          this.canvasContext.drawImage(
-            this.videoElement,
-            0,
-            0,
-            this.canvasElement.width,
-            this.canvasElement.height
-          );
-          const imageData = this.canvasContext.getImageData(
-            0,
-            0,
-            this.canvasElement.width,
-            this.canvasElement.height
-          );
-          const code = jsQR(imageData.data, imageData.width, imageData.height, {
-            inversionAttempts: 'dontInvert'
-          });
-       
-          if (code) {
-            this.scanActive = false;
-            this.scanResult = code.data;
-            this.showQrToast();
-          } else {
-            if (this.scanActive) {
-              requestAnimationFrame(this.scan.bind(this));
-            }
-          }
-        } else {
+  async scan() {
+    if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA) {
+      if (this.loading) {
+        await this.loading.dismiss();
+        this.loading = null;
+        this.scanActive = true;
+      }
+
+      this.canvasElement.height = this.videoElement.videoHeight;
+      this.canvasElement.width = this.videoElement.videoWidth;
+
+      this.canvasContext.drawImage(
+        this.videoElement,
+        0,
+        0,
+        this.canvasElement.width,
+        this.canvasElement.height
+      );
+      const imageData = this.canvasContext.getImageData(
+        0,
+        0,
+        this.canvasElement.width,
+        this.canvasElement.height
+      );
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: 'dontInvert'
+      });
+
+      if (code) {
+        this.scanActive = false;
+        this.scanResult = code.data;
+        this.showQrToast();
+      } else {
+        if (this.scanActive) {
           requestAnimationFrame(this.scan.bind(this));
         }
       }
-  */
+    } else {
+      requestAnimationFrame(this.scan.bind(this));
+    }
+  }
+
 
 }
