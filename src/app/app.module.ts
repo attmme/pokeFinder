@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 
 import { CommonModule } from '@angular/common';
 
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
