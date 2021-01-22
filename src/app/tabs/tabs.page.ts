@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
-import { ModalPage } from '../modal/modal.page';
-
+// import { ModalPage } from '../modal/modal.page';
 import { ModalQrScannerPage } from '../modal-qr-scanner/modal-qr-scanner.page';
 
 @Component({

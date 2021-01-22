@@ -9,6 +9,7 @@ import jsQR from 'jsqr';
 })
 
 // https://devdactic.com/pwa-qr-scanner-ionic/
+// https://blog.addpipe.com/common-getusermedia-errors/
 
 export class ModalQrScannerPage implements OnInit {
 
@@ -103,6 +104,7 @@ export class ModalQrScannerPage implements OnInit {
       });
 
       if (code) {
+        
         this.scanResult = code.data;
         this.showQrToast();
       }
@@ -111,25 +113,34 @@ export class ModalQrScannerPage implements OnInit {
   }
 
   async startScan() {
+
     // Not working on iOS standalone mode!
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' }
-    });
 
-    this.videoElement.srcObject = stream;
-    // Required for Safari
-    this.videoElement.setAttribute('playsinline', true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
+      });
 
-    this.loading = await this.loadingCtrl.create({});
-    await this.loading.present();
+      this.videoElement.srcObject = stream;
+      // Required for Safari
+      this.videoElement.setAttribute('playsinline', true);
 
-    this.videoElement.play();
-    requestAnimationFrame(this.scan.bind(this));
+      this.loading = await this.loadingCtrl.create({});
+      await this.loading.present();
+
+      this.videoElement.play();
+      requestAnimationFrame(this.scan.bind(this));
+
+    } catch (error) {
+      console.log("Error, no tienes la webcam conectada o no tienes webcam");
+    }
   }
 
   async scan() {
     if (this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA) {
+
       if (this.loading) {
+
         await this.loading.dismiss();
         this.loading = null;
         this.scanActive = true;
@@ -158,9 +169,13 @@ export class ModalQrScannerPage implements OnInit {
       if (code) {
         this.scanActive = false;
         this.scanResult = code.data;
+        console.log("Resultat rebut: ", this.scanResult);
         this.showQrToast();
+
       } else {
+
         if (this.scanActive) {
+
           requestAnimationFrame(this.scan.bind(this));
         }
       }
