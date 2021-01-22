@@ -23,8 +23,10 @@
             {{llistatErrors.emailFormat}}</li>
           <li class="error" *ngIf="loginForm.hasError('maxlength', 'email')">
             {{llistatErrors.emailLengthmax}}</li>
+          <li class="error" *ngIf="emailIncorrecte">
+            {{llistatErrors.wrongMail}}</li>
         </ion-label>
-        
+
         <div class="separador"></div>
 
         <!-- Password -->
@@ -40,6 +42,8 @@
             {{llistatErrors.passLength}}</li>
           <li class="error" *ngIf="loginForm.hasError('maxlength', 'password')">
             {{llistatErrors.passLengthMax}}</li>
+          <li class="error" *ngIf="passwordIncorrecte">
+            {{llistatErrors.wrongPass}}</li>
         </ion-label>
 
       </ul>
@@ -51,8 +55,8 @@
       </div>
     </form>
 
-    <div>
-      {{llistatApartats.ferRegister}} <a routerLink='/register'>{{llistatApartats.register}}</a>
+    <div class="register-row">
+      {{llistatApartats.ferRegister}} <a routerLink='/register'> {{llistatApartats.register}}</a>
     </div>
   </div>
 

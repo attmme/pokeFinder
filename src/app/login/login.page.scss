@@ -33,7 +33,7 @@ ion-content {
 
             // Web
             @media (min-width: 1099px) {
-                margin: 70px 0 60px 0;
+                margin: 90px 0 70px 0;
                 h3 {
                     font-size: 56px;
                     margin-bottom: 35px;
@@ -112,10 +112,7 @@ ion-content {
             }
         }
 
-        .login-row {
-            display: flex;
-            justify-content: center;
-
+        .register-row {
             a {
                 text-decoration: none;
             }

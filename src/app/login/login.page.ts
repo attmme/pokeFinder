@@ -20,8 +20,12 @@ export class LoginPage implements OnInit {
     public service: AuthService,
   ) { }
 
+  // Borrar
   submitted = false;
-  resposta_server = 0;
+
+  // Altres variables
+  emailIncorrecte = false;
+  passwordIncorrecte = false;
 
   // Simulador del mat-error
   elmClicats = {
@@ -37,7 +41,8 @@ export class LoginPage implements OnInit {
     passBuit: "El campo de la contraseña no puede quedar vacío",
     passLength: "La contraseña debe de tener 6 o más dígitos",
     passLengthMax: "La contraseña no puede tener más de 32 carácteres",
-    noMail: "El correo introducido no existe"
+    wrongMail: "El correo introducido no existe",
+    wrongPass: "La contraseña introducida es incorrecta"
   }
 
   // Text que apareix i no són errors
@@ -61,40 +66,43 @@ export class LoginPage implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(32)
       ]],
-    }, {
-      validator: () => { },
     });
+  }
 
-}
+  login(formulari) {
+    let e = formulari.form.value.email;
+    let p = formulari.form.value.password;
 
-login(formulari) {
-  console.log("formulari: ", formulari);
+    this.service.login(e, p).then((el) => {
 
-  let e = formulari.form.value.email;
-  let p = formulari.form.value.password;
+      // Guardem la id en el local storage
+      this.service.setToken(el.user.uid);
 
-  console.log("email: ", e);
-  console.log("password: ", p);
-
-  this.service.login(e, p).then((el) => {
-    // this.resposta_server = 0; // resetejem
-    console.log("retorn: ", el);
-
-    // this.service.setToken(el.user.uid);
-    console.log("logejat ok");
-    this._router.navigateByUrl('/buscador'); // trucazo
-  })
-    .catch((err) => {
-      if (err.code == 'auth/user-not-found') {
-
-        // this.resposta_server = 1;
-        console.log("auth/user-not-found");
+      // Reset
+      this.loginForm.reset()
+      this.elmClicats = {
+        email: false,
+        password: false,
       }
-      else if (err.code == 'auth/wrong-password') {
+      this.emailIncorrecte = false;
+      this.passwordIncorrecte = false;
 
-        // this.resposta_server = 2;
-        console.log("auth/wrong-password");
-      }
-    });
-}
+      this._router.navigateByUrl('/buscador');
+    })
+      .catch((err) => {
+        // Usuari incorrecte
+        if (err.code == 'auth/user-not-found') {
+          this.emailIncorrecte = true;
+        } else {
+          this.emailIncorrecte = false;
+        }
+
+        // Password incorrecte
+        if (err.code == 'auth/wrong-password') {
+          this.passwordIncorrecte = true;
+        } else {
+          this.passwordIncorrecte = false;
+        }
+      });
+  }
 }
