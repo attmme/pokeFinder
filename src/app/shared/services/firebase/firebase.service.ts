@@ -26,7 +26,7 @@ export class FirebaseService {
     let collection = this.firestore.collection('tasks');
     // -- Agafar l'objecte i canviar aquí el contingut
     collection.doc('test').set({
-    prova: 'prova',
+      prova: 'prova',
     });
   }
 
@@ -35,15 +35,15 @@ export class FirebaseService {
     let collection = this.firestore.collection(ruta);
     let id_unica = uuidv4();
     return (
-    // --  Agafar l'objecte i canviar aquí el contingut
-    collection.doc(id_unica).set({ //dades.id.toString()
-    nomDocument: id_unica,
-    id_llistat_tasques: dades.cssClass.split(';')[1], // cssClass element[1] = id llistat tasques
-    data_inici: dades.start,
-    data_final: dades.end,
-    color: dades.color,
-    titol: dades.title,
-    })
+      // --  Agafar l'objecte i canviar aquí el contingut
+      collection.doc(id_unica).set({ //dades.id.toString()
+        nomDocument: id_unica,
+        id_llistat_tasques: dades.cssClass.split(';')[1], // cssClass element[1] = id llistat tasques
+        data_inici: dades.start,
+        data_final: dades.end,
+        color: dades.color,
+        titol: dades.title,
+      })
     );
   }
 
@@ -51,9 +51,9 @@ export class FirebaseService {
   readColl(name) {
     let collection = this.firestore.collection(name);
     return collection
-    .get()
-    .toPromise()
-    .then((data) => data.docs.map((el) => el.data()));
+      .get()
+      .toPromise()
+      .then((data) => data.docs.map((el) => el.data()));
   }
 
   // Llegir document
@@ -66,31 +66,31 @@ export class FirebaseService {
   llegir_tasques_usuari(id_usuari) {
     let collection = this.firestore.collection(`users/${id_usuari}/tasks`);
     return collection
-    .get()
-    .toPromise()
-    .then((data) => data.docs.map((el) => el.data()));
+      .get()
+      .toPromise()
+      .then((data) => data.docs.map((el) => el.data()));
   }
 
   // Registro
-  registrar(user: string, email: string, password: string) {
+  registrar(dades) {
     return this.firebaseAuth
-    .createUserWithEmailAndPassword(email, password)
-    .then((value) => {
-    // -- S'afegeix a la colecció users (bdd) un nou document (taula) amb la id de l'usuari registrat
-    let collection = this.firestore.collection('users');
-    collection.doc(value.user.uid).set({
-    email: email,
-    user: user,
-    });
-    });
+      .createUserWithEmailAndPassword(dades.email, dades.password)
+      .then((value) => {
+        // -- S'afegeix a la colecció users (bdd) un nou document (taula) amb la id de l'usuari registrat
+        let collection = this.firestore.collection('users');
+        collection.doc(value.user.uid).set({
+          email: dades.email,
+          user: dades.nom,
+        });
+      });
   }
 
   // Eliminar document
   delete(id_usuari: string, nom_document: string) {
     return this.firestore
-    .collection(`users/${id_usuari}/tasks`)
-    .doc(nom_document)
-    .delete();
+      .collection(`users/${id_usuari}/tasks`)
+      .doc(nom_document)
+      .delete();
   }
 
   // Login

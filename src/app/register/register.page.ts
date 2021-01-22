@@ -100,12 +100,14 @@ export class RegisterPage implements OnInit {
     if (!this.registerForm.invalid) {
 
       // Entrades
-      let nom = formulari.form.value.name;
-      let email = formulari.form.value.email;
-      let password = formulari.form.value.password;
+      let dades = {
+        nom: formulari.form.value.nom,
+        email: formulari.form.value.email,
+        password: formulari.form.value.password
+      }
 
       // Es fa el registre
-      this.fbService.registrar(nom, email, password)
+      this.fbService.registrar(dades)
         .then(() => {
           this._router.navigateByUrl('/login');
         }).catch(err => {
@@ -116,6 +118,7 @@ export class RegisterPage implements OnInit {
 
           //console.log("error: ", err);
         });
+
     }
     // return;
 

@@ -34,18 +34,24 @@ ion-content {
             // Web
             @media (min-width: 1099px) {
                 margin: 70px 0 60px 0;
+                h3 {
+                    font-size: 56px;
+                    margin-bottom: 35px;
+                }
             }
 
             // Mòbil
             @media (max-width: 1100px) {
                 margin: 30px 0 60px 0;
+                h3 {
+                    font-size: 36px;
+                }
             }
 
             h3 {
                 font-weight: bold;
                 color: rgb(255, 199, 64);
                 text-shadow: 2px 2px #000000;
-                font-size: 36px;
                 font-family: power-up;
             }
         }
