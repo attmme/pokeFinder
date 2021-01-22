@@ -27,7 +27,6 @@ export class RegisterPage implements OnInit {
     email: false,
     password: false,
     confirm: false
-
   }
   // Text d'errors
   llistatErrors = {
@@ -81,19 +80,21 @@ export class RegisterPage implements OnInit {
   }
 
   // Acabar - Mira si els passwords coincideixen 
-  //Si poses primer pass de confirmació i després el pass, no ho detecta bé
   checkPasswords(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
 
       if (control.value != matchingControl.value) {
+        this.elmClicats.confirm = true;
         matchingControl.setErrors({ passwordNotMatch: true });
+      } else {
+        this.elmClicats.confirm = false;
       }
     }
   }
 
-  // Acabar - Fa el registre amb firebase -> un cop registrat ha d'anar al login
+  // Fa el registre amb firebase
   register(formulari) {
 
     // Passar l'objecte entrada
@@ -109,6 +110,16 @@ export class RegisterPage implements OnInit {
       // Es fa el registre
       this.fbService.registrar(dades)
         .then(() => {
+          // Reset
+          this.registerForm.reset()
+          this.elmClicats = {
+            nom: false,
+            email: false,
+            password: false,
+            confirm: false
+          }
+          this.mailRepetit = false;
+
           this._router.navigateByUrl('/login');
         }).catch(err => {
 
@@ -120,25 +131,6 @@ export class RegisterPage implements OnInit {
         });
 
     }
-    // return;
-
-    /* 
-    this.fbService.registrar(
-      this.registerForm.value.usuari_form,
-      this.registerForm.value.email_form,
-      this.registerForm.value.password_form).catch((err) => {
-        if (err.code == "auth/email-already-in-use")
-          this.resposta_server = 1;
-      })
-    this.trucazo_router.navigateByUrl('/login'); // trucazo
-    this.submitted = true;
-    */
-
-    /*
-     this.authService.register(form.value).subscribe((res) => {
-      this.router.navigateByUrl('home');
-    });
-    */
   }
 
 }
