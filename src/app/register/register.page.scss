@@ -14,12 +14,13 @@ ion-content {
     }
 
     .main {
-        position: fixed;
-        z-index: 2;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+
+        position: fixed;
+        z-index: 2;
 
         width: 100%;
         height: 100%;
@@ -29,7 +30,16 @@ ion-content {
         .titol {
             display: flex;
             justify-content: center;
-            margin-bottom: 80px;
+
+            // Web
+            @media (min-width: 1099px) {
+                margin: 70px 0 60px 0;
+            }
+
+            // Mòbil
+            @media (max-width: 1100px) {
+                margin: 30px 0 60px 0;
+            }
 
             h3 {
                 font-weight: bold;
@@ -42,33 +52,57 @@ ion-content {
 
         .formulari {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
 
             width: 100%;
 
-            input {
-                border: 0;
-                background-color: red;
+            ul {
+                filter: opacity(90%);
+                width: 310px;
+
+                input {
+                    width: 100%;
+                    padding: 18px;
+                    font-size: 18px;
+                    border: 1px solid rgb(233, 233, 233);
+                }
+
+                .separador {
+                    height: 1.3vh;
+                }
+
+                .error {
+                    font-size: 13px;
+                    border: 1px solid rgb(233, 233, 233);
+                    background-color: white;
+                    color: red;
+                }
+
+                ion-item {
+                    color: pink;
+                    background-color: red;
+                }
             }
 
-            .inputs {
-                filter: opacity(92%);
+            ion-button {
+                margin-top: 40px;
+                margin-bottom: 2vh;
             }
 
-            .separador {
-                height: 1vh;
+            // Web
+            @media (min-width: 1099px) {
+                ion-button.button-disabled {
+                    opacity: 0.8;
+                }
             }
 
-            // En web 0.8, mòbil 0.7
-            ion-button.button-disabled {
-                margin-top: 60px;
-                opacity: 0.7;
-            }
-
-            ion-item {
-                padding: 0;
-                margin: 0;
+            // Mòbil
+            @media (max-width: 1100px) {
+                ion-button.button-disabled {
+                    opacity: 0.7;
+                }
             }
         }
 
@@ -79,12 +113,6 @@ ion-content {
             a {
                 text-decoration: none;
             }
-        }
-
-        .error {
-            font-size: 13px;
-            margin-bottom: 4vh;
-            color: red;
         }
     }
 }

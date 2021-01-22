@@ -114,9 +114,7 @@ export class RegisterPage implements OnInit {
           if (err.code == "auth/email-already-in-use")
             this.mailRepetit = true;
 
-          console.log("error: ", err);
-          this._router.navigateByUrl('/login');
-
+          //console.log("error: ", err);
         });
     }
     // return;
