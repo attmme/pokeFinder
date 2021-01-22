@@ -1,38 +1,59 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content padding>
-  <form #form="ngForm" (ngSubmit)="login(form)">
-    <ion-grid>
-      <ion-row color="primary" justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div text-center>
-            <h3>Login</h3>
-          </div>
-          <div padding>
-            <ion-item>
-              <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="password" type="password" placeholder="Password" ngModel required></ion-input>
-            </ion-item>
-          </div>
-          <div padding>
-            <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
-  
-  <ion-row>
-    <div text-center>
-      If you don't have an account, please <a routerLink='/register'>
-        register</a> first!
+  <div class="background">
+  </div>
+
+  <div class="main">
+    <form #form="ngForm" (ngSubmit)="login(form)" [formGroup]="loginForm" class="formulari">
+      <div class="titol">
+        <h3>{{llistatApartats.titol}}</h3>
+      </div>
+
+      <!-- Elements formulari amb els seus errors -->
+      <ul class="inputs">
+        <!-- Email -->
+        <li lines="none" class="entrada">
+          <input (blur)="elmClicats.email=true" name="email" type="email" placeholder="nombre@email.com"
+            formControlName="email" required>
+        </li>
+        <!-- Error email -->
+        <ion-label *ngIf="elmClicats.email">
+          <li class="error" *ngIf="loginForm.hasError('required', 'email')">
+            {{llistatErrors.emailBuit}}</li>
+          <li class="error" *ngIf="loginForm.hasError('pattern', 'email')">
+            {{llistatErrors.emailFormat}}</li>
+          <li class="error" *ngIf="loginForm.hasError('maxlength', 'email')">
+            {{llistatErrors.emailLengthmax}}</li>
+        </ion-label>
+        
+        <div class="separador"></div>
+
+        <!-- Password -->
+        <li lines="none" class="entrada">
+          <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="contraseña"
+            formControlName="password" required>
+        </li>
+        <!-- Error password -->
+        <ion-label *ngIf="elmClicats.password">
+          <li class="error" *ngIf="loginForm.hasError('required', 'password')">
+            {{llistatErrors.passBuit}}</li>
+          <li class="error" *ngIf="loginForm.hasError('minlength', 'password')">
+            {{llistatErrors.passLength}}</li>
+          <li class="error" *ngIf="loginForm.hasError('maxlength', 'password')">
+            {{llistatErrors.passLengthMax}}</li>
+        </ion-label>
+
+      </ul>
+
+      <!-- Botó -->
+      <div>
+        <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
+          {{llistatApartats.boto}}</ion-button>
+      </div>
+    </form>
+
+    <div>
+      {{llistatApartats.ferRegister}} <a routerLink='/register'>{{llistatApartats.register}}</a>
     </div>
-  </ion-row>
+  </div>
 
 </ion-content>

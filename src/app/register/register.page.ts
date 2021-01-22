@@ -18,6 +18,7 @@ export class RegisterPage implements OnInit {
     private formBuilder: FormBuilder
   ) { }
 
+  // Altres variables
   formulariCorrecte = false;
   mailRepetit = false;
 
@@ -28,6 +29,7 @@ export class RegisterPage implements OnInit {
     password: false,
     confirm: false
   }
+  
   // Text d'errors
   llistatErrors = {
     nomBuit: "El campo del nombre no puede quedar vacío",

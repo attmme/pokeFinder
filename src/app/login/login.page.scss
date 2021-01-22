@@ -1,0 +1,124 @@
+ion-content {
+    display: flex;
+
+    .background {
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/login_wp.jpg");
+        filter: opacity(40%);
+
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .main {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        position: fixed;
+        z-index: 2;
+
+        width: 100%;
+        height: 100%;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+
+        .titol {
+            display: flex;
+            justify-content: center;
+
+            // Web
+            @media (min-width: 1099px) {
+                margin: 70px 0 60px 0;
+                h3 {
+                    font-size: 56px;
+                    margin-bottom: 35px;
+                }
+            }
+
+            // Mòbil
+            @media (max-width: 1100px) {
+                margin: 30px 0 60px 0;
+                h3 {
+                    font-size: 36px;
+                }
+            }
+
+            h3 {
+                font-weight: bold;
+                color: rgb(255, 199, 64);
+                text-shadow: 2px 2px #000000;
+                font-family: power-up;
+            }
+        }
+
+        .formulari {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+
+            ul {
+                filter: opacity(90%);
+                width: 310px;
+
+                input {
+                    width: 100%;
+                    padding: 18px;
+                    font-size: 18px;
+                    border: 1px solid rgb(233, 233, 233);
+                }
+
+                .separador {
+                    height: 1.3vh;
+                }
+
+                .error {
+                    font-size: 13px;
+                    border: 1px solid rgb(233, 233, 233);
+                    background-color: white;
+                    color: red;
+                }
+
+                ion-item {
+                    color: pink;
+                    background-color: red;
+                }
+            }
+
+            ion-button {
+                margin-top: 40px;
+                margin-bottom: 2vh;
+            }
+
+            // Web
+            @media (min-width: 1099px) {
+                ion-button.button-disabled {
+                    opacity: 0.8;
+                }
+            }
+
+            // Mòbil
+            @media (max-width: 1100px) {
+                ion-button.button-disabled {
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        .login-row {
+            display: flex;
+            justify-content: center;
+
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 <ion-content>
   <div class="background">
   </div>
+
   <div class="main">
     <form #form="ngForm" (ngSubmit)="register(form)" [formGroup]="registerForm" class="formulari">
       <div class="titol">
@@ -74,7 +75,6 @@
             <li class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
               {{llistatErrors.confErr}}</li>
           </div>
-
         </ion-label>
 
         <!-- Error amb email ja existent -->
@@ -98,5 +98,4 @@
     </ion-row>
 
   </div>
-
 </ion-content>
