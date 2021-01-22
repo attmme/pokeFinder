@@ -6,27 +6,27 @@ import { PrivateGuard } from './shared/guards/private.guard';
 const routes: Routes = [
   {
     path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
-    canActivate: [PublicGuard]
+    /* canActivate: [PublicGuard] */
   },
   {
     path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
-    canActivate: [PublicGuard]
+    /* canActivate: [PublicGuard] */
   },
   {
     path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule),
-    canActivate: [PrivateGuard]
+    /* canActivate: [PrivateGuard] */
   },
   {
     path: 'buscador', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
-    canActivate: [PrivateGuard]
+    /* canActivate: [PrivateGuard] */
   },
   {
     path: 'qr', loadChildren: () => import('./modal-qr-scanner/modal-qr-scanner.module').then(m => m.ModalQrScannerPageModule),
-    canActivate: [PrivateGuard]
+    /* canActivate: [PrivateGuard] */
   },
   {
     path: '**', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
-    canActivate: [PrivateGuard]
+    /* canActivate: [PrivateGuard] */
   },
 
 ];
