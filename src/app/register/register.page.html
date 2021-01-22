@@ -40,6 +40,10 @@
             {{llistatErrors.emailFormat}}</li>
           <li class="error" *ngIf="registerForm.hasError('maxlength', 'email')">
             {{llistatErrors.emailLengthmax}}</li>
+
+          <!-- Error amb email ja existent -->
+          <li class="error" *ngIf="mailRepetit">
+            {{llistatErrors.repeatMail}}</li>
         </ion-label>
 
         <div class="separador"></div>
@@ -75,12 +79,6 @@
             <li class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
               {{llistatErrors.confErr}}</li>
           </div>
-        </ion-label>
-
-        <!-- Error amb email ja existent -->
-        <ion-label>
-          <li class="error" *ngIf="mailRepetit">
-            {{llistatErrors.repeatMail}}</li>
         </ion-label>
       </ul>
 
