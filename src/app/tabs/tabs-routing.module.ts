@@ -11,7 +11,7 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       }, */
-      {
+     /*  {
         path: 'login',
         loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
       },
@@ -22,16 +22,16 @@ const routes: Routes = [
       {
         path: 'perfil',
         loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
-      },
+      }, */
       {
         path: 'buscador',
         loadChildren: () => import('../buscador/buscador.module').then(m => m.BuscadorPageModule)
-      },
+      }/* ,
       {
         path: '',
         redirectTo: '/login',
         pathMatch: 'full'
-      }
+      } */
     ]
   }
 ];

@@ -1,9 +1,14 @@
+import { TabsPageModule } from './tabs/tabs.module';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PublicGuard } from './shared/guards/public.guard';
 import { PrivateGuard } from './shared/guards/private.guard';
 
 const routes: Routes = [
+
+  {
+    path: '', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+  },
   {
     path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
     /* canActivate: [PublicGuard] */
@@ -26,8 +31,9 @@ const routes: Routes = [
   },
   {
     path: '**', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
-    /* canActivate: [PrivateGuard] */
+    // canActivate: [PrivateGuard] 
   },
+  
 
 ];
 @NgModule({
