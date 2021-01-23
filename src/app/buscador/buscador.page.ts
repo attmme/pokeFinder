@@ -37,7 +37,7 @@ export class BuscadorPage implements OnInit {
 
   async obrir_modal_perfil() {
     const modal = await this.modalController.create({
-      component: ModalPage,
+      component: PerfilPage,
       cssClass: 'class-modal-perfil',
       componentProps: {
         'titol': 'Modal profile',

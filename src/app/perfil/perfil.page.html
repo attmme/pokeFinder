@@ -1,14 +1,19 @@
 <ion-header>
-    <section class="header">
-        <button>
-            Cancelar
-        </button>
+    <ion-toolbar>
 
-        <button>
-            Aceptar
-        </button>
-    </section>
+        <ion-buttons slot="start">
+            <button ion-button (click)="cancelar()">Cancelar</button>
+        </ion-buttons>
+
+        <ion-title>modalQrScanner</ion-title>
+
+        <ion-buttons slot="end">
+            <button ion-button (click)="aceptar()">Aceptar</button>
+        </ion-buttons>
+
+    </ion-toolbar>
 </ion-header>
+
 
 <ion-content>
 

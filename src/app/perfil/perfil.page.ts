@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -15,9 +16,18 @@ export class PerfilPage implements OnInit {
     edat: 1,
   }
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController,) { }
 
   ngOnInit() { }
+
+  cancelar(){
+    this.modalCtrl.dismiss({
+      'dismissed': true
+    });
+  }
+
+  aceptar(){}
 
   // Arreglar estils
   // Al clicar l'imatge, puguis agafar un altre de la galeria
