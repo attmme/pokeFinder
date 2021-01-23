@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-
 import { ModalController } from '@ionic/angular';
-// import { ModalPage } from '../modal/modal.page';
 import { ModalQrScannerPage } from '../modal-qr-scanner/modal-qr-scanner.page';
 
 @Component({
@@ -10,10 +8,6 @@ import { ModalQrScannerPage } from '../modal-qr-scanner/modal-qr-scanner.page';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-
-  home_actiu = true;
-  perfil_actiu = true;
-  buscador_actiu = true;
 
   constructor(
     public modalController: ModalController,
