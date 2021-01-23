@@ -28,8 +28,7 @@
     </ion-tab-button>
     -->
 
-    <!-- *ngIf="buscador_actiu" -->
-    <ion-tab-button tab="buscador"  (click)="obrir_modal_qr()">
+    <ion-tab-button tab="buscador"  *ngIf="buscador_actiu" (click)="obrir_modal_qr()">
       <ion-icon name="search"></ion-icon>
     </ion-tab-button>
 

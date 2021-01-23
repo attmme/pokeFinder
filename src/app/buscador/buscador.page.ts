@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
-import { ModalPage } from '../modal/modal.page';
 import { PerfilPage } from '../perfil/perfil.page';
 
 import { Router } from '@angular/router';
