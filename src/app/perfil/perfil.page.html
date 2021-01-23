@@ -1,41 +1,29 @@
 <ion-header>
-    <ion-toolbar>
-
-        <ion-buttons slot="start">
-            <button ion-button (click)="cancelar()">Cancelar</button>
-        </ion-buttons>
-
-        <ion-title>modalQrScanner</ion-title>
-
-        <ion-buttons slot="end">
-            <button ion-button (click)="aceptar()">Aceptar</button>
-        </ion-buttons>
-
-    </ion-toolbar>
+    <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">Cancelar</ion-button>
+    <h1>Perfil</h1>
+    <ion-button size="medium" type="submit" (click)="aceptar()" expand="block">Aceptar</ion-button>
 </ion-header>
 
+<ion-content padding>
+    <div class="background">
+    </div>
 
-<ion-content>
+    <div class="main">
+        <div class="intern">
+            <!-- Imatge perfil -->
+            <article class="profile">
+                <img src={{perfil.img}} alt="img">
+            </article>
 
-    <section class="content">
-        <!-- Botons Cancel i OK -->
+            <!-- Informació de l'usuari -->
+            <article class="content">
+                <ul>
+                    <li> Nom: {{perfil.nom}}</li>
+                    <li> Cognom: {{perfil.cognoms}}</li>
+                    <li> Edat: {{perfil.edat}} </li>
+                </ul>
+            </article>
+        </div>
 
-
-        <!-- Imatge perfil -->
-        <article class="profile">
-            <img src={{perfil.img}} alt="img">
-        </article>
-
-        <!-- Informació de l'usuari -->
-        <article class="content">
-            <ul>
-                <li> Nom: {{perfil.nom}}</li>
-                <li> Cognom: {{perfil.cognoms}}</li>
-                <li> Edat: {{perfil.edat}} </li>
-            </ul>
-
-        </article>
-
-    </section>
-
+    </div>
 </ion-content>

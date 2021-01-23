@@ -1,60 +1,88 @@
-$bgColor: rgb(216, 7, 7);
-$borderCol: rgb(9, 85, 179);
-//$borderCol: rgb(48, 108, 180);
-$btnTextCol: rgb(20, 78, 149);
-$buttonCol: rgb(255, 203, 5);
+ion-header {
+    position: fixed;
+    z-index: 2;
 
-$imgSize: 30vh;
-
-.header {
     display: flex;
-    width: 100%;
-    height: 100%;
     justify-content: space-between;
+    align-items: center;
+    background-color: white;
 
-    button {
-        font-size: 20px;
-        font-weight: bold;
-        margin: 12px;
-        padding: 8px;
+    filter: opacity(94%);
 
-        border-radius: 8px;
-        border: 5px solid $borderCol;
-        background-color: $buttonCol;
-        color: $btnTextCol;
+    width: 100%;
+    height: 60px;
+
+    h1 {
+        margin: 0;
+        font-size: 36px;
+        font-family: power-up;
     }
 
-    /* Per la vista web */
-    button:hover {
+    ion-button {
+        margin-left: 8px;
+        margin-right: 8px;
     }
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: 10vh;
-
-    font-family: pokemon;
-
+ion-content {
     width: 100%;
-    height: 100%;
 
-    .profile {
-        img {
-            width: $imgSize;
-            height: $imgSize;
-            border-radius: 50%;
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
 
-            border: 5px solid rgb(185, 185, 185);
-        }
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/perfil_wp.jpg");
+        filter: opacity(40%);
+
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
-    .content {
-        ul {
-            li {
+    .main {
+        position: fixed;
+        z-index: 2;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+
+        margin-top: 3vh;
+
+        filter: opacity(92%);
+
+        .intern {
+            padding: 2vh;
+            background-color: white;
+
+            .profile {
+                img {
+                    $imgSize: 30vh;
+
+                    width: $imgSize;
+                    height: $imgSize;
+                    border-radius: 50%;
+                    border: 5px solid rgb(185, 185, 185);
+                }
+            }
+
+            .content {
+                font-size: 32px;
+
+                ul {
+                    margin-top: 10px;
+
+                    li {
+                        margin-top: 35px;
+                    }
+                }
             }
         }
     }

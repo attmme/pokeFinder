@@ -8,10 +8,10 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } fro
 })
 export class PublicGuard implements CanActivate {
 
-  constructor (private authService: AuthService,
-    private router: Router) {}
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
-  public canActivate(){
+  public canActivate() {
     if (this.authService.getToken()) {
       this.router.navigate(['/buscador']);
       return false;
@@ -19,5 +19,5 @@ export class PublicGuard implements CanActivate {
       return true;
     }
   }
-  
+
 }
