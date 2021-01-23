@@ -10,15 +10,14 @@
 </ion-header>
 
 
-
+<!-- Menú lateral -->
 <ion-menu side="start" menuId="first" contentId="main">
   <ion-header>
-
     <ion-toolbar color="primary">
       <ion-title>PokeMenu</ion-title>
     </ion-toolbar>
-
   </ion-header>
+
   <ion-content>
     <ion-list>
 
@@ -34,6 +33,18 @@
 
     </ion-list>
   </ion-content>
+
 </ion-menu>
+
+
+<ion-content>
+
+  <ion-slides [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(sliderOne,slideWithNav)">
+    <ion-slide *ngFor="let s of sliderOne.slidesItems">
+      <img src="{{s.id}}">
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>
 
 <ion-router-outlet id="main"></ion-router-outlet>
