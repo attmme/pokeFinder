@@ -1,29 +1,57 @@
 <ion-header>
-    <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">Cancelar</ion-button>
-    <h1>Perfil</h1>
-    <ion-button size="medium" type="submit" (click)="aceptar()" expand="block">Aceptar</ion-button>
+    <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}</ion-button>
+    <h1>{{llistatApartats.titol}}</h1>
+    <ion-button size="medium" type="submit" (click)="aceptar()" expand="block">{{llistatApartats.boto2}}</ion-button>
 </ion-header>
 
 <ion-content padding>
+
     <div class="background">
     </div>
 
     <div class="main">
-        <div class="intern">
-            <!-- Imatge perfil -->
-            <article class="profile">
-                <img src={{perfil.img}} alt="img">
-            </article>
+        <form #form="ngForm" (ngSubmit)="aceptar()" [formGroup]="perfilForm" class="formulari">
 
-            <!-- Informació de l'usuari -->
-            <article class="content">
-                <ul>
-                    <li> Nom: {{perfil.nom}}</li>
-                    <li> Cognom: {{perfil.cognoms}}</li>
-                    <li> Edat: {{perfil.edat}} </li>
-                </ul>
-            </article>
+            <!-- Elements formulari amb els seus errors -->
+            <ul class="inputs">
+
+                <!-- Imatge -->
+                <li>
+                    <img src={{perfil.img}} alt="img">
+                </li>
+
+                <!-- Nom -->
+                <!--  (blur)="elmClicats.nom=true" -->
+                <li>
+                    <input name="nom" placeholder="nombre" formControlName="nom">
+                </li>
+
+                <div class="separador"></div>
+
+                <!-- Cognom -->
+                <li>
+                    <input name="cognom" placeholder="apellidos" formControlName="cognom">
+                </li>
+
+                <div class="separador"></div>
+
+                <!-- Edat -->
+                <li>
+                    <input name="edat" placeholder="edad" formControlName="edat">
+                </li>
+
+            </ul>
+
+            <!-- Botó -->
+            <!--             <div>
+                <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
+                </ion-button>
+            </div> -->
+        </form>
+
+        <div class="register-row">
+            <a routerLink='/register'> </a>
         </div>
-
     </div>
+
 </ion-content>

@@ -10,17 +10,21 @@ ion-header {
     filter: opacity(94%);
 
     width: 100%;
-    height: 60px;
+    height: 7vh;
 
     h1 {
         margin: 0;
-        font-size: 36px;
+        font-size: 5vh;
         font-family: power-up;
     }
 
     ion-button {
-        margin-left: 8px;
-        margin-right: 8px;
+        width: 10vh;
+        height: 5vh;
+        margin-left: 1vh;
+        margin-right: 1vh;
+        font-size: 1.6vh;
+        --border-radius: 0.4vh;
     }
 }
 
@@ -28,11 +32,8 @@ ion-content {
     width: 100%;
 
     .background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-
+        position: fixed;
+        z-index: 1;
         width: 100%;
         height: 100%;
         background-image: url("../../assets/perfil_wp.jpg");
@@ -53,35 +54,75 @@ ion-content {
 
         width: 100%;
         height: 100%;
-
-        margin-top: 3vh;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
 
         filter: opacity(92%);
 
-        .intern {
-            padding: 2vh;
-            background-color: white;
+        .formulari {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-            .profile {
+            width: 100%;
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                filter: opacity(90%);
+                width: 310px;
+
                 img {
-                    $imgSize: 30vh;
-
-                    width: $imgSize;
-                    height: $imgSize;
+                    $tamany: 220px;
+                    width: $tamany;
+                    height: $tamany;
                     border-radius: 50%;
-                    border: 5px solid rgb(185, 185, 185);
+                    margin-bottom: 3vh;
+                }
+
+                input {
+                    width: 100%;
+                    padding: 18px;
+                    font-size: 18px;
+                    border: 1px solid rgb(233, 233, 233);
+                }
+
+                .separador {
+                    height: 1.3vh;
+                }
+
+                .error {
+                    font-size: 13px;
+                    border: 1px solid rgb(233, 233, 233);
+                    background-color: white;
+                    color: red;
+                }
+
+                ion-item {
+                    color: pink;
+                    background-color: red;
                 }
             }
 
-            .content {
-                font-size: 32px;
+            ion-button {
+                margin-top: 40px;
+                margin-bottom: 2vh;
+            }
 
-                ul {
-                    margin-top: 10px;
+            // Web
+            @media (min-width: 1099px) {
+                ion-button.button-disabled {
+                    opacity: 0.8;
+                }
+            }
 
-                    li {
-                        margin-top: 35px;
-                    }
+            // Mòbil
+            @media (max-width: 1100px) {
+                ion-button.button-disabled {
+                    opacity: 0.7;
                 }
             }
         }

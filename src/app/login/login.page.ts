@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { AuthService } from '../shared/services/firebase/auth.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +14,6 @@ export class LoginPage implements OnInit {
 
   constructor(
     private _router: Router,
-    private fbService: FirebaseService,
     private formBuilder: FormBuilder,
     public service: AuthService,
   ) { }
