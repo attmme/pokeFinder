@@ -15,29 +15,32 @@
             <!-- Elements formulari amb els seus errors -->
             <ul class="inputs">
 
-                <!-- Imatge -->
-                <li>
-                    <img src={{perfil.img}} alt="img">
+                <!-- Imatge de perfil -->
+                <li class="imatge">
+                    <img src={{perfil.imatge}} alt="img">
+                    <ion-buttons>
+                        <ion-button (click)="canviarImatge()">Cambiar imagen</ion-button>
+                    </ion-buttons>
                 </li>
 
                 <!-- Nom -->
-                <!--  (blur)="elmClicats.nom=true" -->
                 <li>
-                    <input name="nom" placeholder="nombre" formControlName="nom">
+                    <input (blur)="elmClicats.nom=true" name="nom" placeholder="nombre" formControlName="nom">
                 </li>
 
                 <div class="separador"></div>
 
                 <!-- Cognom -->
                 <li>
-                    <input name="cognom" placeholder="apellidos" formControlName="cognom">
+                    <input (blur)="elmClicats.cognom=true" name="cognom" placeholder="apellidos"
+                        formControlName="cognom">
                 </li>
 
                 <div class="separador"></div>
 
                 <!-- Edat -->
                 <li>
-                    <input name="edat" placeholder="edad" formControlName="edat">
+                    <input (blur)="elmClicats.edat=true" name="edat" placeholder="edad" formControlName="edat">
                 </li>
 
             </ul>

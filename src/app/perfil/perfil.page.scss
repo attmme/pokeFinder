@@ -57,7 +57,7 @@ ion-content {
         color: rgb(0, 0, 0);
         font-weight: bold;
 
-        filter: opacity(92%);
+        filter: opacity(94%);
 
         .formulari {
             display: flex;
@@ -72,16 +72,23 @@ ion-content {
                 flex-direction: column;
                 align-items: center;
 
-                filter: opacity(90%);
+                filter: opacity(100%);
                 width: 310px;
 
-                img {
-                    $tamany: 220px;
-                    width: $tamany;
-                    height: $tamany;
-                    border-radius: 50%;
-                    margin-bottom: 3vh;
+                .imatge {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    
+                    img {
+                        $tamany: 220px;
+                        width: $tamany;
+                        height: $tamany;
+                        border-radius: 50%;
+                        margin-bottom: 3vh;
+                    }
                 }
+
 
                 input {
                     width: 100%;

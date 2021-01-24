@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PhotoService } from '../shared/services/photos/photo.service';
+import { CameraPhoto, Filesystem, FilesystemDirectory } from '@capacitor/core';
 
 @Component({
   selector: 'app-perfil',
@@ -18,11 +20,12 @@ export class PerfilPage implements OnInit {
     private formBuilder: FormBuilder,
     public service: AuthService,
     private modalCtrl: ModalController,
+    private photoService: PhotoService
   ) { }
 
   // Agafar de local
   perfil = {
-    img: "https://sites.google.com/site/misitiowebdeanimales/_/rsrc/1431934328321/home/aves/pato/animal-hd-collection-329357.jpg",
+    imatge: "/assets/profile/avatar.png",
     nom: "NOM",
     cognoms: "COGNOM",
     edat: 99,
@@ -68,17 +71,69 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  // No guarda res i torna al home
   cancelar() {
     this.modalCtrl.dismiss({
       'dismissed': true
     });
   }
 
-  aceptar(form) { }
+  aceptar() {
+    // Guardar dades en json
+    // Carregar-se foto anterior i posar la nova
+    // Guardar-ho tot en la bdd
+    this.cancelar();
+  }
 
-  // Arreglar estils
-  // Al clicar l'imatge, puguis agafar un altre de la galeria
-  // Cancelar no guarda res i torna al home
-  // Aceptar guarda a la bd i 
+  canviarImatge() {
 
+    this.photoService.addNewToGallery().then(() => {
+      this.perfil.imatge = this.photoService.photos[0].webviewPath;
+
+      console.log("Foto guardada: ",  this.photoService.photos)
+    })
+/*    
+      console.log("Imatge:", this.perfil.imatge)
+       */
+
+  }
+
+
+  public async guardarImatge(cameraPhoto: CameraPhoto) {
+    // Convert photo to base64 format, required by Filesystem API to save
+    const base64Data = await this.readAsBase64(cameraPhoto);
+
+    // Write the file to the data directory
+    const fileName = new Date().getTime() + '.png';
+    const savedFile = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: FilesystemDirectory.Data
+    });
+
+    // Use webPath to display the new image instead of base64 since it's
+    // already loaded into memory
+    return {
+      filepath: fileName,
+      webviewPath: cameraPhoto.webPath
+    };
+
+  }
+
+  public async readAsBase64(cameraPhoto: CameraPhoto) {
+    // Fetch the photo, read as a blob, then convert to base64 format
+    const response = await fetch(cameraPhoto.webPath!);
+    const blob = await response.blob();
+
+    return await this.convertBlobToBase64(blob) as string;
+  }
+
+  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader;
+    reader.onerror = reject;
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
 }

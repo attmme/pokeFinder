@@ -19,5 +19,9 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  "types": [
+    "cordova",
+    "cordova-plugin-file"
+  ]
 }
