@@ -19,6 +19,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { environment } from './shared/fireBase.auth';
 import { AuthService } from './shared/services/firebase/auth.service';
+import { PerfilPageModule } from './perfil/perfil.module';
 
 
 @NgModule({
@@ -36,6 +37,8 @@ import { AuthService } from './shared/services/firebase/auth.service';
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
       CommonModule,
+
+      PerfilPageModule
     ],
   providers: [
     StatusBar,

@@ -90,11 +90,11 @@ export class PerfilPage implements OnInit {
     this.photoService.addNewToGallery().then(() => {
       this.perfil.imatge = this.photoService.photos[0].webviewPath;
 
-      console.log("Foto guardada: ",  this.photoService.photos)
+      console.log("Foto guardada: ", this.photoService.photos)
     })
-/*    
-      console.log("Imatge:", this.perfil.imatge)
-       */
+    /*    
+          console.log("Imatge:", this.perfil.imatge)
+           */
 
   }
 

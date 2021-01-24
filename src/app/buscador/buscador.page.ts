@@ -56,6 +56,11 @@ export class BuscadorPage implements OnInit {
     };
   }
 
+  temp()
+  {
+    console.log("asd");
+  }
+  
   ngOnInit() {
   }
 
@@ -71,7 +76,7 @@ export class BuscadorPage implements OnInit {
     this._router.navigateByUrl('/login'); // trucazo
   }
 
-  async obrir_modal_perfil() {
+/*   async obrir_modal_perfil() {
     const modal = await this.modalController.create({
       component: PerfilPage,
       cssClass: 'class-modal-perfil',
@@ -80,29 +85,37 @@ export class BuscadorPage implements OnInit {
         'contingut': '',
       }
     });
-
     return await modal.present();
-  }
+  } */
+
+    async obrir_modal_perfil() {
+      const modal = await this.modalController.create({
+        component: PerfilPage,
+      });
+      
+      return await modal.present();
+    }
+
 
 
   // ------------------------------------------------------------------ <tmp>
   //Move to Next slide
-  slideNext(object, slideView) {
+  slideNext(/* object, */ slideView) {
     slideView.slideNext(500).then(() => {
-      this.checkIfNavDisabled(object, slideView);
+      this.checkIfNavDisabled(this.sliderOne /*  */, slideView);
     });
   }
 
   //Move to previous slide
-  slidePrev(object, slideView) {
+  slidePrev(/* object, */ slideView) {
     slideView.slidePrev(500).then(() => {
-      this.checkIfNavDisabled(object, slideView);
+      this.checkIfNavDisabled(/* object */this.sliderOne, slideView);
     });;
   }
 
   //Method called when slide is changed by drag or navigation
-  SlideDidChange(object, slideView) {
-    this.checkIfNavDisabled(object, slideView);
+  SlideDidChange(/* object, */ slideView) {
+    this.checkIfNavDisabled(/* object */ this.sliderOne, slideView);
   }
 
   //Call methods to check if slide is first or last to enable disbale navigation  

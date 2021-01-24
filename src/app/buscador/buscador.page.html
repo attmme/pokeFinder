@@ -38,13 +38,26 @@
 
 
 <ion-content>
+  <!-- slidePrev(slideWithNav) -->
+  <!-- slideNext(slideWithNav) -->
 
-  <ion-slides [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(sliderOne,slideWithNav)">
+
+  <button ion-button (click)="temp()">
+    <ion-label>Abans</ion-label>
+  </button>
+
+  <button (click)="temp()">
+    <ion-label>Després</ion-label>
+  </button>
+
+
+  <ion-slides [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
     <ion-slide *ngFor="let s of sliderOne.slidesItems">
       <img src="{{s.id}}">
     </ion-slide>
   </ion-slides>
 
 </ion-content>
+
 
 <ion-router-outlet id="main"></ion-router-outlet>
