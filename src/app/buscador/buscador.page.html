@@ -36,28 +36,47 @@
 
 </ion-menu>
 
+<ion-router-outlet id="main"></ion-router-outlet>
+
+
 
 <ion-content>
-  <!-- slidePrev(slideWithNav) -->
-  <!-- slideNext(slideWithNav) -->
+  <!-- loop="true" -->
+  <div id="slider_pokemon">
+    <ion-slides pager="true" [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
+      <ion-slide *ngFor="let s of sliderOne.slidesItems">
 
+        <div class="container">
+          <ion-img src="{{s.id}}"></ion-img>
+          <h2 class="slidetitle">
+            <span class="block">Titol</span>
+          </h2>
+        </div>
 
-  <button ion-button (click)="temp()">
-    <ion-label>Abans</ion-label>
-  </button>
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <!--  -->
 
-  <button (click)="temp()">
-    <ion-label>Després</ion-label>
-  </button>
+  <div id="llistat_pokemon">
+    <ion-list>
 
+      <ion-item button (click)="click_pokemon($event)" *ngFor="let pokemon of pokemons">
+        <ion-thumbnail slot="start">
+          <ion-img [src]="pokemon.image"></ion-img>
+        </ion-thumbnail>
 
-  <ion-slides [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
-    <ion-slide *ngFor="let s of sliderOne.slidesItems">
-      <img src="{{s.id}}">
-    </ion-slide>
-  </ion-slides>
+        <ion-label>{{pokemon.name}}</ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <!--   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
 
 </ion-content>
-
-
-<ion-router-outlet id="main"></ion-router-outlet>

@@ -1,36 +1,76 @@
-// Slider Style START 
-.custon-nav{
-    height: 48px;
-    width: 20px;
-    cursor: pointer;
-  
-    vertical-align: middle;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+#slider_pokemon {
+  position:sticky;
+  background-color: blue;
+}
+
+#llistat_pokemon {
+  background-color: red;
+}
+
+// Slider Style START
+.custon-nav {
+  height: 48px;
+  width: 20px;
+  cursor: pointer;
+
+  vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.prev-icon-custom {
+  background: url(https://freakyjolly.com/demo/jquery/OwlCarousel2/nav-icon.png) no-repeat scroll 0px 0px;
+}
+.prev-icon-custom.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.next-icon-custom {
+  background: url(https://freakyjolly.com/demo/jquery/OwlCarousel2/nav-icon.png) no-repeat scroll -32px 0px;
+}
+.next-icon-custom.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.slider-nav {
+  ion-icon {
+    height: 100%;
   }
-  .prev-icon-custom{
-    background: url(https://freakyjolly.com/demo/jquery/OwlCarousel2/nav-icon.png) no-repeat scroll 0px 0px;
-  }
-  .prev-icon-custom.disabled{
-    opacity: 0.4;
-    cursor: default;
-  }
-  .next-icon-custom{
-    background: url(https://freakyjolly.com/demo/jquery/OwlCarousel2/nav-icon.png) no-repeat scroll -32px 0px;
-  }
-  .next-icon-custom.disabled{
-    opacity: 0.4;
-    cursor: default;
-  }
-  .slider-nav{
-    ion-icon{
-        height: 100%;
-    }
-  }
-  
-  .slide-text{
-    position: absolute;
-    color: white;
-    bottom: 30px;
-  }
+}
+
+.slide-text {
+  position: absolute;
+  color: white;
+  bottom: 30px;
+}
+
+/*  */
+
+.container {
+  position: relative;
+  width: 90%;
+}
+
+.slidetitle {
+  position: absolute;
+  bottom: 60px;
+  left: 18px;
+  color: white;
+  text-align: left;
+  font-family: "Libre Baskerville", serif;
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  color: black;
+  padding: 4px;
+}
+
+.sub-headers {
+  padding-left: 20px;
+  text-align: center;
+  font-weight: bold;
+}

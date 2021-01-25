@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { IonInfiniteScroll, MenuController } from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
 import { PerfilPage } from '../perfil/perfil.page';
@@ -15,6 +15,7 @@ import { IonSlides } from '@ionic/angular';
 export class BuscadorPage implements OnInit {
 
   @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   sliderOne: any;
 
@@ -30,7 +31,7 @@ export class BuscadorPage implements OnInit {
     private menu: MenuController,
     public modalController: ModalController
   ) {
-    
+
     //Item object for Nature
     this.sliderOne =
     {
@@ -38,35 +39,78 @@ export class BuscadorPage implements OnInit {
       isEndSlide: false,
       slidesItems: [
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png'
+          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png'
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/27.png'
+          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png'
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/60.png'
+          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png'
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/95.png'
+          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png'
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png'
+          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png'
         }
       ]
     };
+
   }
 
-  temp()
-  {
-    console.log("asd");
-  }
-  
+  pokemons = [
+    {
+      image: '',
+      name: 'asd',
+    },
+    {
+      image: '',
+      name: 'aaa',
+    },
+    {
+      image: '',
+      name: 'bbb',
+    },
+    {
+      image: '',
+      name: 'ccc',
+    },
+    {
+      image: '',
+      name: 'ddd',
+    },
+    {
+      image: '',
+      name: 'ddd',
+    },
+    {
+      image: '',
+      name: 'ddd',
+    },
+    {
+      image: '',
+      name: 'ddd',
+    },
+    {
+      image: '',
+      name: 'ddd',
+    },
+  ];
+
   ngOnInit() {
   }
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
+  loadData(event) {
+    /*     setTimeout(() => {
+          console.log('Done');
+          event.target.complete();
+    
+          // App logic to determine if all data is loaded
+          // and disable the infinite scroll
+          if (this.data.length == 4) {
+            event.target.disabled = true;
+          }
+        }, 500); */
   }
 
   // To-do
@@ -76,49 +120,27 @@ export class BuscadorPage implements OnInit {
     this._router.navigateByUrl('/login'); // trucazo
   }
 
-/*   async obrir_modal_perfil() {
+  // ------------------------------------------------------------------ <modal>
+  async obrir_modal_perfil() {
     const modal = await this.modalController.create({
       component: PerfilPage,
-      cssClass: 'class-modal-perfil',
-      componentProps: {
-        'titol': 'Modal profile',
-        'contingut': '',
-      }
     });
+
     return await modal.present();
-  } */
+  }
+  // ------------------------------------------------------------------ </modal>
 
-    async obrir_modal_perfil() {
-      const modal = await this.modalController.create({
-        component: PerfilPage,
-      });
-      
-      return await modal.present();
-    }
+  // 
+  click_pokemon(evento) {
 
+  }
+  // 
 
-
-  // ------------------------------------------------------------------ <tmp>
-  //Move to Next slide
-  slideNext(/* object, */ slideView) {
-    slideView.slideNext(500).then(() => {
-      this.checkIfNavDisabled(this.sliderOne /*  */, slideView);
-    });
+  // ------------------------------------------------------------------ <slider>
+  SlideDidChange(slideView) {
+    this.checkIfNavDisabled(this.sliderOne, slideView);
   }
 
-  //Move to previous slide
-  slidePrev(/* object, */ slideView) {
-    slideView.slidePrev(500).then(() => {
-      this.checkIfNavDisabled(/* object */this.sliderOne, slideView);
-    });;
-  }
-
-  //Method called when slide is changed by drag or navigation
-  SlideDidChange(/* object, */ slideView) {
-    this.checkIfNavDisabled(/* object */ this.sliderOne, slideView);
-  }
-
-  //Call methods to check if slide is first or last to enable disbale navigation  
   checkIfNavDisabled(object, slideView) {
     this.checkisBeginning(object, slideView);
     this.checkisEnd(object, slideView);
@@ -135,6 +157,6 @@ export class BuscadorPage implements OnInit {
       object.isEndSlide = istrue;
     });
   }
-  // ------------------------------------------------------------------ </tmp>
+  // ------------------------------------------------------------------ </slider>
 
 }
