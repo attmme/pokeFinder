@@ -52,12 +52,17 @@ export class PerfilPage implements OnInit {
 
   ngOnInit(): void {
 
+    // Agafem la imatge de la bdd
+    this.photoService.getLink();/* .then(el => {
+      console.log("Imatge: ", el)
+    }) */
+
     let perfilsAnteriors = JSON.parse(localStorage.getItem("imatge"));
 
     if (perfilsAnteriors) {
       this.perfil.imatge = perfilsAnteriors;
     } else {
-      console.log("No hi ha imatge: ", perfilsAnteriors)
+      console.log("No hi ha imatge: ")
     }
 
     this.perfilForm = this.formBuilder.group({
@@ -101,9 +106,6 @@ export class PerfilPage implements OnInit {
     this.photoService.addNewToGallery().then(() => {
       this.perfil.imatge = this.photoService.photos[0].webviewPath;
       //this.perfil.imatge = this.photoService.converted_image;
-
-      console.log("Blob inicial: ", this.perfil.imatge)
-      console.log("Blob objecte: ", this.photoService.blob)
 
       /*       let reader = new FileReader();
       

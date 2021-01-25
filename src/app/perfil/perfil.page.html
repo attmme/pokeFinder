@@ -18,7 +18,7 @@
                 <!-- Imatge de perfil -->
                 <li class="imatge">
                     <!-- <img src={{perfil.imatge}} alt="img"> -->
-                    <img [src]="_DomSanitizer.bypassSecurityTrustUrl(perfil.imatge)"/>
+                    <img id="fotoPerfil" [src]="_DomSanitizer.bypassSecurityTrustUrl(perfil.imatge)"/>
                     <ion-buttons>
                         <ion-button (click)="canviarImatge()">Cambiar imagen</ion-button>
                     </ion-buttons>

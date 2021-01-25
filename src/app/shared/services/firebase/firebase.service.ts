@@ -16,7 +16,7 @@ export class FirebaseService {
 
   constructor(
     private firebaseAuth: AngularFireAuth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
   ) {
     this.user = firebaseAuth.authState;
   }
@@ -91,6 +91,52 @@ export class FirebaseService {
       .collection(`users/${id_usuari}/tasks`)
       .doc(nom_document)
       .delete();
+  }
+
+  // Insertar blob
+  guardarImatge(_blob) {
+
+    var reader = new FileReader();
+
+    console.log("Blob sense parsin: ", _blob)
+/*     reader.readAsDataURL(_blob); 
+    reader.onloadend = function() {
+        var base64data = reader.result;                
+        console.log("B64: ", base64data);
+    } */
+
+
+    let storageRef = firebase.storage().ref();
+    let ref = storageRef.child('imatges/imatge.b64');
+
+    console.log("Capturada: ", _blob)
+    
+
+    ref.put(_blob).then(el => {
+      console.log('Uploaded a blob or file!');
+    });
+   
+  }
+
+  // Agafa el blob de la bd
+  getBlob() {
+    let storageRef = firebase.storage().ref();
+    let ref = storageRef.child('imatges/imatge.b64');
+
+    ref.getDownloadURL().then(el => {
+      console.log("Descarregar: ", el)
+      //let img = document.getElementById('fotoPerfil');
+      //console.log("Imatge: ", img)
+      //img.src = el;
+    })
+
+
+    /*     let collection = this.firestore.collection('blobs').doc('test');
+        return collection.get()
+          .toPromise()
+          .then((data) =>
+            data
+          ); */
   }
 
   // Login
