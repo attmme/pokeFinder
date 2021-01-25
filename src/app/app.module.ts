@@ -21,6 +21,9 @@ import { environment } from './shared/fireBase.auth';
 import { AuthService } from './shared/services/firebase/auth.service';
 import { PerfilPageModule } from './perfil/perfil.module';
 
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -44,6 +47,7 @@ import { PerfilPageModule } from './perfil/perfil.module';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
+    Base64ToGallery
 
   ],
   bootstrap: [AppComponent]

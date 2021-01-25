@@ -56,7 +56,6 @@ export class PerfilPage implements OnInit {
 
     if (perfilsAnteriors) {
       this.perfil.imatge = perfilsAnteriors;
-      console.log("Hi ha imatge")
     } else {
       console.log("No hi ha imatge: ", perfilsAnteriors)
     }
@@ -101,13 +100,20 @@ export class PerfilPage implements OnInit {
 
     this.photoService.addNewToGallery().then(() => {
       this.perfil.imatge = this.photoService.photos[0].webviewPath;
+      //this.perfil.imatge = this.photoService.converted_image;
 
-      /* var reader = new FileReader();
-      reader.readAsDataURL(this.photoService.blob);
+      console.log("Blob inicial: ", this.perfil.imatge)
+      console.log("Blob objecte: ", this.photoService.blob)
 
-      reader.onloadend = function () {
-        let base64data = reader.result;
-      } */
+      /*       let reader = new FileReader();
+      
+            reader.onloadend = el => {
+              console.log(reader.result)
+              console.log(el)
+            }
+            reader.readAsDataURL(this.photoService.blob); */
+
+
       //this.perfil.imatge = window.URL.createObjectURL(this.photoService.blob);
 
     });
