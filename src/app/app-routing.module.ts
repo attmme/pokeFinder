@@ -6,7 +6,7 @@ import { PrivateGuard } from './shared/guards/private.guard';
 
 const routes: Routes = [
 
-  {
+  { // Canvier per buscador
     path: '', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
   },
   {
@@ -17,11 +17,11 @@ const routes: Routes = [
     path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
     /* canActivate: [PublicGuard] */
   },
-/*   {
+  {
     path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule),
     // canActivate: [PrivateGuard]
   },
-*/
+
   {
     path: 'buscador', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
     /* canActivate: [PrivateGuard] */

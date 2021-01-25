@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  Plugins, CameraResultType, Capacitor, FilesystemDirectory,
-  CameraPhoto, CameraSource
-} from '@capacitor/core';
+import { Plugins, CameraResultType, Capacitor, FilesystemDirectory, CameraPhoto, CameraSource }
+  from '@capacitor/core';
 
 const { Camera, Filesystem, Storage } = Plugins;
 
@@ -10,13 +8,15 @@ const { Camera, Filesystem, Storage } = Plugins;
   providedIn: 'root'
 })
 
-
 export class PhotoService {
 
   constructor() { }
 
+
   // Array amb les fotos
   public photos: Photo[] = [];
+
+  public blob;
 
   public async addNewToGallery() {
     // Take a photo
@@ -29,6 +29,11 @@ export class PhotoService {
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(capturedPhoto);
     this.photos.unshift(savedImageFile);
+
+    this.blob = new Blob([this.photos[0].webviewPath], {
+      type: 'text/plain'
+    });
+
   }
 
   public async savePicture(cameraPhoto: CameraPhoto) {
@@ -37,14 +42,19 @@ export class PhotoService {
 
     // Write the file to the data directory
     const fileName = '/assets/profile/' + new Date().getTime() + '.png';
-    const savedFile = await Filesystem.writeFile({
+
+    let temp = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
       directory: FilesystemDirectory.Data
+    }).then(el => {
+      console.log("Imatge en base64: ", el)
+    }).catch(e => {
+      console.log("CATCH del photo service: ", e)
     });
 
-    // Use webPath to display the new image instead of base64 since it's
-    // already loaded into memory
+
+    // Use webPath to display the new image instead of base64 since it's already loaded into memory
     return {
       filepath: fileName,
       webviewPath: cameraPhoto.webPath
@@ -70,6 +80,7 @@ export class PhotoService {
 
 
 }
+
 
 export interface Photo {
   webviewPath: string;

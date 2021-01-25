@@ -21,7 +21,6 @@ import { environment } from './shared/fireBase.auth';
 import { AuthService } from './shared/services/firebase/auth.service';
 import { PerfilPageModule } from './perfil/perfil.module';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -44,7 +43,8 @@ import { PerfilPageModule } from './perfil/perfil.module';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    AuthService,
+
   ],
   bootstrap: [AppComponent]
 })

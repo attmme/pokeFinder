@@ -5,6 +5,7 @@ import { AuthService } from '../shared/services/firebase/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PhotoService } from '../shared/services/photos/photo.service';
 import { CameraPhoto, Filesystem, FilesystemDirectory } from '@capacitor/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-perfil',
@@ -20,7 +21,8 @@ export class PerfilPage implements OnInit {
     private formBuilder: FormBuilder,
     public service: AuthService,
     private modalCtrl: ModalController,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private _DomSanitizer: DomSanitizer,
   ) { }
 
   // Agafar de local
@@ -49,6 +51,16 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit(): void {
+
+    let perfilsAnteriors = JSON.parse(localStorage.getItem("imatge"));
+
+    if (perfilsAnteriors) {
+      this.perfil.imatge = perfilsAnteriors;
+      console.log("Hi ha imatge")
+    } else {
+      console.log("No hi ha imatge: ", perfilsAnteriors)
+    }
+
     this.perfilForm = this.formBuilder.group({
       nom: ['', [
         Validators.required,
@@ -73,15 +85,15 @@ export class PerfilPage implements OnInit {
 
   // No guarda res i torna al home
   cancelar() {
-    this.modalCtrl.dismiss({
-      'dismissed': true
-    });
+    this.modalCtrl.dismiss({ 'dismissed': true });
+    //this.modalCtrl.dismiss(null , 'cancel');
   }
 
   aceptar() {
-    // Guardar dades en json
-    // Carregar-se foto anterior i posar la nova
-    // Guardar-ho tot en la bdd
+    // Es guarden les dades de l'usuari en la bdd
+
+    // Es guarda l'imatge en el local storage
+    localStorage.setItem("imatge", JSON.stringify(this.perfil.imatge));
     this.cancelar();
   }
 
@@ -90,50 +102,16 @@ export class PerfilPage implements OnInit {
     this.photoService.addNewToGallery().then(() => {
       this.perfil.imatge = this.photoService.photos[0].webviewPath;
 
-      console.log("Foto guardada: ", this.photoService.photos)
-    })
-    /*    
-          console.log("Imatge:", this.perfil.imatge)
-           */
+      /* var reader = new FileReader();
+      reader.readAsDataURL(this.photoService.blob);
 
-  }
+      reader.onloadend = function () {
+        let base64data = reader.result;
+      } */
+      //this.perfil.imatge = window.URL.createObjectURL(this.photoService.blob);
 
-
-  public async guardarImatge(cameraPhoto: CameraPhoto) {
-    // Convert photo to base64 format, required by Filesystem API to save
-    const base64Data = await this.readAsBase64(cameraPhoto);
-
-    // Write the file to the data directory
-    const fileName = new Date().getTime() + '.png';
-    const savedFile = await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: FilesystemDirectory.Data
     });
 
-    // Use webPath to display the new image instead of base64 since it's
-    // already loaded into memory
-    return {
-      filepath: fileName,
-      webviewPath: cameraPhoto.webPath
-    };
-
   }
 
-  public async readAsBase64(cameraPhoto: CameraPhoto) {
-    // Fetch the photo, read as a blob, then convert to base64 format
-    const response = await fetch(cameraPhoto.webPath!);
-    const blob = await response.blob();
-
-    return await this.convertBlobToBase64(blob) as string;
-  }
-
-  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader;
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
 }

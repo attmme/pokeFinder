@@ -4,8 +4,12 @@
     "outDir": "./out-tsc/app",
     "types": [
       "cordova",
-      "cordova-plugin-file"
-  ]
+      "cordova-plugin-file",
+      "node"
+    ],
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
   },
   "files": [
     "src/main.ts",
