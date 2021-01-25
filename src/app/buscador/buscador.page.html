@@ -1,14 +1,12 @@
+<!-- Barra superior -->
 <ion-header>
-
   <ion-toolbar color="primary">
     <ion-title>Buscador</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
-
 
 <!-- Menú lateral -->
 <ion-menu side="start" menuId="first" contentId="main">
@@ -35,48 +33,32 @@
   </ion-content>
 
 </ion-menu>
-
 <ion-router-outlet id="main"></ion-router-outlet>
 
-
+<!-- Slider imatges pokemon -->
+<div id="slider_pokemon">
+  <ion-slides pager="true" [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
+    <ion-slide *ngFor="let s of sliderOne.slidesItems">
+      <div class="test_tmp">
+        <h2 class="block">Titol</h2>
+      </div>
+      <ion-img class="imatge" src="{{s.id}}"></ion-img>
+    </ion-slide>
+  </ion-slides>
+</div>
 
 <ion-content>
-  <!-- loop="true" -->
-  <div id="slider_pokemon">
-    <ion-slides pager="true" [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
-      <ion-slide *ngFor="let s of sliderOne.slidesItems">
+  <!-- List pokemon -->
+  <ion-list id="llistat_pokemon">
 
-        <div class="container">
-          <ion-img src="{{s.id}}"></ion-img>
-          <h2 class="slidetitle">
-            <span class="block">Titol</span>
-          </h2>
-        </div>
+    <ion-item button (click)="click_pokemon($event)" *ngFor="let pokemon of pokemons">
 
-      </ion-slide>
-    </ion-slides>
-  </div>
-  <!--  -->
+      <ion-thumbnail slot="start">
+        <ion-img [src]="pokemon.image"></ion-img>
+      </ion-thumbnail>
 
-  <div id="llistat_pokemon">
-    <ion-list>
+      <ion-label>{{pokemon.name}}</ion-label>
 
-      <ion-item button (click)="click_pokemon($event)" *ngFor="let pokemon of pokemons">
-        <ion-thumbnail slot="start">
-          <ion-img [src]="pokemon.image"></ion-img>
-        </ion-thumbnail>
-
-        <ion-label>{{pokemon.name}}</ion-label>
-      </ion-item>
-
-    </ion-list>
-  </div>
-
-  <!--   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
-
+    </ion-item>
+  </ion-list>
 </ion-content>
