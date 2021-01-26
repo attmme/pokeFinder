@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
+import { FirebaseService } from '../shared/services/firebase/firebase.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PhotoService } from '../shared/services/photos/photo.service';
-import { CameraPhoto, Filesystem, FilesystemDirectory } from '@capacitor/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -15,22 +16,25 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PerfilPage implements OnInit {
 
   perfilForm: FormGroup;
+  //usuari; // Usuari firebase
 
   constructor(
     private _router: Router,
     private formBuilder: FormBuilder,
     public service: AuthService,
+    public firService: FirebaseService,
     private modalCtrl: ModalController,
     private photoService: PhotoService,
     private _DomSanitizer: DomSanitizer,
   ) { }
 
+  PROVA = "OGHLA";
   // Agafar de local
   perfil = {
     imatge: "/assets/profile/avatar.png",
-    nom: "NOM",
-    cognoms: "COGNOM",
-    edat: 99,
+    nom: "asd",
+    cognoms: "",
+    edat: 0
   }
 
   // Text que apareix i no són errors
@@ -51,19 +55,32 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.perfilForm
 
-    // Agafem la imatge de la bdd
-    this.photoService.getLink();/* .then(el => {
-      console.log("Imatge: ", el)
-    }) */
+    // Es carrega l'imatge del server
+    this.firService.usuariActual().then(usr => {
 
-    let perfilsAnteriors = JSON.parse(localStorage.getItem("imatge"));
+      let imatgeServer = usr['photoURL'];
 
-    if (perfilsAnteriors) {
-      this.perfil.imatge = perfilsAnteriors;
-    } else {
-      console.log("No hi ha imatge: ")
-    }
+      // Guardar nom i cognoms junt separats amb un _, fer split
+      this.perfil.nom = usr['name'];
+      this.perfil.cognoms = usr['surname'];
+      this.perfil.edat = usr['age'];
+
+      console.log("Llegeixo nom: ", usr['displayName'])
+      console.log("Contingut: ", this.perfil)
+
+
+      // Es mira si la ruta segueix sent vàlida abans de passar-la al html
+      try {
+        let t = new Blob(imatgeServer);
+        this.perfil.imatge = imatgeServer;
+      } catch (e) {
+        console.log("La imatge ja no existeix")
+        this.perfil.imatge = "/assets/profile/avatar.png";
+      }
+
+    })
 
     this.perfilForm = this.formBuilder.group({
       nom: ['', [
@@ -93,33 +110,29 @@ export class PerfilPage implements OnInit {
     //this.modalCtrl.dismiss(null , 'cancel');
   }
 
-  aceptar() {
+  acceptar(formulari) {
+    let nom = formulari.form.value.nom;
+    let cognom = formulari.form.value.cognom;
+    let edat = formulari.form.value.edat;
+
+    console.log("Nom guardat: ", nom)
+
     // Es guarden les dades de l'usuari en la bdd
+    this.firService.usuariActual().then(usr => {
+      usr['updateProfile']({
+        displayName: (nom + "_" + cognom),
+        age: edat,
+        photoURL: this.perfil.imatge
+      })
+    })
 
-    // Es guarda l'imatge en el local storage
-    localStorage.setItem("imatge", JSON.stringify(this.perfil.imatge));
-    this.cancelar();
+    //this.cancelar();
   }
 
+  // Canvia visualment
   canviarImatge() {
-
-    this.photoService.addNewToGallery().then(() => {
-      this.perfil.imatge = this.photoService.photos[0].webviewPath;
-      //this.perfil.imatge = this.photoService.converted_image;
-
-      /*       let reader = new FileReader();
-      
-            reader.onloadend = el => {
-              console.log(reader.result)
-              console.log(el)
-            }
-            reader.readAsDataURL(this.photoService.blob); */
-
-
-      //this.perfil.imatge = window.URL.createObjectURL(this.photoService.blob);
-
+    this.photoService.addNewToGallery().then(img => {
+      this.perfil.imatge = img;
     });
-
   }
-
 }

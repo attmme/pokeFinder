@@ -7,10 +7,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/app';
 import { v4 as uuidv4 } from 'uuid';
+import { resolve } from 'dns';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class FirebaseService {
   user: Observable<firebase.User>;
 
@@ -93,52 +95,6 @@ export class FirebaseService {
       .delete();
   }
 
-  // Insertar blob
-  guardarImatge(_blob) {
-
-    var reader = new FileReader();
-
-    console.log("Blob sense parsin: ", _blob)
-/*     reader.readAsDataURL(_blob); 
-    reader.onloadend = function() {
-        var base64data = reader.result;                
-        console.log("B64: ", base64data);
-    } */
-
-
-    let storageRef = firebase.storage().ref();
-    let ref = storageRef.child('imatges/imatge.b64');
-
-    console.log("Capturada: ", _blob)
-    
-
-    ref.put(_blob).then(el => {
-      console.log('Uploaded a blob or file!');
-    });
-   
-  }
-
-  // Agafa el blob de la bd
-  getBlob() {
-    let storageRef = firebase.storage().ref();
-    let ref = storageRef.child('imatges/imatge.b64');
-
-    ref.getDownloadURL().then(el => {
-      console.log("Descarregar: ", el)
-      //let img = document.getElementById('fotoPerfil');
-      //console.log("Imatge: ", img)
-      //img.src = el;
-    })
-
-
-    /*     let collection = this.firestore.collection('blobs').doc('test');
-        return collection.get()
-          .toPromise()
-          .then((data) =>
-            data
-          ); */
-  }
-
   // Login
   login(email: string, password: string) {
     // -- Retornem una promesa, es consumeix en login.form.component
@@ -148,5 +104,20 @@ export class FirebaseService {
   // Logout
   logout() {
     localStorage.removeItem('userId');
+  }
+
+  usuariActual() {
+    return new Promise((resolve, reject) => {
+      this.firebaseAuth.onAuthStateChanged(user => {
+        resolve(user);
+        /*       if (user) {
+                return user;
+              } else {
+                console.log("NO ESTA LOGIN")
+                return false;
+              } */
+      });
+
+    });
   }
 }

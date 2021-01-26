@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Plugins, CameraResultType, Capacitor, FilesystemDirectory, CameraPhoto, CameraSource }
   from '@capacitor/core';
-import { FirebaseService } from '../firebase/firebase.service';
+//import { Storage } from '@ionic/storage';
+//import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+
+//import { FirebaseService } from '../firebase/firebase.service';
 
 const { Camera, Filesystem, Storage } = Plugins;
 
@@ -12,59 +15,21 @@ const { Camera, Filesystem, Storage } = Plugins;
 export class PhotoService {
 
   constructor(
-    private service: FirebaseService,
   ) { }
 
   // Array amb les fotos
   public photos: Photo[] = [];
-  public blob;
-  public converted_image;
-  public link;
 
-  public async addNewToGallery() {
-    // Es fa la foto
+  async addNewToGallery() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
       quality: 100
     });
 
-    // Es genera un blob amb l'imatge
-    this.photos.unshift({
-      webviewPath: capturedPhoto.webPath
-    });
-
-    this.blob = new Blob([this.photos[0].webviewPath]);
-
-    // Es guarda en firebase
-    //this.service.setBlob(this.blob);
-    this.service.guardarImatge(capturedPhoto);
-
-    // Es passa el blob a un link
-/*     
- */
-
-    //this.blob = this.photos[0].webviewPath;
-
-  }
-
-  getLink() {
-
-    this.service.getBlob();
-
-  /*   return this.service.getBlob().then(el => {
-      let reader = new FileReader();
-      console.log("DINS: ", el)
-      reader.onload = () => {
-        alert(reader.result);
-      }
- 
-      //reader.readAsText(el);
-
-    })*/
+    return capturedPhoto.webPath; //
   }
 }
-
 
 export interface Photo {
   webviewPath: string;

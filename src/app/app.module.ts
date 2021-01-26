@@ -22,6 +22,7 @@ import { AuthService } from './shared/services/firebase/auth.service';
 import { PerfilPageModule } from './perfil/perfil.module';
 
 import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
       CommonModule,
+      IonicStorageModule.forRoot(),
 
       PerfilPageModule
     ],

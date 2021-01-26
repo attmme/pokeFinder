@@ -1,7 +1,9 @@
 <ion-header>
+    <link href="lib/ion-gallery/dist/ion-gallery.css" rel="stylesheet">
+    <script src="lib/ion-gallery/dist/ion-gallery.min.js"></script>
     <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}</ion-button>
     <h1>{{llistatApartats.titol}}</h1>
-    <ion-button size="medium" type="submit" (click)="aceptar()" expand="block">{{llistatApartats.boto2}}</ion-button>
+    <ion-button size="medium" type="submit" (click)="acceptar(form)" expand="block">{{llistatApartats.boto2}}</ion-button>
 </ion-header>
 
 <ion-content padding>
@@ -10,7 +12,7 @@
     </div>
 
     <div class="main">
-        <form #form="ngForm" (ngSubmit)="aceptar()" [formGroup]="perfilForm" class="formulari">
+        <form #form="ngForm" (ngSubmit)="acceptar(form)" [formGroup]="perfilForm" class="formulari">
 
             <!-- Elements formulari amb els seus errors -->
             <ul class="inputs">
@@ -18,7 +20,7 @@
                 <!-- Imatge de perfil -->
                 <li class="imatge">
                     <!-- <img src={{perfil.imatge}} alt="img"> -->
-                    <img id="fotoPerfil" [src]="_DomSanitizer.bypassSecurityTrustUrl(perfil.imatge)"/>
+                    <img id="fotoPerfil" [src]="_DomSanitizer.bypassSecurityTrustUrl(perfil.imatge)" />
                     <ion-buttons>
                         <ion-button (click)="canviarImatge()">Cambiar imagen</ion-button>
                     </ion-buttons>
@@ -26,7 +28,7 @@
 
                 <!-- Nom -->
                 <li>
-                    <input (blur)="elmClicats.nom=true" name="nom" placeholder="nombre" formControlName="nom">
+                    <input  placeholder="nombre" [(ngModel)]="PROVA" (blur)="elmClicats.nom=true" name="nom" formControlName="nom">
                 </li>
 
                 <div class="separador"></div>
