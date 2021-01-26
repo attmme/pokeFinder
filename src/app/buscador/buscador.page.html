@@ -37,21 +37,24 @@
 
 <!-- Slider imatges pokemon -->
 <div id="slider_pokemon">
-  <ion-slides pager="true" [options]="slideOptsOne" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
-    <ion-slide *ngFor="let s of sliderOne.slidesItems">
-      <div class="test_tmp">
-        <h2 class="block">Titol</h2>
+  <ion-slides pager="true" [options]="sliderPokemons" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
+    <ion-slide id="slide_onic" *ngFor="let pokemon of sliderPokemons.pokemons">
+      <div id="slide_zona_text">
+        <ion-title size="medium" class="titol">{{pokemon.name}}</ion-title>
+        <ion-label>Data 1</ion-label>
+        <ion-label>Data 2</ion-label>
+        <ion-label>Data 3</ion-label>
       </div>
-      <ion-img class="imatge" src="{{s.id}}"></ion-img>
+      <ion-img class="imatge" src="{{pokemon.image}}"></ion-img>
     </ion-slide>
   </ion-slides>
 </div>
 
+<!-- List pokemon -->
 <ion-content>
-  <!-- List pokemon -->
   <ion-list id="llistat_pokemon">
 
-    <ion-item button (click)="click_pokemon($event)" *ngFor="let pokemon of pokemons">
+    <ion-item button (click)="click_pokemon(slideWithNav, pokemon.index)" *ngFor="let pokemon of sliderPokemons.pokemons">
 
       <ion-thumbnail slot="start">
         <ion-img [src]="pokemon.image"></ion-img>

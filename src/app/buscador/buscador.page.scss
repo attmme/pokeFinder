@@ -1,37 +1,38 @@
 /*  */
 #slider_pokemon {
   display: flex;
-  flex-flow: column;
+  /*  flex-flow: column; */
   background-color: rgb(206, 206, 253);
   width: 100%;
   height: 50%;
 
   border: 1px solid blue;
 
-  .imatge {
+  #slide_onic {
     display: flex;
+    align-content: flex-start;
+    justify-content: space-around;
     border: 1px solid red;
-/*     width: 40vw;
-    height: 40vh; */
-    width: 10vw;
-    height: 10vh;
-    padding-bottom: 20px;
-  }
 
-  .test_tmp {
-    display: flex;
-    border: 1px solid red;
-    height: 10vh;
-    width: 10vw;
-
-    .block {
+    .imatge {
       display: flex;
+      align-self: flex-start;
+      width: 40vw;
+      height: 40vh;
+      /* padding-bottom: 25px; */
 
-      color: black;
+      border: 1px solid red;
     }
-  }
 
-  /* } */
+    #slide_zona_text {
+      display: flex;
+      flex-flow: column;
+      .titol {
+        border: 1px solid red;
+      }
+    }
+
+  }
 }
 
 #llistat_pokemon {
