@@ -1,13 +1,46 @@
+/*  */
 #slider_pokemon {
-  position:sticky;
-  background-color: blue;
+  display: flex;
+  flex-flow: column;
+  background-color: rgb(206, 206, 253);
+  width: 100%;
+  height: 50%;
+
+  border: 1px solid blue;
+
+  .imatge {
+    display: flex;
+    border: 1px solid red;
+/*     width: 40vw;
+    height: 40vh; */
+    width: 10vw;
+    height: 10vh;
+    padding-bottom: 20px;
+  }
+
+  .test_tmp {
+    display: flex;
+    border: 1px solid red;
+    height: 10vh;
+    width: 10vw;
+
+    .block {
+      display: flex;
+
+      color: black;
+    }
+  }
+
+  /* } */
 }
 
 #llistat_pokemon {
-  background-color: red;
+  /*   position: relative;
+  background-color: red !important; */
 }
+/*  */
 
-// Slider Style START
+/*  */
 .custon-nav {
   height: 48px;
   width: 20px;
@@ -43,34 +76,13 @@
   color: white;
   bottom: 30px;
 }
-
 /*  */
 
-.container {
-  position: relative;
-  width: 90%;
-}
-
-.slidetitle {
-  position: absolute;
-  bottom: 60px;
-  left: 18px;
-  color: white;
-  text-align: left;
-  font-family: "Libre Baskerville", serif;
-}
-
-.block {
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  justify-self: center;
-  color: black;
-  padding: 4px;
-}
+/*  */
 
 .sub-headers {
   padding-left: 20px;
   text-align: center;
   font-weight: bold;
 }
+/*  */
