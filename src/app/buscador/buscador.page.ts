@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, MenuController } from '@ionic/angular';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
 import { PerfilPage } from '../perfil/perfil.page';
@@ -17,100 +17,54 @@ export class BuscadorPage implements OnInit {
   @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
-  sliderOne: any;
-
-  //Configuration for each Slider
-  slideOptsOne = {
-    initialSlide: 0,
-    slidesPerView: 1,
-    autoplay: false
-  };
+  sliderPokemons: any;
 
   constructor(
     private _router: Router,
-    private menu: MenuController,
     public modalController: ModalController
   ) {
 
-    //Item object for Nature
-    this.sliderOne =
+    this.sliderPokemons =
     {
       isBeginningSlide: true,
       isEndSlide: false,
-      slidesItems: [
+      pokemons: [
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png'
+          index: 0,
+          id: 145,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png',
+          name: 'Zapdos',
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png'
+          index: 1,
+          id: 27,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png',
+          name: 'Sandshrew',
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png'
+          index: 2,
+          id: 60,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png',
+          name: 'Poliwag',
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png'
+          index: 3,
+          id: 95,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png',
+          name: 'Onix',
         },
         {
-          id: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png'
+          index: 4,
+          id: 150,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
+          name: 'Mewtwo',
         }
       ]
     };
 
   }
 
-  pokemons = [
-    {
-      image: '',
-      name: 'asd',
-    },
-    {
-      image: '',
-      name: 'aaa',
-    },
-    {
-      image: '',
-      name: 'bbb',
-    },
-    {
-      image: '',
-      name: 'ccc',
-    },
-    {
-      image: '',
-      name: 'ddd',
-    },
-    {
-      image: '',
-      name: 'ddd',
-    },
-    {
-      image: '',
-      name: 'ddd',
-    },
-    {
-      image: '',
-      name: 'ddd',
-    },
-    {
-      image: '',
-      name: 'ddd',
-    },
-  ];
-
   ngOnInit() {
-  }
-
-  loadData(event) {
-    /*     setTimeout(() => {
-          console.log('Done');
-          event.target.complete();
-    
-          // App logic to determine if all data is loaded
-          // and disable the infinite scroll
-          if (this.data.length == 4) {
-            event.target.disabled = true;
-          }
-        }, 500); */
   }
 
   // To-do
@@ -130,15 +84,15 @@ export class BuscadorPage implements OnInit {
   }
   // ------------------------------------------------------------------ </modal>
 
-  // 
-  click_pokemon(evento) {
-
+  // ------------------------------------------------------------------ <>
+  click_pokemon(slider, index) {
+    slider.slideTo(index, 500); // el número és la suavitat
   }
-  // 
+  // ------------------------------------------------------------------ </>
 
   // ------------------------------------------------------------------ <slider>
   SlideDidChange(slideView) {
-    this.checkIfNavDisabled(this.sliderOne, slideView);
+    this.checkIfNavDisabled(this.sliderPokemons, slideView);
   }
 
   checkIfNavDisabled(object, slideView) {
