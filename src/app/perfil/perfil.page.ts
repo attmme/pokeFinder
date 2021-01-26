@@ -28,13 +28,12 @@ export class PerfilPage implements OnInit {
     private _DomSanitizer: DomSanitizer,
   ) { }
 
-  PROVA = "OGHLA";
   // Agafar de local
   perfil = {
     imatge: "/assets/profile/avatar.png",
-    nom: "asd",
+    nom: "",
     cognoms: "",
-    edat: 0
+    edat: null
   }
 
   // Text que apareix i no són errors
@@ -55,28 +54,25 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.perfilForm
-
     // Es carrega l'imatge del server
     this.firService.usuariActual().then(usr => {
 
       let imatgeServer = usr['photoURL'];
 
       // Guardar nom i cognoms junt separats amb un _, fer split
-      this.perfil.nom = usr['name'];
-      this.perfil.cognoms = usr['surname'];
-      this.perfil.edat = usr['age'];
+      let nomComplet = usr['displayName'].split("_");
 
-      console.log("Llegeixo nom: ", usr['displayName'])
+      this.perfil.nom = nomComplet[0];
+      this.perfil.cognoms = nomComplet[1];
+      this.perfil.edat = Number(nomComplet[2]);
+
       console.log("Contingut: ", this.perfil)
-
 
       // Es mira si la ruta segueix sent vàlida abans de passar-la al html
       try {
         let t = new Blob(imatgeServer);
         this.perfil.imatge = imatgeServer;
       } catch (e) {
-        console.log("La imatge ja no existeix")
         this.perfil.imatge = "/assets/profile/avatar.png";
       }
 
@@ -115,21 +111,18 @@ export class PerfilPage implements OnInit {
     let cognom = formulari.form.value.cognom;
     let edat = formulari.form.value.edat;
 
-    console.log("Nom guardat: ", nom)
-
     // Es guarden les dades de l'usuari en la bdd
     this.firService.usuariActual().then(usr => {
       usr['updateProfile']({
-        displayName: (nom + "_" + cognom),
-        age: edat,
+        displayName: (nom + "_" + cognom + "_" + edat),
         photoURL: this.perfil.imatge
       })
     })
 
-    //this.cancelar();
+    this.cancelar();
   }
 
-  // Canvia visualment
+  // Canvia en el moment d'elegir, però no encara no es guarda
   canviarImatge() {
     this.photoService.addNewToGallery().then(img => {
       this.perfil.imatge = img;

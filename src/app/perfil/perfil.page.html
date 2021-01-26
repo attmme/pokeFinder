@@ -3,7 +3,8 @@
     <script src="lib/ion-gallery/dist/ion-gallery.min.js"></script>
     <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}</ion-button>
     <h1>{{llistatApartats.titol}}</h1>
-    <ion-button size="medium" type="submit" (click)="acceptar(form)" expand="block">{{llistatApartats.boto2}}</ion-button>
+    <ion-button size="medium" type="submit" (click)="acceptar(form)" expand="block">{{llistatApartats.boto2}}
+    </ion-button>
 </ion-header>
 
 <ion-content padding>
@@ -28,22 +29,24 @@
 
                 <!-- Nom -->
                 <li>
-                    <input  placeholder="nombre" [(ngModel)]="PROVA" (blur)="elmClicats.nom=true" name="nom" formControlName="nom">
+                    <input placeholder="nombre" [(ngModel)]="perfil.nom" (blur)="elmClicats.nom=true" name="nom"
+                        formControlName="nom">
                 </li>
 
                 <div class="separador"></div>
 
                 <!-- Cognom -->
                 <li>
-                    <input (blur)="elmClicats.cognom=true" name="cognom" placeholder="apellidos"
-                        formControlName="cognom">
+                    <input placeholder="apellidos" [(ngModel)]="perfil.cognoms" (blur)="elmClicats.cognom=true"
+                        name="cognom" formControlName="cognom">
                 </li>
 
                 <div class="separador"></div>
 
                 <!-- Edat -->
                 <li>
-                    <input (blur)="elmClicats.edat=true" name="edat" placeholder="edad" formControlName="edat">
+                    <input placeholder="edad" [(ngModel)]="perfil.edat" (blur)="elmClicats.edat=true" name="edat"
+                        formControlName="edat">
                 </li>
 
             </ul>
