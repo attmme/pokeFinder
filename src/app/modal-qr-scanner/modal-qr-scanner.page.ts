@@ -7,6 +7,9 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
+import { Router } from '@angular/router';
+import { AngularFireModule } from '@angular/fire';
+
 @Component({
   selector: 'app-modal-qr-scanner',
   templateUrl: './modal-qr-scanner.page.html',
@@ -37,11 +40,13 @@ export class ModalQrScannerPage implements OnInit {
     private http: HttpClient,
     public service: AuthService,
     public firebase: FirebaseService,
+    public _router: Router,
+    public ad: AngularFireModule,
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && window.navigator['standalone'];
     if (this.plt.is('ios') && isInStandaloneMode()) {
-      console.log('I am a an iOS PWA!');
+      // console.log('I am a an iOS PWA!');
       // E.g. hide the scan functionality!
     }
 
@@ -69,16 +74,9 @@ export class ModalQrScannerPage implements OnInit {
   // Helper functions
   async showQrToast() {
     const toast = await this.toastCtrl.create({
-      message: `Open ${this.scanResult}?`,
-      position: 'top',
-      buttons: [
-        {
-          text: 'Open',
-          handler: () => {
-            window.open(this.scanResult, '_system', 'location=yes');
-          }
-        }
-      ]
+      message: `Capturat!`,
+      position: 'middle',
+      duration: 2500
     });
     toast.present();
   }
@@ -197,26 +195,27 @@ export class ModalQrScannerPage implements OnInit {
       .subscribe(data => {
 
         let pokemon_rebut = {
-          id: data['id'],
+          index: '',
           image: data['sprites'].other['official-artwork'].front_default,
           name: data['name'],
+          id: data['id'],
+          weight: data['weight'],
+          height: data['height'],
+          type: data['types'][0].type.name
         };
 
         let ruta = `/users/${this.service.getToken()}/pokemons/`;
 
         this.firebase.collLength(ruta).then(
           (tamany) => {
-            console.log("ruta: ", ruta);
-            console.log("Tamany: ", tamany);
-            console.log("pokemon_rebut: ", pokemon_rebut);
-            
+            pokemon_rebut.index = tamany;
             this.firebase.writeDoc(ruta, tamany, pokemon_rebut);
           }
         ).catch(
-          (e)=>{
-            console.log("Error catch registrar pokemon: ",e);
+          (e) => {
+            console.log("Error catch registrar pokemon: ", e);
           }
-          );
+        );
       });
   }
 

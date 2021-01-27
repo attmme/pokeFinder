@@ -41,9 +41,9 @@
     <ion-slide id="slide_onic" *ngFor="let pokemon of sliderPokemons.pokemons">
       <div id="slide_zona_text">
         <ion-title size="medium" class="titol">{{pokemon.name}}</ion-title>
-        <ion-label>Data 1</ion-label>
-        <ion-label>Data 2</ion-label>
-        <ion-label>Data 3</ion-label>
+        <ion-label>Tipo: {{pokemon.type}}</ion-label>
+        <ion-label>Peso: {{pokemon.weight/10}} kg</ion-label>
+        <ion-label>Altura: {{pokemon.height/10}} m</ion-label>
       </div>
       <ion-img class="imatge" src="{{pokemon.image}}"></ion-img>
     </ion-slide>

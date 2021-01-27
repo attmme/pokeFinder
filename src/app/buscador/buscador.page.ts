@@ -9,6 +9,9 @@ import { IonSlides } from '@ionic/angular';
 
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-buscador',
@@ -27,49 +30,18 @@ export class BuscadorPage implements OnInit {
     public modalController: ModalController,
     public service: AuthService,
     public firebase: FirebaseService,
+    private firestore: AngularFirestore,
+    public menuCtrl: MenuController,
   ) {
 
     this.sliderPokemons =
     {
       isBeginningSlide: true,
       isEndSlide: false,
-      pokemons: [
-        /*      
-                {
-                  index: 0,
-                  id: 145,
-                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png',
-                  name: 'Zapdos',
-                },
-                {
-                  index: 1,
-                  id: 27,
-                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png',
-                  name: 'Sandshrew',
-                },
-                {
-                  index: 2,
-                  id: 60,
-                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png',
-                  name: 'Poliwag',
-                },
-                {
-                  index: 3,
-                  id: 95,
-                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png',
-                  name: 'Onix',
-                },
-                {
-                  index: 4,
-                  id: 150,
-                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
-                  name: 'Mewtwo',
-                }
-        */
-      ]
+      pokemons: []
     };
 
-    this.llegirPokemonFirestore();
+    this.canvis_firestore_pokemon();
   }
 
   ngOnInit() {
@@ -81,21 +53,31 @@ export class BuscadorPage implements OnInit {
 
     this.firebase.readColl(ruta).then(
       (dada) => {
+        this.sliderPokemons.pokemons = [];
         dada.map((pokemon) => {
           this.sliderPokemons.pokemons.push(pokemon);
         });
       }
     );
   }
-  
+
   click_pokemon(slider, index) {
     slider.slideTo(index, 500); // el número és la suavitat
+  }
+
+  canvis_firestore_pokemon() {
+    let ruta = `/users/${this.service.getToken()}/pokemons/`;
+    let temporal = this.firestore.collection(ruta).valueChanges().subscribe((userData) => {
+      this.llegirPokemonFirestore();
+    });
   }
   // ------------------------------------------------------------------ </pokemon>
 
 
   // ------------------------------------------------------------------ <modal>
   async obrir_modal_perfil() {
+    this.menuCtrl.close();
+
     const modal = await this.modalController.create({
       component: PerfilPage,
     });
@@ -128,6 +110,8 @@ export class BuscadorPage implements OnInit {
   // ------------------------------------------------------------------ </slider>
 
   logout() {
+    this.menuCtrl.close();
+
     this.service.removeToken();
     this.service.logout();
     this._router.navigateByUrl('/login'); // trucazo
