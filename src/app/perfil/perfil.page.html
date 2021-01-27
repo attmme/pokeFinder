@@ -1,7 +1,8 @@
 <ion-header>
     <link href="lib/ion-gallery/dist/ion-gallery.css" rel="stylesheet">
     <script src="lib/ion-gallery/dist/ion-gallery.min.js"></script>
-    <ion-button size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}</ion-button>
+    <ion-button color="danger" size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}
+    </ion-button>
     <h1>{{llistatApartats.titol}}</h1>
     <ion-button size="medium" type="submit" (click)="acceptar(form)" expand="block">{{llistatApartats.boto2}}
     </ion-button>
@@ -20,42 +21,58 @@
 
                 <!-- Imatge de perfil -->
                 <li class="imatge">
-                    <!-- <img src={{perfil.imatge}} alt="img"> -->
-                    <img id="fotoPerfil" [src]="_DomSanitizer.bypassSecurityTrustUrl(perfil.imatge)" />
-                    <ion-buttons>
-                        <ion-button (click)="canviarImatge()">Cambiar imagen</ion-button>
-                    </ion-buttons>
+                    <img id="fotoPerfil" [src]="perfil.imatge" />
                 </li>
 
                 <!-- Nom -->
                 <li>
-                    <input placeholder="nombre" [(ngModel)]="perfil.nom" (blur)="elmClicats.nom=true" name="nom"
-                        formControlName="nom">
+                    <input placeholder="nombre" [(ngModel)]="perfil.nom" name="nom" formControlName="nom">
                 </li>
+                <!-- Error nom -->
+                <ion-label>
+                    <li class="error" *ngIf="validador('nomMax')">
+                        {{llistatErrors.nomLlarg}}</li>
+                    <li class="error" *ngIf="validador('nomMin')">
+                        {{llistatErrors.nomCurt}}</li>
+                    <li class="error" *ngIf="validador('nomInvalid')">
+                        {{llistatErrors.nomWrong}}</li>
+                </ion-label>
 
                 <div class="separador"></div>
 
                 <!-- Cognom -->
                 <li>
-                    <input placeholder="apellidos" [(ngModel)]="perfil.cognoms" (blur)="elmClicats.cognom=true"
-                        name="cognom" formControlName="cognom">
+                    <input placeholder="apellidos" [(ngModel)]="perfil.cognoms" name="cognom" formControlName="cognom">
                 </li>
+                <!-- Error cognom -->
+                <ion-label>
+                    <li class="error" *ngIf="validador('cognomInvalid')">
+                        {{llistatErrors.cognomWrong}}</li>
+                    <li class="error" *ngIf="validador('cognomMin')">
+                        {{llistatErrors.cognomCurt}}</li>
+                    <li class="error" *ngIf="validador('cognomMax')">
+                        {{llistatErrors.cognomLlarg}}</li>
+                </ion-label>
 
                 <div class="separador"></div>
 
                 <!-- Edat -->
                 <li>
-                    <input placeholder="edad" [(ngModel)]="perfil.edat" (blur)="elmClicats.edat=true" name="edat"
-                        formControlName="edat">
+                    <input placeholder="edad" [(ngModel)]="perfil.edat" name="edat" formControlName="edat">
                 </li>
+                <!-- Error edat -->
+                <ion-label>
+                    <li class="error" *ngIf="validador('edatMax')">
+                        {{llistatErrors.edatMax}}</li>
+
+                    <li class="error" *ngIf="validador('edatMinim')">
+                        {{llistatErrors.edatMin}}</li>
+
+                    <li class="error" *ngIf="validador('edatTipus')">
+                        {{llistatErrors.tipusNumber}}</li>
+                </ion-label>
 
             </ul>
-
-            <!-- Botó -->
-            <!--             <div>
-                <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">
-                </ion-button>
-            </div> -->
         </form>
 
         <div class="register-row">

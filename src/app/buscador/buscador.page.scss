@@ -26,14 +26,19 @@ ion-buttons {
     #slide_zona_text {
       display: flex;
       flex-flow: column;
+      height: 100%;
 
-      .titol {
-        font-size: 25px;
-        padding-bottom: 30px;
+      #titol {
+        display: flex;
+        height: 50%;
+        align-items: center;
+        font-size: 40px;
+        font-family: power-up;
       }
 
       #info_pokemon {
         display: flex;
+        height: 50%;
         flex-flow: column;
         align-items: flex-start;
 

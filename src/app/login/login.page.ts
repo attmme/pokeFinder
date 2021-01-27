@@ -67,6 +67,7 @@ export class LoginPage implements OnInit {
     });
   }
 
+
   login(formulari) {
     let e = formulari.form.value.email;
     let p = formulari.form.value.password;

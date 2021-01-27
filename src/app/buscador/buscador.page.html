@@ -43,7 +43,8 @@
   <ion-slides pager="true" [options]="sliderPokemons" #slideWithNav (ionSlideDidChange)="SlideDidChange(slideWithNav)">
     <ion-slide id="slide_onic" *ngFor="let pokemon of sliderPokemons.pokemons">
       <div id="slide_zona_text">
-        <ion-title size="medium" class="titol">{{pokemon.name}}</ion-title>
+        <h1 id="titol">{{pokemon.name}}</h1>
+
         <div id="info_pokemon">
           <ion-label>Tipo: {{pokemon.type}}</ion-label>
           <ion-label>Peso: {{pokemon.weight/10}} kg</ion-label>

@@ -5,7 +5,6 @@ import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PhotoService } from '../shared/services/photos/photo.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -19,13 +18,10 @@ export class PerfilPage implements OnInit {
   //usuari; // Usuari firebase
 
   constructor(
-    private _router: Router,
     private formBuilder: FormBuilder,
     public service: AuthService,
     public firService: FirebaseService,
     private modalCtrl: ModalController,
-    private photoService: PhotoService,
-    private _DomSanitizer: DomSanitizer,
   ) { }
 
   // Agafar de local
@@ -53,28 +49,44 @@ export class PerfilPage implements OnInit {
     edat: false
   }
 
-  ngOnInit(): void {
-    // Es carrega l'imatge del server
-    this.firService.usuariActual().then(usr => {
+  // Text d'errors
+  llistatErrors = {
+    nomLlarg: "El campo introducido es demasiado largo",
+    nomCurt: "El campo introducido es demasiado corto",
+    nomWrong: "El campo nombre tiene carácteres incorrectos",
 
-      let imatgeServer = usr['photoURL'];
+    cognomLlarg: "El campo introducido es demasiado largo",
+    cognomCurt: "El campo introducido es demasiado corto",
+    cognomWrong: "El campo apellido tiene carácteres incorrectos",
+
+    edatMin: "La edad introducida es incorrecta",
+    edatMax: "La edad introducida es demasiado grande",
+    tipusNumber: "El valor introducido no es un número"
+  }
+
+  ngOnInit(): void {
+    // Captura d'errors
+    this.perfilForm = this.formBuilder.group({
+      cognom: ['', [
+        Validators.maxLength(40),
+        Validators.minLength(3),
+      ]]
+    });
+
+
+    // Es carrega el contingut del server
+    this.firService.usuariActual().then(usr => {
 
       // Guardar nom i cognoms junt separats amb un _, fer split
       let nomComplet = usr['displayName'].split("_");
 
       this.perfil.nom = nomComplet[0];
       this.perfil.cognoms = nomComplet[1];
-      this.perfil.edat = Number(nomComplet[2]);
-
-      console.log("Contingut: ", this.perfil)
+      this.perfil.edat = nomComplet[2];
 
       // Es mira si la ruta segueix sent vàlida abans de passar-la al html
-      try {
-        let t = new Blob(imatgeServer);
-        this.perfil.imatge = imatgeServer;
-      } catch (e) {
-        this.perfil.imatge = "/assets/profile/avatar.png";
-      }
+      this.perfil.imatge = "/assets/profile/avatar.png";
+
 
     })
 
@@ -114,18 +126,96 @@ export class PerfilPage implements OnInit {
     // Es guarden les dades de l'usuari en la bdd
     this.firService.usuariActual().then(usr => {
       usr['updateProfile']({
-        displayName: (nom + "_" + cognom + "_" + edat),
-        photoURL: this.perfil.imatge
+        displayName: (nom + "_" + cognom + "_" + edat)
       })
     })
 
     this.cancelar();
   }
 
-  // Canvia en el moment d'elegir, però no encara no es guarda
-  canviarImatge() {
-    this.photoService.addNewToGallery().then(img => {
-      this.perfil.imatge = img;
-    });
+  validador(params) {
+    let teError = 0;
+
+    let nom = this.perfil.nom;
+    let cognom = this.perfil.cognoms;
+    let edat = Number(this.perfil.edat);
+
+    let caractersValids = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let caractersCognomValids = caractersValids + " ";
+
+    switch (params) {
+      // Nom
+      case "nomMax":
+        if (nom.length > 20) {
+          teError += 1;
+          return true
+        }
+        return false
+
+      case "nomMin":
+        if (nom.length >= 1 && nom.length < 3) {
+          teError += 1;
+          return true
+        }
+        return false
+
+      case "nomInvalid":
+        let j = 0;
+        for (let i = 0; i < nom.length; i++) {
+          if (caractersValids.includes(nom[i])) {
+            j++;
+          }
+        }
+        return (j != nom.length);
+
+      // Cognom
+      case "cognomMax":
+        if (cognom.length > 40) {
+          teError += 1;
+          return true
+        }
+        return false
+
+      case "cognomMin":
+        if (cognom.length >= 1 && cognom.length < 3) {
+          teError += 1;
+          return true
+        }
+        return false
+
+      case "cognomInvalid":
+        let k = 0;
+        for (let i = 0; i < cognom.length; i++) {
+          if (caractersCognomValids.includes(cognom[i])) {
+            k++;
+          }
+        }
+        return (k != cognom.length);
+
+      // Edat
+      case "edatTipus":
+        if (edat >= 0 || edat < 0) {
+          return false
+        }
+        return true
+
+      case "edatMax":
+        if (edat > 110) {
+          return true
+        }
+        return false
+
+      case "edatMinim":
+        if (edat < 0) {
+          return true
+        }
+        return false
+    }
+
+    console.log("Errors: ", teError)
   }
+
+
+
+
 }

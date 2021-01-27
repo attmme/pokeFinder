@@ -29,7 +29,7 @@ export class RegisterPage implements OnInit {
     password: false,
     confirm: false
   }
-  
+
   // Text d'errors
   llistatErrors = {
     nomBuit: "El campo del nombre no puede quedar vacío",
@@ -71,14 +71,17 @@ export class RegisterPage implements OnInit {
       password: ['', [
         Validators.required,
         Validators.minLength(6),
-        Validators.maxLength(32)
+        Validators.maxLength(32),
+        /* this.checkPasswords("password", "confirm") */
       ]],
       confirm: ['', [
         Validators.required,
       ]],
-    }, {
-      validator: this.checkPasswords("password", "confirm"),
-    });
+    },
+      {
+        validator: this.checkPasswords("password", "confirm"),
+      }
+    );
   }
 
   // Acabar - Mira si els passwords coincideixen 
