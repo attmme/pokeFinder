@@ -58,6 +58,21 @@ export class FirebaseService {
       .then((data) => data.docs.map((el) => el.data()));
   }
 
+  // tamany colecció
+  collLength(ruta) {
+    let collection = this.firestore.collection(ruta);
+    return collection
+      .get()
+      .toPromise()
+      .then((data) => data.docs.map((el) => el.data()).length );
+  }
+
+  // Escriure document
+  writeDoc(ruta_coleccio, doc_id, obj) {
+    let coleccio = this.firestore.collection(ruta_coleccio);
+    coleccio.doc(doc_id).set(obj);
+  }
+
   // Llegir document
   readDoc(name, id) {
     let collection = this.firestore.collection(name);
@@ -78,12 +93,46 @@ export class FirebaseService {
     return this.firebaseAuth
       .createUserWithEmailAndPassword(dades.email, dades.password)
       .then((value) => {
+
+        /*  let collection = this.firestore.collection('users');
+ 
+         collection.doc(value.user.uid).set({
+           email: dades.email,
+           user: dades.nom,
+         }); */
+
+
+        //  Creem una estructura per als pokemon, li donem el pikachu
+        /*        
+         let pokellection = this.firestore.collection(`users/${value.user.uid}/pokemons`);
+                
+                pokellection.doc('0').set({
+                  id: 0,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+                  index: 25,
+                  name: 'Pikachu',
+                }); 
+        */
+
         // -- S'afegeix a la colecció users (bdd) un nou document (taula) amb la id de l'usuari registrat
-        let collection = this.firestore.collection('users');
-        collection.doc(value.user.uid).set({
+        let obj_users = {
           email: dades.email,
           user: dades.nom,
-        });
+        };
+
+        this.writeDoc('users', value.user.uid, obj_users);
+
+        //  Creem una estructura per als pokemon, li donem el pikachu
+        let ruta = `users/${value.user.uid}/pokemons`;
+
+        let obj = {
+          id: 0,
+          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+          index: 25,
+          name: 'Pikachu',
+        };
+
+        this.writeDoc(ruta, obj.id, obj);
       });
   }
 

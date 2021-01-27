@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
+import { Observable } from 'rxjs';
+
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../shared/services/firebase/auth.service';
+import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
 @Component({
   selector: 'app-modal-qr-scanner',
@@ -28,7 +33,10 @@ export class ModalQrScannerPage implements OnInit {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private plt: Platform
+    private plt: Platform,
+    private http: HttpClient,
+    public service: AuthService,
+    public firebase: FirebaseService,
   ) {
     const isInStandaloneMode = () =>
       'standalone' in window.navigator && window.navigator['standalone'];
@@ -104,7 +112,7 @@ export class ModalQrScannerPage implements OnInit {
       });
 
       if (code) {
-        
+
         this.scanResult = code.data;
         this.showQrToast();
       }
@@ -169,9 +177,8 @@ export class ModalQrScannerPage implements OnInit {
       if (code) {
         this.scanActive = false;
         this.scanResult = code.data;
-        console.log("Resultat rebut: ", this.scanResult);
+        this.registrarPokemon(this.scanResult);
         this.showQrToast();
-
       } else {
 
         if (this.scanActive) {
@@ -183,5 +190,35 @@ export class ModalQrScannerPage implements OnInit {
       requestAnimationFrame(this.scan.bind(this));
     }
   }
+
+  registrarPokemon(url) {
+
+    this.http.get(url)
+      .subscribe(data => {
+
+        let pokemon_rebut = {
+          id: data['id'],
+          image: data['sprites'].other['official-artwork'].front_default,
+          name: data['name'],
+        };
+
+        let ruta = `/users/${this.service.getToken()}/pokemons/`;
+
+        this.firebase.collLength(ruta).then(
+          (tamany) => {
+            console.log("ruta: ", ruta);
+            console.log("Tamany: ", tamany);
+            console.log("pokemon_rebut: ", pokemon_rebut);
+            
+            this.firebase.writeDoc(ruta, tamany, pokemon_rebut);
+          }
+        ).catch(
+          (e)=>{
+            console.log("Error catch registrar pokemon: ",e);
+          }
+          );
+      });
+  }
+
 
 }

@@ -7,6 +7,9 @@ import { PerfilPage } from '../perfil/perfil.page';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
 
+import { AuthService } from '../shared/services/firebase/auth.service';
+import { FirebaseService } from '../shared/services/firebase/firebase.service';
+
 @Component({
   selector: 'app-buscador',
   templateUrl: './buscador.page.html',
@@ -21,7 +24,9 @@ export class BuscadorPage implements OnInit {
 
   constructor(
     private _router: Router,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public service: AuthService,
+    public firebase: FirebaseService,
   ) {
 
     this.sliderPokemons =
@@ -29,50 +34,65 @@ export class BuscadorPage implements OnInit {
       isBeginningSlide: true,
       isEndSlide: false,
       pokemons: [
-        {
-          index: 0,
-          id: 145,
-          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png',
-          name: 'Zapdos',
-        },
-        {
-          index: 1,
-          id: 27,
-          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png',
-          name: 'Sandshrew',
-        },
-        {
-          index: 2,
-          id: 60,
-          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png',
-          name: 'Poliwag',
-        },
-        {
-          index: 3,
-          id: 95,
-          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png',
-          name: 'Onix',
-        },
-        {
-          index: 4,
-          id: 150,
-          image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
-          name: 'Mewtwo',
-        }
+        /*      
+                {
+                  index: 0,
+                  id: 145,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png',
+                  name: 'Zapdos',
+                },
+                {
+                  index: 1,
+                  id: 27,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/27.png',
+                  name: 'Sandshrew',
+                },
+                {
+                  index: 2,
+                  id: 60,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/60.png',
+                  name: 'Poliwag',
+                },
+                {
+                  index: 3,
+                  id: 95,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png',
+                  name: 'Onix',
+                },
+                {
+                  index: 4,
+                  id: 150,
+                  image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
+                  name: 'Mewtwo',
+                }
+        */
       ]
     };
 
+    this.llegirPokemonFirestore();
   }
 
   ngOnInit() {
   }
 
-  // To-do
-  logout() {
-    // To-do:  fer logout del firestore()
-    // 
-    this._router.navigateByUrl('/login'); // trucazo
+  // ------------------------------------------------------------------ <pokemon>
+  llegirPokemonFirestore() {
+    let ruta = `/users/${this.service.getToken()}/pokemons/`;
+
+    this.firebase.readColl(ruta).then(
+      (dada) => {
+        dada.map((pokemon) => {
+          this.sliderPokemons.pokemons.push(pokemon);
+        });
+      }
+    );
   }
+  
+  click_pokemon(slider, index) {
+    slider.slideTo(index, 500); // el número és la suavitat
+  }
+  // ------------------------------------------------------------------ </pokemon>
+
 
   // ------------------------------------------------------------------ <modal>
   async obrir_modal_perfil() {
@@ -83,12 +103,6 @@ export class BuscadorPage implements OnInit {
     return await modal.present();
   }
   // ------------------------------------------------------------------ </modal>
-
-  // ------------------------------------------------------------------ <>
-  click_pokemon(slider, index) {
-    slider.slideTo(index, 500); // el número és la suavitat
-  }
-  // ------------------------------------------------------------------ </>
 
   // ------------------------------------------------------------------ <slider>
   SlideDidChange(slideView) {
@@ -112,5 +126,11 @@ export class BuscadorPage implements OnInit {
     });
   }
   // ------------------------------------------------------------------ </slider>
+
+  logout() {
+    this.service.removeToken();
+    this.service.logout();
+    this._router.navigateByUrl('/login'); // trucazo
+  }
 
 }

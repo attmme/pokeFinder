@@ -23,6 +23,7 @@ import { PerfilPageModule } from './perfil/perfil.module';
 
 import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -42,14 +43,18 @@ import { IonicStorageModule } from '@ionic/storage';
       CommonModule,
       IonicStorageModule.forRoot(),
 
-      PerfilPageModule
+      PerfilPageModule,
+
+      BrowserModule,
+      HttpClientModule,
     ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
-    Base64ToGallery
+    Base64ToGallery,
+
 
   ],
   bootstrap: [AppComponent]
