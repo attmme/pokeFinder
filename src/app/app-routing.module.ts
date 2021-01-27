@@ -21,13 +21,8 @@ const routes: Routes = [
     path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule),
     // canActivate: [PrivateGuard]
   },
-
   {
     path: 'buscador', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
-    /* canActivate: [PrivateGuard] */
-  },
-  {
-    path: 'qr', loadChildren: () => import('./modal-qr-scanner/modal-qr-scanner.module').then(m => m.ModalQrScannerPageModule),
     /* canActivate: [PrivateGuard] */
   },
   {

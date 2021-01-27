@@ -25,6 +25,7 @@ export class BuscadorPage implements OnInit {
 
   sliderPokemons: any;
   index_pokemon_capturat: any;
+  input_buscador: any;
 
   constructor(
     private _router: Router,
@@ -49,6 +50,12 @@ export class BuscadorPage implements OnInit {
   ngOnInit() {
   }
 
+  fakePipe(buscador, pokemon) {
+    let filtrat = pokemon.toLowerCase().includes(buscador.toLowerCase());
+    // fer un filtrat
+    return filtrat;
+  }
+
   // ------------------------------------------------------------------ <pokemon>
   llegirPokemonFirestore() {
     let ruta = `/users/${this.service.getToken()}/pokemons/`;
@@ -62,13 +69,11 @@ export class BuscadorPage implements OnInit {
 
         // working
         let t = localStorage.getItem('index_pokemon');
-        console.log("dades: ", t);
-        console.log("dades Number(t): ", Number(t));
 
         if (Number(t) >= 0) {
           this.click_pokemon(this.slideWithNav, t);
         }
-        
+
       }
     );
   }
@@ -83,6 +88,7 @@ export class BuscadorPage implements OnInit {
       this.llegirPokemonFirestore();
     });
   }
+
   // ------------------------------------------------------------------ </pokemon>
 
 
@@ -96,6 +102,7 @@ export class BuscadorPage implements OnInit {
 
     return await modal.present();
   }
+
   // ------------------------------------------------------------------ </modal>
 
   // ------------------------------------------------------------------ <slider>

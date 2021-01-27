@@ -25,9 +25,8 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent ],
   entryComponents: [],
   imports:
     [
@@ -54,8 +53,6 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
     Base64ToGallery,
-
-
   ],
   bootstrap: [AppComponent]
 })

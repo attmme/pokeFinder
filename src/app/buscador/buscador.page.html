@@ -1,10 +1,13 @@
 <!-- Barra superior -->
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Buscador</ion-title>
+
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
+
+    <ion-searchbar #gallineta showCancelButton="focus" placeholder="Buscar"></ion-searchbar>
+
   </ion-toolbar>
 </ion-header>
 
@@ -41,9 +44,11 @@
     <ion-slide id="slide_onic" *ngFor="let pokemon of sliderPokemons.pokemons">
       <div id="slide_zona_text">
         <ion-title size="medium" class="titol">{{pokemon.name}}</ion-title>
-        <ion-label>Tipo: {{pokemon.type}}</ion-label>
-        <ion-label>Peso: {{pokemon.weight/10}} kg</ion-label>
-        <ion-label>Altura: {{pokemon.height/10}} m</ion-label>
+        <div id="info_pokemon">
+          <ion-label>Tipo: {{pokemon.type}}</ion-label>
+          <ion-label>Peso: {{pokemon.weight/10}} kg</ion-label>
+          <ion-label>Altura: {{pokemon.height/10}} m</ion-label>
+        </div>
       </div>
       <ion-img class="imatge" src="{{pokemon.image}}"></ion-img>
     </ion-slide>
@@ -54,14 +59,21 @@
 <ion-content>
   <ion-list id="llistat_pokemon">
 
-    <ion-item button (click)="click_pokemon(slideWithNav, pokemon.index)" *ngFor="let pokemon of sliderPokemons.pokemons">
+    <div *ngFor="let pokemon of sliderPokemons.pokemons">
 
-      <ion-thumbnail slot="start">
-        <ion-img [src]="pokemon.image"></ion-img>
-      </ion-thumbnail>
+      <div *ngIf="fakePipe(gallineta.value, pokemon.name)">
 
-      <ion-label>{{pokemon.name}}</ion-label>
+        <ion-item button (click)="click_pokemon(slideWithNav, pokemon.index)">
 
-    </ion-item>
+          <ion-thumbnail slot="start">
+            <ion-img [src]="pokemon.image"></ion-img>
+          </ion-thumbnail>
+
+          <ion-label>{{pokemon.name}}</ion-label>
+
+        </ion-item>
+      </div>
+    </div>
+
   </ion-list>
 </ion-content>

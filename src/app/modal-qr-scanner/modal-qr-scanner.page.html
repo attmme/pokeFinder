@@ -18,7 +18,8 @@
 
     <ion-row>
         <!-- Stop our scanner preview if active -->
-        <ion-button expand="full" (click)="stopScan()" color="danger" *ngIf="scanActive">
+        <!-- *ngIf="scanActive" -->
+        <ion-button expand="full" (click)="stopScan()" color="danger" >
           <ion-icon slot="start" name="close"></ion-icon>
           Stop scan
         </ion-button>
