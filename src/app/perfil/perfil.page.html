@@ -4,8 +4,12 @@
     <ion-button color="danger" size="medium" type="submit" (click)="cancelar()" expand="block">{{llistatApartats.boto1}}
     </ion-button>
     <h1>{{llistatApartats.titol}}</h1>
-    <ion-button size="medium" type="submit" (click)="acceptar(form)" expand="block">{{llistatApartats.boto2}}
+
+    <ion-button size="medium" type="submit" id="boto_dels_collons" (click)="acceptar(form)" expand="block">
+        {{llistatApartats.boto2}}
     </ion-button>
+
+
 </ion-header>
 
 <ion-content padding>

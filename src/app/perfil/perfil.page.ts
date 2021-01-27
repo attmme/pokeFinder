@@ -6,6 +6,7 @@ import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-perfil',
@@ -15,13 +16,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PerfilPage implements OnInit {
 
   perfilForm: FormGroup;
-  //usuari; // Usuari firebase
+  teError = 0;
 
   constructor(
     private formBuilder: FormBuilder,
     public service: AuthService,
     public firService: FirebaseService,
     private modalCtrl: ModalController,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   // Agafar de local
@@ -64,6 +66,11 @@ export class PerfilPage implements OnInit {
     tipusNumber: "El valor introducido no es un número"
   }
 
+  ngAfterViewInit() {
+
+    this.cdRef.detectChanges();
+  }
+
   ngOnInit(): void {
     // Captura d'errors
     this.perfilForm = this.formBuilder.group({
@@ -72,6 +79,8 @@ export class PerfilPage implements OnInit {
         Validators.minLength(3),
       ]]
     });
+
+
 
 
     // Es carrega el contingut del server
@@ -134,7 +143,13 @@ export class PerfilPage implements OnInit {
   }
 
   validador(params) {
-    let teError = 0;
+
+    if (this.teError == 0) {
+       document.getElementById('boto_dels_collons').setAttribute("disabled", "false");
+    } else {
+      document.getElementById('boto_dels_collons').setAttribute("disabled", "true");
+    }
+
 
     let nom = this.perfil.nom;
     let cognom = this.perfil.cognoms;
@@ -147,16 +162,18 @@ export class PerfilPage implements OnInit {
       // Nom
       case "nomMax":
         if (nom.length > 20) {
-          teError += 1;
+          this.teError |= (1 << 0); // set bit 0
           return true
         }
+        this.teError &= ~(1 << 0); // clear bit 0
         return false
 
       case "nomMin":
         if (nom.length >= 1 && nom.length < 3) {
-          teError += 1;
+          this.teError |= (1 << 1);
           return true
         }
+        this.teError &= ~(1 << 1);
         return false
 
       case "nomInvalid":
@@ -166,21 +183,31 @@ export class PerfilPage implements OnInit {
             j++;
           }
         }
+
+        if ((j != nom.length)) {
+          this.teError |= (1 << 2);
+        }
+        else {
+          this.teError &= ~(1 << 2);
+        }
+
         return (j != nom.length);
 
       // Cognom
       case "cognomMax":
         if (cognom.length > 40) {
-          teError += 1;
+          this.teError |= (1 << 3);
           return true
         }
+        this.teError &= ~(1 << 3);
         return false
 
       case "cognomMin":
         if (cognom.length >= 1 && cognom.length < 3) {
-          teError += 1;
+          this.teError |= (1 << 4);
           return true
         }
+        this.teError &= ~(1 << 4);
         return false
 
       case "cognomInvalid":
@@ -190,29 +217,42 @@ export class PerfilPage implements OnInit {
             k++;
           }
         }
+
+        if ((k != cognom.length)) {
+          this.teError |= (1 << 5);
+        }
+        else {
+          this.teError &= ~(1 << 5);
+        }
+
         return (k != cognom.length);
 
       // Edat
       case "edatTipus":
         if (edat >= 0 || edat < 0) {
+          this.teError &= ~(1 << 6);
           return false
         }
+        this.teError |= (1 << 6);
         return true
 
       case "edatMax":
         if (edat > 110) {
+          this.teError |= (1 << 7);
           return true
         }
+        this.teError &= ~(1 << 7);
         return false
 
       case "edatMinim":
         if (edat < 0) {
+          this.teError |= (1 << 8);
           return true
         }
+        this.teError &= ~(1 << 8);
         return false
     }
 
-    console.log("Errors: ", teError)
   }
 
 
