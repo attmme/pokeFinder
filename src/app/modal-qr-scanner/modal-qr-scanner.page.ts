@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output } from '@angular/core';
 import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
 import jsQR from 'jsqr';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
 import { Router } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
+import * as EventEmitter from 'events';
 
 @Component({
   selector: 'app-modal-qr-scanner',
@@ -27,7 +28,7 @@ export class ModalQrScannerPage implements OnInit {
   scanActive = false;
   scanResult = null;
   loading: HTMLIonLoadingElement = null;
-
+  
   @ViewChild('video', { static: false }) video: ElementRef;
   @ViewChild('canvas', { static: false }) canvas: ElementRef;
   @ViewChild('fileinput', { static: false }) fileinput: ElementRef;
@@ -47,7 +48,6 @@ export class ModalQrScannerPage implements OnInit {
       'standalone' in window.navigator && window.navigator['standalone'];
     if (this.plt.is('ios') && isInStandaloneMode()) {
       // console.log('I am a an iOS PWA!');
-      // E.g. hide the scan functionality!
     }
 
     this.startScan(); // revisar
@@ -57,8 +57,6 @@ export class ModalQrScannerPage implements OnInit {
     this.modalCtrl.dismiss({
       'dismissed': true
     });
-
-    this.stopScan(); // revisar
   }
 
   ngOnInit() {
@@ -71,10 +69,9 @@ export class ModalQrScannerPage implements OnInit {
     this.videoElement = this.video.nativeElement;
   }
 
-  // Helper functions
-  async showQrToast() {
+  async showQrToast(msg) {
     const toast = await this.toastCtrl.create({
-      message: `Capturat!`,
+      message: msg,
       position: 'middle',
       duration: 2500
     });
@@ -87,41 +84,12 @@ export class ModalQrScannerPage implements OnInit {
 
   stopScan() {
     this.scanActive = false;
-  }
-
-  captureImage() {
-    this.fileinput.nativeElement.click();
-  }
-
-  handleFile(files: FileList) {
-    const file = files.item(0);
-
-    var img = new Image();
-    img.onload = () => {
-      this.canvasContext.drawImage(img, 0, 0, this.canvasElement.width, this.canvasElement.height);
-      const imageData = this.canvasContext.getImageData(
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      });
-
-      if (code) {
-
-        this.scanResult = code.data;
-        this.showQrToast();
-      }
-    };
-    img.src = URL.createObjectURL(file);
+    this.closeModal();
   }
 
   async startScan() {
 
     // Not working on iOS standalone mode!
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' }
@@ -138,7 +106,8 @@ export class ModalQrScannerPage implements OnInit {
       requestAnimationFrame(this.scan.bind(this));
 
     } catch (error) {
-      console.log("Error, no tienes la webcam conectada o no tienes webcam");
+      this.showQrToast(`Error con la cámara`);
+      this.closeModal();
     }
   }
 
@@ -172,15 +141,22 @@ export class ModalQrScannerPage implements OnInit {
         inversionAttempts: 'dontInvert'
       });
 
-      if (code) {
+      if (code || code != null) {
         this.scanActive = false;
         this.scanResult = code.data;
-        this.registrarPokemon(this.scanResult);
-        this.showQrToast();
+        let missatge = 'Error qr no válido!';
+        
+        if (code.data.includes('https://pokeapi.co/api/v2/pokemon/')) {
+
+          this.registrarPokemon(this.scanResult);
+          missatge = 'Capturat!';
+        }
+
+        this.showQrToast(missatge);
+        this.closeModal();
+
       } else {
-
         if (this.scanActive) {
-
           requestAnimationFrame(this.scan.bind(this));
         }
       }
@@ -209,6 +185,7 @@ export class ModalQrScannerPage implements OnInit {
         this.firebase.collLength(ruta).then(
           (tamany) => {
             pokemon_rebut.index = tamany;
+            localStorage.setItem('index_pokemon',  pokemon_rebut.index);
             this.firebase.writeDoc(ruta, tamany, pokemon_rebut);
           }
         ).catch(

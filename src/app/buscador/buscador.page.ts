@@ -24,6 +24,7 @@ export class BuscadorPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   sliderPokemons: any;
+  index_pokemon_capturat: any;
 
   constructor(
     private _router: Router,
@@ -41,6 +42,7 @@ export class BuscadorPage implements OnInit {
       pokemons: []
     };
 
+    localStorage.removeItem('index_pokemon');
     this.canvis_firestore_pokemon();
   }
 
@@ -57,6 +59,16 @@ export class BuscadorPage implements OnInit {
         dada.map((pokemon) => {
           this.sliderPokemons.pokemons.push(pokemon);
         });
+
+        // working
+        let t = localStorage.getItem('index_pokemon');
+        console.log("dades: ", t);
+        console.log("dades Number(t): ", Number(t));
+
+        if (Number(t) >= 0) {
+          this.click_pokemon(this.slideWithNav, t);
+        }
+        
       }
     );
   }
