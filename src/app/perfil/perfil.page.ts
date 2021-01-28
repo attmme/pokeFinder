@@ -40,7 +40,7 @@ export class PerfilPage implements OnInit {
 
   // Agafar de local
   perfil = {
-    imatge: "/assets/profile/avatar.png",
+    imatge: "",
     nom: "",
     cognoms: "",
     edat: null
@@ -79,7 +79,7 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.photoService.loadSaved();
 
     this.show("Cargando tus datos", 400);
@@ -88,21 +88,14 @@ export class PerfilPage implements OnInit {
     let fotoGuardada = JSON.parse(localStorage.getItem("_cap_photos"))
 
     // Si hi ha foto
-    if (fotoGuardada != undefined) {
-      console.log("Foto guardada: ", fotoGuardada[0])
-      if (fotoGuardada[0] != undefined) {
-
-        // Si peta, la imatge guardadaés incorrecte
-        try {
-          new Blob()
+    if (fotoGuardada) {
+      if (fotoGuardada[0]) {
+        setTimeout(() => {
           this.perfil.imatge = fotoGuardada[0].webviewPath;
-
-        } catch {
-          console.log("La imatge s'ha borrat")
-        }
-
-
+        }, 200);
       }
+    } else {
+      this.perfil.imatge = "/assets/profile/avatar.png";
     }
 
     this.perfilForm = this.formBuilder.group({
