@@ -121,7 +121,7 @@ export class PhotoService {
     }
   }
 
-/*   public async deletePicture(photo: Photo, position: number) {
+  public async deletePicture(photo: Photo, position: number) {
     // Remove this photo from the Photos reference data array
     this.photos.splice(position, 1);
   
@@ -139,7 +139,7 @@ export class PhotoService {
       path: filename,
       directory: FilesystemDirectory.Data
     });
-  } */
+  }
 }
 
 export interface Photo {
