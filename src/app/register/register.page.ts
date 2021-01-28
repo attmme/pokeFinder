@@ -57,11 +57,11 @@ export class RegisterPage implements OnInit {
   // Validacions
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      nom: ['', [
+/*       nom: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
-      ]],
+      ]], */
       email: ['', [
         Validators.required,
         Validators.email,
