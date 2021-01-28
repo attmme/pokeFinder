@@ -79,17 +79,31 @@ ion-content {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    
+
                     img {
                         display: flex;
-                        $tamany: 60%;
-                        width: $tamany;
-                        height: $tamany;
                         border-radius: 50%;
                         margin-bottom: 15px;
                     }
-                }
 
+                    // Web
+                    @media (min-width: 1099px) {
+                        img {
+                            $tamany: 80%;
+                            width: $tamany;
+                            height: $tamany;
+                        }
+                    }
+
+                    // Mòbil
+                    @media (max-width: 1100px) {
+                        img {
+                            $tamany: 60%;
+                            width: $tamany;
+                            height: $tamany;
+                        }
+                    }
+                }
 
                 input {
                     width: 100%;

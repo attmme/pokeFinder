@@ -80,22 +80,19 @@ export class PerfilPage implements OnInit {
       ]]
     });
 
-
-
-
     // Es carrega el contingut del server
     this.firService.usuariActual().then(usr => {
 
       // Guardar nom i cognoms junt separats amb un _, fer split
-      let nomComplet = usr['displayName'].split("_");
+      if (usr['displayName']) {
+        let nomComplet = usr['displayName'].split("_");
+        this.perfil.nom = nomComplet[0];
+        this.perfil.cognoms = nomComplet[1];
+        this.perfil.edat = nomComplet[2];
+      }
 
-      this.perfil.nom = nomComplet[0];
-      this.perfil.cognoms = nomComplet[1];
-      this.perfil.edat = nomComplet[2];
-
-      // Es mira si la ruta segueix sent vàlida abans de passar-la al html
+      // Es canvia l'imatge de perfil
       this.perfil.imatge = "/assets/profile/avatar.png";
-
 
     })
 
@@ -145,7 +142,7 @@ export class PerfilPage implements OnInit {
   validador(params) {
 
     if (this.teError == 0) {
-       document.getElementById('boto_dels_collons').setAttribute("disabled", "false");
+      document.getElementById('boto_dels_collons').setAttribute("disabled", "false");
     } else {
       document.getElementById('boto_dels_collons').setAttribute("disabled", "true");
     }
