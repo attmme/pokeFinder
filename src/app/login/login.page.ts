@@ -16,7 +16,9 @@ export class LoginPage implements OnInit {
     private _router: Router,
     private formBuilder: FormBuilder,
     public service: AuthService,
-  ) { }
+    private router: Router
+  ) {
+  }
 
   // Borrar
   submitted = false;
@@ -78,13 +80,7 @@ export class LoginPage implements OnInit {
       this.service.setToken(el.user.uid);
 
       // Reset
-      this.loginForm.reset()
-      this.elmClicats = {
-        email: false,
-        password: false,
-      }
-      this.emailIncorrecte = false;
-      this.passwordIncorrecte = false;
+      this.resetejarLogin();
 
       this._router.navigateByUrl('/buscador');
     })
@@ -103,5 +99,20 @@ export class LoginPage implements OnInit {
           this.passwordIncorrecte = false;
         }
       });
+  }
+
+  registrar() {
+    this.resetejarLogin();
+    this.router.navigate(['/register']);
+  }
+
+  resetejarLogin() {
+    this.loginForm.reset()
+    this.elmClicats = {
+      email: false,
+      password: false,
+    }
+    this.emailIncorrecte = false;
+    this.passwordIncorrecte = false;
   }
 }

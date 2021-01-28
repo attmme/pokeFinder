@@ -28,7 +28,7 @@ export class ModalQrScannerPage implements OnInit {
   scanActive = false;
   scanResult = null;
   loading: HTMLIonLoadingElement = null;
-  
+
   @ViewChild('video', { static: false }) video: ElementRef;
   @ViewChild('canvas', { static: false }) canvas: ElementRef;
   @ViewChild('fileinput', { static: false }) fileinput: ElementRef;
@@ -145,7 +145,7 @@ export class ModalQrScannerPage implements OnInit {
         this.scanActive = false;
         this.scanResult = code.data;
         let missatge = 'Error qr no válido!';
-        
+
         if (code.data.includes('https://pokeapi.co/api/v2/pokemon/')) {
 
           this.registrarPokemon(this.scanResult);
@@ -173,7 +173,8 @@ export class ModalQrScannerPage implements OnInit {
         let pokemon_rebut = {
           index: '',
           image: data['sprites'].other['official-artwork'].front_default,
-          name: data['name'],
+          name: data['name'] = data['name'].charAt(0).toUpperCase() + data['name'].slice(1),
+          /* data['name'], */
           id: data['id'],
           weight: data['weight'],
           height: data['height'],
@@ -185,7 +186,7 @@ export class ModalQrScannerPage implements OnInit {
         this.firebase.collLength(ruta).then(
           (tamany) => {
             pokemon_rebut.index = tamany;
-            localStorage.setItem('index_pokemon',  pokemon_rebut.index);
+            localStorage.setItem('index_pokemon', pokemon_rebut.index);
             this.firebase.writeDoc(ruta, tamany, pokemon_rebut);
           }
         ).catch(

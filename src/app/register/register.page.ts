@@ -24,7 +24,7 @@ export class RegisterPage implements OnInit {
 
   // Simulador del mat-error
   elmClicats = {
-    nom: false,
+    /* nom: false, */
     email: false,
     password: false,
     confirm: false
@@ -32,9 +32,9 @@ export class RegisterPage implements OnInit {
 
   // Text d'errors
   llistatErrors = {
-    nomBuit: "El campo del nombre no puede quedar vacío",
+    /* nomBuit: "El campo del nombre no puede quedar vacío",
     nomLength: "El nombre debe de tener 3 o más carácteres",
-    nomLengthMax: "El nombre no puede tener más de 20 carácteres",
+    nomLengthMax: "El nombre no puede tener más de 20 carácteres", */
     emailBuit: "El campo del correo no puede quedar vacío",
     emailFormat: "El formato del correo no es correcto",
     emailLengthmax: "El correo no puede tener más de 40 carácteres",
@@ -57,7 +57,7 @@ export class RegisterPage implements OnInit {
   // Validacions
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-/*       nom: ['', [
+      /* nom: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
@@ -107,7 +107,7 @@ export class RegisterPage implements OnInit {
 
       // Entrades
       let dades = {
-        nom: formulari.form.value.nom,
+        /* nom: formulari.form.value.nom, */
         email: formulari.form.value.email,
         password: formulari.form.value.password
       }
@@ -116,16 +116,11 @@ export class RegisterPage implements OnInit {
       this.fbService.registrar(dades)
         .then(() => {
           // Reset
-          this.registerForm.reset()
-          this.elmClicats = {
-            nom: false,
-            email: false,
-            password: false,
-            confirm: false
-          }
-          this.mailRepetit = false;
+          this.resetejarFormulari();
 
-          this._router.navigateByUrl('/login');
+          console.log("registrat");
+
+          this._router.navigate(['/login']);
         }).catch(err => {
 
           // Si el mail ja existeix
@@ -136,6 +131,22 @@ export class RegisterPage implements OnInit {
         });
 
     }
+  }
+
+  resetejarFormulari() {
+    this.registerForm.reset();
+    this.elmClicats = {
+      /* nom: false, */
+      email: false,
+      password: false,
+      confirm: false
+    }
+    this.mailRepetit = false;
+  }
+
+  login() {
+    this.resetejarFormulari();
+    this._router.navigate(['/login']);
   }
 
 }

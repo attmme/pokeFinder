@@ -11,25 +11,25 @@
       <!-- Elements formulari amb els seus errors -->
       <ul padding class="inputs">
         <!-- Nom -->
-<!--         <li lines="none" class="entrada">
+        <!--                 <li lines="none" class="entrada">
           <input (blur)="elmClicats.nom=true" name="nom" type="text" placeholder="nombre" formControlName="nom"
             required>
         </li> -->
         <!-- Error nom -->
-<!--         <ion-label *ngIf="elmClicats.nom">
+        <!--                 <ion-label *ngIf="elmClicats.nom">
           <li class="error" *ngIf="registerForm.hasError('required', 'nom')">
             {{llistatErrors.nomBuit}}</li>
           <li class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
             {{llistatErrors.nomLength}}</li>
           <li class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
             {{llistatErrors.nomLengthMax}}</li>
-        </ion-label>
+        </ion-label> -->
 
-        <div class="separador"></div> -->
+        <div class="separador"></div>
 
         <!-- Email -->
         <li lines="none" class="entrada">
-          <input (blur)="elmClicats.email=true" name="email" type="email" placeholder="nombre@email.com"
+          <input (blur)="elmClicats.email=true" id="email" name="email" type="email" placeholder="nombre@email.com"
             formControlName="email" required>
         </li>
         <!-- Error email -->
@@ -50,8 +50,8 @@
 
         <!-- Password -->
         <li lines="none" class="entrada">
-          <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="contraseña"
-            formControlName="password" required>
+          <input (blur)="elmClicats.password=true" id="password" name="password" type="password"
+            placeholder="contraseña" formControlName="password" required>
         </li>
         <!-- Error password -->
         <ion-label *ngIf="elmClicats.password">
@@ -67,8 +67,8 @@
 
         <!-- Confirmació password -->
         <li lines="none" class="entrada">
-          <input (blur)="elmClicats.confirm=true" name="confirm" type="password" placeholder="repetir contraseña"
-            formControlName="confirm" required>
+          <input (blur)="elmClicats.confirm=true" name="confirm" id="r_password" type="password"
+            placeholder="repetir contraseña" formControlName="confirm" required>
         </li>
 
         <!-- Error confirmació -->
@@ -91,7 +91,7 @@
 
     <ion-row class="login-row">
       <div class="login">
-        {{llistatApartats.ferLogin}} <a routerLink='/login'>{{llistatApartats.login}}</a>
+        {{llistatApartats.ferLogin}} <a (click)="login()">{{llistatApartats.login}}</a>
       </div>
     </ion-row>
 

@@ -12,7 +12,7 @@
       <ul class="inputs">
         <!-- Email -->
         <li lines="none" class="entrada">
-          <input (blur)="elmClicats.email=true" name="email" type="email" placeholder="nombre@email.com"
+          <input (blur)="elmClicats.email=true" id="email" name="email" type="email" placeholder="nombre@email.com"
             formControlName="email" required>
         </li>
         <!-- Error email -->
@@ -31,7 +31,7 @@
 
         <!-- Password -->
         <li lines="none" class="entrada">
-          <input (blur)="elmClicats.password=true" name="password" type="password" placeholder="contraseña"
+          <input (blur)="elmClicats.password=true" id="password"  name="password" type="password" placeholder="contraseña"
             formControlName="password" required>
         </li>
         <!-- Error password -->
@@ -56,7 +56,8 @@
     </form>
 
     <div class="register-row">
-      {{llistatApartats.ferRegister}} <a routerLink='/register'> {{llistatApartats.register}}</a>
+      {{llistatApartats.ferRegister}}
+      <a (click)="registrar()"> {{llistatApartats.register}}</a>
     </div>
   </div>
 </ion-content>

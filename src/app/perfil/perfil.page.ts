@@ -7,6 +7,8 @@ import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ChangeDetectorRef } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
   selector: 'app-perfil',
@@ -17,27 +19,6 @@ export class PerfilPage implements OnInit {
 
   perfilForm: FormGroup;
   teError = 0;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    public service: AuthService,
-    public firService: FirebaseService,
-    private modalCtrl: ModalController,
-    private cdRef: ChangeDetectorRef,
-    public loadingController: LoadingController
-  ) { }
-
-  // spinner
-  async show(text, temps) {
-    const loading = await this.loadingController.create({
-      message: text, 
-      duration: temps,
-    });
-    await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
-  }
-
 
   // Agafar de local
   perfil = {
@@ -79,39 +60,22 @@ export class PerfilPage implements OnInit {
     tipusNumber: "El valor introducido no es un número"
   }
 
-  ngAfterViewInit() {
+  constructor(
+    private formBuilder: FormBuilder,
+    public service: AuthService,
+    public fireService: FirebaseService,
+    private modalCtrl: ModalController,
+    private cdRef: ChangeDetectorRef,
+    public loadingController: LoadingController,
+    private firestore: AngularFirestore,
+    public afAuth: AngularFireAuth, // Inject Firebase auth service
+  ) {
 
-    this.cdRef.detectChanges();
+    this.canvis_firestore_usuari();
   }
 
   ngOnInit(): void {
-    // Captura d'errors
-    this.perfilForm = this.formBuilder.group({
-      cognom: ['', [
-        Validators.maxLength(40),
-        Validators.minLength(3),
-      ]]
-    });
-
-    this.show("Cargando tus datos", 1000);
-
-    
-    // Es carrega el contingut del server
-    this.firService.usuariActual().then(usr => {
-
-      // Guardar nom i cognoms junt separats amb un _, fer split
-      if (usr['displayName']) {
-        let nomComplet = usr['displayName'].split("_");
-        this.perfil.nom = nomComplet[0];
-        this.perfil.cognoms = nomComplet[1];
-        this.perfil.edat = nomComplet[2];
-      }
-
-      // Es canvia l'imatge de perfil
-      this.perfil.imatge = "/assets/profile/avatar.png";
-    }).catch(err => {
-      console.log("ERROR CONTROLAT 113: ", err)
-    })
+    this.show("Cargando tus datos", 400);
 
     this.perfilForm = this.formBuilder.group({
       nom: ['', [
@@ -135,10 +99,25 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+
+    this.cdRef.detectChanges();
+  }
+
+  // spinner
+  async show(text, temps) {
+    const loading = await this.loadingController.create({
+      message: text,
+      duration: temps,
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+  }
+
   // No guarda res i torna al home
   cancelar() {
     this.modalCtrl.dismiss({ 'dismissed': true });
-    //this.modalCtrl.dismiss(null , 'cancel');
   }
 
   acceptar(formulari) {
@@ -147,7 +126,7 @@ export class PerfilPage implements OnInit {
     let edat = formulari.form.value.edat;
 
     // Es guarden les dades de l'usuari en la bdd
-    this.firService.usuariActual().then(usr => {
+    this.fireService.usuariActual().then(usr => {
       usr['updateProfile']({
         displayName: (nom + "_" + cognom + "_" + edat)
       })
@@ -165,7 +144,6 @@ export class PerfilPage implements OnInit {
     } else {
       document.getElementById('boto_dels_collons').setAttribute("disabled", "true");
     }
-
 
     let nom = this.perfil.nom;
     let cognom = this.perfil.cognoms;
@@ -271,7 +249,14 @@ export class PerfilPage implements OnInit {
 
   }
 
+  canvis_firestore_usuari() {
+    let ruta = `/users/${this.service.getToken()}`;
+    this.firestore.doc(ruta).valueChanges().subscribe((userData) => {
+      console.log("userData: ", userData);
 
-
-
+      this.perfil.nom = userData['nom'];
+      this.perfil.cognoms = userData['cognoms'];
+      this.perfil.edat = userData['edat'];
+    });
+  }
 }

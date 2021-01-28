@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, LoadingController} from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, LoadingController, ToastController } from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
 import { PerfilPage } from '../perfil/perfil.page';
@@ -34,10 +34,12 @@ export class BuscadorPage implements OnInit {
     public firebase: FirebaseService,
     private firestore: AngularFirestore,
     public menuCtrl: MenuController,
-    public loadingController: LoadingController
-    ) {
-      
-      
+    public loadingController: LoadingController,
+    public alertController: AlertController,
+    private toastCtrl: ToastController
+  ) {
+
+
     this.sliderPokemons =
     {
       isBeginningSlide: true,
@@ -47,12 +49,12 @@ export class BuscadorPage implements OnInit {
 
     localStorage.removeItem('index_pokemon');
     this.canvis_firestore_pokemon();
-    this.show('Cargando tus pokemon', 1000);
+    this.show('Cargando tus pokemon', 400);
   }
 
   async show(text, temps) {
     const loading = await this.loadingController.create({
-      message: text, 
+      message: text,
       duration: temps,
     });
     await loading.present();
@@ -140,6 +142,7 @@ export class BuscadorPage implements OnInit {
   }
   // ------------------------------------------------------------------ </slider>
 
+  // ------------------------------------------------------------------ <usuari>
   logout() {
     this.menuCtrl.close();
 
@@ -148,4 +151,69 @@ export class BuscadorPage implements OnInit {
     this._router.navigateByUrl('/login'); // trucazo
   }
 
+  async eliminarUsuari() {
+
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Borrar cuenta',
+      message: 'Vas a <strong>borrar</strong> tu cuenta. ¿Aceptar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            // console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            this.borrarCompteUsuari();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  borrarCompteUsuari() {
+    let id = this.service.getToken();
+    let ruta = `/users/${id}/pokemons/`;
+
+    this.firebase.readColl(ruta).then(
+      (dada) => {
+
+        this.firebase.removeCollUsuari(id, dada.length)
+          .then(() => {
+
+            this.firebase.eliminarUsuari().then(
+              (dada) => {
+                this.logout();
+              }
+            ).catch(
+              (e) => {
+                this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
+                this.logout();
+              }
+            );
+          })
+          .catch((e) => {
+            // console.log("e2: ", e);
+          });
+      })
+      .catch((e) => {
+        // console.log("e1: ", e);
+      });
+  }
+
+  async showToast(msg, temps) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      position: 'middle',
+      duration: temps
+    });
+    toast.present();
+  }
+  // ------------------------------------------------------------------ </usuari>
 }

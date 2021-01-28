@@ -7,7 +7,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/app';
 import { v4 as uuidv4 } from 'uuid';
-import { resolve } from 'dns';
+import { ToastController } from '@ionic/angular';
+// import { resolve } from 'dns';
+// import { rejects } from 'assert';
+
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +22,7 @@ export class FirebaseService {
   constructor(
     private firebaseAuth: AngularFireAuth,
     private firestore: AngularFirestore,
+    private toastCtrl: ToastController,
   ) {
     this.user = firebaseAuth.authState;
   }
@@ -67,6 +71,25 @@ export class FirebaseService {
       .then((data) => data.docs.map((el) => el.data()).length.toString());
   }
 
+  removeCollUsuari(id, tamany) {
+
+    let ruta = `/users/${id}/pokemons/`;
+
+    return new Promise((resolve, reject)=>{
+
+      for(let i = 0; i < tamany; i++)
+      {
+        console.log("ruta: " , ruta ,"borraré el: ", i );
+         let deleteDoc = this.firestore.collection(ruta).doc(i.toString()).delete();
+      }
+
+      this.firestore.collection('/users/').doc(id).delete();
+
+      resolve("");
+    });
+
+  }
+
   // Escriure document
   writeDoc(ruta_coleccio, doc_id: string, obj) {
     let coleccio = this.firestore.collection(ruta_coleccio);
@@ -75,9 +98,9 @@ export class FirebaseService {
 
   // Llegir document
   readDoc(name, id) {
-    let collection = this.firestore.collection(name);
+    let collection = this.firestore.collection(name).doc(id);
     // -- old: this.firestore.collection(`users/${id_usuari}/tasks`).doc(id).delete();
-    return collection.doc(id).get().toPromise();
+    return collection.get().toPromise();
   }
 
   llegir_tasques_usuari(id_usuari) {
@@ -96,8 +119,9 @@ export class FirebaseService {
 
         // -- S'afegeix a la colecció users (bdd) un nou document (taula) amb la id de l'usuari registrat
         let obj_users = {
-          email: dades.email,
-          user: dades.nom,
+          nom: '',
+          cognoms: '',
+          edat: '',
         };
         this.writeDoc('users', value.user.uid, obj_users);
 
@@ -119,6 +143,12 @@ export class FirebaseService {
       });
   }
 
+  eliminarUsuari() {
+    let user = firebase.auth().currentUser;
+
+    return user.delete();
+  }
+
   // Eliminar document
   delete(id_usuari: string, nom_document: string) {
     return this.firestore
@@ -136,15 +166,29 @@ export class FirebaseService {
   // Logout
   logout() {
     localStorage.removeItem('userId');
+    this.firebaseAuth.signOut().then().catch();
   }
 
   usuariActual() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.firebaseAuth.onAuthStateChanged(user => {
-        console.log("Estas logeat: ", user!=undefined)
+
+        if (user == undefined) {
+          this.logout();
+          this.avis("Sesión caducada, saliendo...");
+        }
         resolve(user);
       });
 
     });
+  }
+
+  async avis(msg) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      position: 'middle',
+      duration: 2500
+    });
+    toast.present();
   }
 }
