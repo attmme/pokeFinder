@@ -121,19 +121,16 @@ export class PerfilPage implements OnInit {
   }
 
   acceptar(formulari) {
-    let nom = formulari.form.value.nom;
-    let cognom = formulari.form.value.cognom;
-    let edat = formulari.form.value.edat;
+    let id = this.service.getToken();
+
+    let obj = {
+      nom: formulari.form.value.nom,
+      cognoms: formulari.form.value.cognom,
+      edat: formulari.form.value.edat,
+    }
 
     // Es guarden les dades de l'usuari en la bdd
-    this.fireService.usuariActual().then(usr => {
-      usr['updateProfile']({
-        displayName: (nom + "_" + cognom + "_" + edat)
-      })
-    }).catch(err => {
-      console.log("ERROR CONTROLAT 155: ", err)
-    })
-
+    this.fireService.updateUsuari(id, obj);
     this.cancelar();
   }
 
@@ -146,7 +143,7 @@ export class PerfilPage implements OnInit {
     }
 
     let nom = this.perfil.nom;
-    let cognom = this.perfil.cognoms;
+    // let cognom = this.perfil.cognoms;
     let edat = Number(this.perfil.edat);
 
     let caractersValids = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -189,7 +186,7 @@ export class PerfilPage implements OnInit {
 
       // Cognom
       case "cognomMax":
-        if (cognom.length > 40) {
+        if (this.perfil.cognoms.length > 40) {
           this.teError |= (1 << 3);
           return true
         }
@@ -197,7 +194,7 @@ export class PerfilPage implements OnInit {
         return false
 
       case "cognomMin":
-        if (cognom.length >= 1 && cognom.length < 3) {
+        if (this.perfil.cognoms.length >= 1 && this.perfil.cognoms.length < 3) {
           this.teError |= (1 << 4);
           return true
         }
@@ -206,20 +203,20 @@ export class PerfilPage implements OnInit {
 
       case "cognomInvalid":
         let k = 0;
-        for (let i = 0; i < cognom.length; i++) {
-          if (caractersCognomValids.includes(cognom[i])) {
+        for (let i = 0; i < this.perfil.cognoms.length; i++) {
+          if (caractersCognomValids.includes(this.perfil.cognoms[i])) {
             k++;
           }
         }
 
-        if ((k != cognom.length)) {
+        if ((k != this.perfil.cognoms.length)) {
           this.teError |= (1 << 5);
         }
         else {
           this.teError &= ~(1 << 5);
         }
 
-        return (k != cognom.length);
+        return (k != this.perfil.cognoms.length);
 
       // Edat
       case "edatTipus":
@@ -252,8 +249,6 @@ export class PerfilPage implements OnInit {
   canvis_firestore_usuari() {
     let ruta = `/users/${this.service.getToken()}`;
     this.firestore.doc(ruta).valueChanges().subscribe((userData) => {
-      console.log("userData: ", userData);
-
       this.perfil.nom = userData['nom'];
       this.perfil.cognoms = userData['cognoms'];
       this.perfil.edat = userData['edat'];

@@ -169,6 +169,9 @@ export class FirebaseService {
     this.firebaseAuth.signOut().then().catch();
   }
 
+  updateUsuari(id,objecte){
+    this.firestore.collection('/users/').doc(id).set(objecte);
+  }
   usuariActual() {
     return new Promise((resolve, reject) => {
       this.firebaseAuth.onAuthStateChanged(user => {

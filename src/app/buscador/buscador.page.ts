@@ -184,22 +184,21 @@ export class BuscadorPage implements OnInit {
     this.firebase.readColl(ruta).then(
       (dada) => {
 
-        this.firebase.removeCollUsuari(id, dada.length)
-          .then(() => {
+        this.firebase.eliminarUsuari().then(() => {
 
-            this.firebase.eliminarUsuari().then(
-              (dada) => {
-                this.logout();
-              }
-            ).catch(
-              (e) => {
-                this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
-                this.logout();
-              }
-            );
-          })
+          this.firebase.removeCollUsuari(id, dada.length).then(() => {
+            this.logout();
+          }
+          ).catch(
+            (e) => {
+
+            }
+          );
+        })
           .catch((e) => {
             // console.log("e2: ", e);
+            this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
+            this.logout();
           });
       })
       .catch((e) => {

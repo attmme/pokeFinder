@@ -118,8 +118,6 @@ export class RegisterPage implements OnInit {
           // Reset
           this.resetejarFormulari();
 
-          console.log("registrat");
-
           this._router.navigate(['/login']);
         }).catch(err => {
 
