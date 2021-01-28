@@ -109,6 +109,8 @@ export class PerfilPage implements OnInit {
 
       // Es canvia l'imatge de perfil
       this.perfil.imatge = "/assets/profile/avatar.png";
+    }).catch(err => {
+      console.log("ERROR CONTROLAT 113: ", err)
     })
 
     this.perfilForm = this.formBuilder.group({
@@ -149,6 +151,8 @@ export class PerfilPage implements OnInit {
       usr['updateProfile']({
         displayName: (nom + "_" + cognom + "_" + edat)
       })
+    }).catch(err => {
+      console.log("ERROR CONTROLAT 155: ", err)
     })
 
     this.cancelar();

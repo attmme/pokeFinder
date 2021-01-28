@@ -139,15 +139,10 @@ export class FirebaseService {
   }
 
   usuariActual() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.firebaseAuth.onAuthStateChanged(user => {
+        console.log("Estas logeat: ", user!=undefined)
         resolve(user);
-        /*       if (user) {
-                return user;
-              } else {
-                console.log("NO ESTA LOGIN")
-                return false;
-              } */
       });
 
     });
