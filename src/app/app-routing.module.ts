@@ -1,12 +1,7 @@
-import { TabsPageModule } from './tabs/tabs.module';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PublicGuard } from './shared/guards/public.guard';
 import { PrivateGuard } from './shared/guards/private.guard';
-import { BuscadorPage } from './buscador/buscador.page';
-import { RegisterPage } from './register/register.page';
-import { LoginPage } from './login/login.page';
-import { PerfilPage } from './perfil/perfil.page';
 
 const routes: Routes = [
 
@@ -20,6 +15,10 @@ const routes: Routes = [
   {
     path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule),
     canActivate: [PublicGuard]
+  },
+  {
+    path: 'perfil', loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilPageModule),
+    canActivate: [PrivateGuard]
   },
   {
     path: 'buscador', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),

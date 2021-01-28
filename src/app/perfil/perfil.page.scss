@@ -80,15 +80,20 @@ ion-content {
                     flex-direction: column;
                     align-items: center;
 
-                    img {
-                        display: flex;
+                    ion-card {
                         border-radius: 50%;
                         margin-bottom: 15px;
+                        cursor: pointer;
+
+                        ion-img {
+                            display: flex;
+                            //border-radius: 50%;
+                        }
                     }
 
                     // Web
                     @media (min-width: 1099px) {
-                        img {
+                        ion-img {
                             $tamany: 80%;
                             width: $tamany;
                             height: $tamany;
@@ -97,7 +102,7 @@ ion-content {
 
                     // Mòbil
                     @media (max-width: 1100px) {
-                        img {
+                        ion-img {
                             $tamany: 170px;
                             width: $tamany;
                             height: $tamany;

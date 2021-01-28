@@ -24,6 +24,7 @@ import { PerfilPageModule } from './perfil/perfil.module';
 import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
 
       BrowserModule,
       HttpClientModule,
+      ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
   providers: [
     StatusBar,

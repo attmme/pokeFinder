@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
@@ -10,12 +10,30 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from "@angular/fire/auth";
 
+import { Photo, PhotoService } from '../shared/services/photo/photo.service';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
+
+  constructor(
+    private formBuilder: FormBuilder,
+    public service: AuthService,
+    public fireService: FirebaseService,
+    private modalCtrl: ModalController,
+    private cdRef: ChangeDetectorRef,
+    public loadingController: LoadingController,
+    private firestore: AngularFirestore,
+    public afAuth: AngularFireAuth, // Inject Firebase auth service,
+    public photoService: PhotoService,
+    public actionSheetController: ActionSheetController
+  ) {
+
+    this.canvis_firestore_usuari();
+  }
 
   perfilForm: FormGroup;
   teError = 0;
@@ -60,21 +78,9 @@ export class PerfilPage implements OnInit {
     tipusNumber: "El valor introducido no es un número"
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-    public service: AuthService,
-    public fireService: FirebaseService,
-    private modalCtrl: ModalController,
-    private cdRef: ChangeDetectorRef,
-    public loadingController: LoadingController,
-    private firestore: AngularFirestore,
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
-  ) {
-
-    this.canvis_firestore_usuari();
-  }
-
   ngOnInit(): void {
+    this.photoService.loadSaved();
+    
     this.show("Cargando tus datos", 400);
 
     this.perfilForm = this.formBuilder.group({
@@ -100,7 +106,6 @@ export class PerfilPage implements OnInit {
   }
 
   ngAfterViewInit() {
-
     this.cdRef.detectChanges();
   }
 
@@ -254,4 +259,34 @@ export class PerfilPage implements OnInit {
       this.perfil.edat = userData['edat'];
     });
   }
+
+
+  // Imatge perfil
+  addPhotoToGallery() {
+    this.photoService.addNewToGallery();
+  }
+
+  public async showActionSheet(photo: Photo, position: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Photos',
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.photoService.deletePicture(photo, position);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // Nothing to do, action sheet is automatically closed
+          }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+
 }
