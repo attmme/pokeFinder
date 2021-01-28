@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ModalQrScannerPageRoutingModule } from './modal-qr-scanner-routing.module';
-
 import { ModalQrScannerPage } from './modal-qr-scanner.page';
 
 @NgModule({
@@ -13,7 +11,6 @@ import { ModalQrScannerPage } from './modal-qr-scanner.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ModalQrScannerPageRoutingModule
   ],
   declarations: [ModalQrScannerPage]
 })
