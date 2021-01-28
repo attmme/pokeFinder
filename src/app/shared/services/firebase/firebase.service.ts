@@ -75,12 +75,10 @@ export class FirebaseService {
 
     let ruta = `/users/${id}/pokemons/`;
 
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
 
-      for(let i = 0; i < tamany; i++)
-      {
-        console.log("ruta: " , ruta ,"borraré el: ", i );
-         let deleteDoc = this.firestore.collection(ruta).doc(i.toString()).delete();
+      for (let i = 0; i < tamany; i++) {
+        let deleteDoc = this.firestore.collection(ruta).doc(i.toString()).delete();
       }
 
       this.firestore.collection('/users/').doc(id).delete();
@@ -169,7 +167,7 @@ export class FirebaseService {
     this.firebaseAuth.signOut().then().catch();
   }
 
-  updateUsuari(id,objecte){
+  updateUsuari(id, objecte) {
     this.firestore.collection('/users/').doc(id).set(objecte);
   }
 

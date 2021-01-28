@@ -37,7 +37,6 @@ export class PhotoService {
       value: JSON.stringify(this.photos)
     });
 
-    return savedImageFile;
   }
 
   // Save picture to file on device

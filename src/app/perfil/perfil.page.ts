@@ -79,6 +79,7 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.photoService.loadSaved();
 
     this.show("Cargando tus datos", 400);
@@ -87,10 +88,21 @@ export class PerfilPage implements OnInit {
     let fotoGuardada = JSON.parse(localStorage.getItem("_cap_photos"))
 
     // Si hi ha foto
-    if (fotoGuardada[0] != undefined) {
-      console.log("Foto guardada: ", fotoGuardada[0])//webviewPath
-      this.perfil.imatge = fotoGuardada[0].webviewPath;
-      console.log("He guardat: ", this.perfil.imatge )
+    if (fotoGuardada != undefined) {
+      console.log("Foto guardada: ", fotoGuardada[0])
+      if (fotoGuardada[0] != undefined) {
+
+        // Si peta, la imatge guardadaés incorrecte
+        try {
+          new Blob()
+          this.perfil.imatge = fotoGuardada[0].webviewPath;
+
+        } catch {
+          console.log("La imatge s'ha borrat")
+        }
+
+
+      }
     }
 
     this.perfilForm = this.formBuilder.group({
@@ -272,18 +284,18 @@ export class PerfilPage implements OnInit {
 
 
   // Imatge perfil
-  async addPhotoToGallery() {
-
-    console.log("tamany: ", this.photoService.photos.length);
+  addPhotoToGallery() {
 
     /*   for (let i = 0; i < this.photoService.photos.length; i++) {
         await this.photoService.deletePicture(this.photoService.photos[i], i);
       } */
 
-    let temp = await this.photoService.addNewToGallery();
-
-    if (temp)
-      this.perfil.imatge = temp.webviewPath;
+    this.photoService.addNewToGallery().then(el => {
+      let temp = this.photoService.photos
+      console.log("Es guardara: ", temp[0].webviewPath)
+      if (temp)
+        this.perfil.imatge = temp[0].webviewPath;
+    });
 
   }
 
