@@ -81,12 +81,16 @@ ion-content {
                     align-items: center;
 
                     ion-card {
+                        width: 150px;
+                        height: 150px;
                         border-radius: 50%;
                         margin-bottom: 15px;
                         cursor: pointer;
 
                         ion-img {
                             display: flex;
+                            width: 100%;
+                            height: 100%;
                             //border-radius: 50%;
                         }
                     }

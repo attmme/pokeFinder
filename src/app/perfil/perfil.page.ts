@@ -80,8 +80,18 @@ export class PerfilPage implements OnInit {
 
   ngOnInit(): void {
     this.photoService.loadSaved();
-    
+
     this.show("Cargando tus datos", 400);
+
+    // Si hi ha localstorage, agafa imatge
+    let fotoGuardada = JSON.parse(localStorage.getItem("_cap_photos"))
+
+    // Si hi ha foto
+    if (fotoGuardada[0] != undefined) {
+      console.log("Foto guardada: ", fotoGuardada[0])//webviewPath
+      this.perfil.imatge = fotoGuardada[0].webviewPath;
+      console.log("He guardat: ", this.perfil.imatge )
+    }
 
     this.perfilForm = this.formBuilder.group({
       nom: ['', [
@@ -262,8 +272,19 @@ export class PerfilPage implements OnInit {
 
 
   // Imatge perfil
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
+  async addPhotoToGallery() {
+
+    console.log("tamany: ", this.photoService.photos.length);
+
+    /*   for (let i = 0; i < this.photoService.photos.length; i++) {
+        await this.photoService.deletePicture(this.photoService.photos[i], i);
+      } */
+
+    let temp = await this.photoService.addNewToGallery();
+
+    if (temp)
+      this.perfil.imatge = temp.webviewPath;
+
   }
 
   public async showActionSheet(photo: Photo, position: number) {
@@ -282,7 +303,7 @@ export class PerfilPage implements OnInit {
         role: 'cancel',
         handler: () => {
           // Nothing to do, action sheet is automatically closed
-          }
+        }
       }]
     });
     await actionSheet.present();

@@ -36,10 +36,13 @@ export class PhotoService {
       key: this.PHOTO_STORAGE,
       value: JSON.stringify(this.photos)
     });
+
+    return savedImageFile;
   }
 
   // Save picture to file on device
   private async savePicture(cameraPhoto: CameraPhoto) {
+
     // Convert photo to base64 format, required by Filesystem API to save
     const base64Data = await this.readAsBase64(cameraPhoto);
 
@@ -117,7 +120,8 @@ export class PhotoService {
       }
     }
   }
-  public async deletePicture(photo: Photo, position: number) {
+
+/*   public async deletePicture(photo: Photo, position: number) {
     // Remove this photo from the Photos reference data array
     this.photos.splice(position, 1);
   
@@ -135,7 +139,7 @@ export class PhotoService {
       path: filename,
       directory: FilesystemDirectory.Data
     });
-  }
+  } */
 }
 
 export interface Photo {
