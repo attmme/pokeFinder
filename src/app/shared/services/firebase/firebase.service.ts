@@ -172,19 +172,6 @@ export class FirebaseService {
   updateUsuari(id,objecte){
     this.firestore.collection('/users/').doc(id).set(objecte);
   }
-  usuariActual() {
-    return new Promise((resolve, reject) => {
-      this.firebaseAuth.onAuthStateChanged(user => {
-
-        if (user == undefined) {
-          this.logout();
-          this.avis("Sesión caducada, saliendo...");
-        }
-        resolve(user);
-      });
-
-    });
-  }
 
   async avis(msg) {
     const toast = await this.toastCtrl.create({
