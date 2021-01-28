@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
@@ -23,8 +23,21 @@ export class PerfilPage implements OnInit {
     public service: AuthService,
     public firService: FirebaseService,
     private modalCtrl: ModalController,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    public loadingController: LoadingController
   ) { }
+
+  // spinner
+  async show(text, temps) {
+    const loading = await this.loadingController.create({
+      message: text, 
+      duration: temps,
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+  }
+
 
   // Agafar de local
   perfil = {
@@ -80,6 +93,9 @@ export class PerfilPage implements OnInit {
       ]]
     });
 
+    this.show("Cargando tus datos", 1000);
+
+    
     // Es carrega el contingut del server
     this.firService.usuariActual().then(usr => {
 
@@ -93,7 +109,6 @@ export class PerfilPage implements OnInit {
 
       // Es canvia l'imatge de perfil
       this.perfil.imatge = "/assets/profile/avatar.png";
-
     })
 
     this.perfilForm = this.formBuilder.group({

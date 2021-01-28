@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, LoadingController} from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
 import { PerfilPage } from '../perfil/perfil.page';
@@ -34,8 +34,10 @@ export class BuscadorPage implements OnInit {
     public firebase: FirebaseService,
     private firestore: AngularFirestore,
     public menuCtrl: MenuController,
-  ) {
-
+    public loadingController: LoadingController
+    ) {
+      
+      
     this.sliderPokemons =
     {
       isBeginningSlide: true,
@@ -45,6 +47,17 @@ export class BuscadorPage implements OnInit {
 
     localStorage.removeItem('index_pokemon');
     this.canvis_firestore_pokemon();
+    this.show('Cargando tus pokemon', 1000);
+  }
+
+  async show(text, temps) {
+    const loading = await this.loadingController.create({
+      message: text, 
+      duration: temps,
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
   }
 
   ngOnInit() {
@@ -88,7 +101,6 @@ export class BuscadorPage implements OnInit {
       this.llegirPokemonFirestore();
     });
   }
-
   // ------------------------------------------------------------------ </pokemon>
 
 
