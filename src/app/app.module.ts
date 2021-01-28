@@ -26,7 +26,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent ],
+  declarations: [
+    AppComponent,
+  ],
   entryComponents: [],
   imports:
     [
@@ -54,6 +56,6 @@ import { HttpClientModule } from '@angular/common/http';
     AuthService,
     Base64ToGallery,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

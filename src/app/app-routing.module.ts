@@ -7,7 +7,9 @@ import { PrivateGuard } from './shared/guards/private.guard';
 const routes: Routes = [
 
   { // Canvier per buscador
-    path: '', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    // path: '', loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    path: '', loadChildren: () => import('./buscador/buscador.module').then(m => m.BuscadorPageModule),
+
   },
   {
     path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),

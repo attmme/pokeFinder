@@ -6,7 +6,13 @@ import { BuscadorPage } from './buscador.page';
 const routes: Routes = [
   {
     path: '',
-    component: BuscadorPage
+    component: BuscadorPage,
+ /*    children: [
+       {
+         path: 'buscador',
+         loadChildren: () => import('../tabs/tabs.module').then(m => m.TabsPageModule)
+       }
+     ] */
   }
 ];
 

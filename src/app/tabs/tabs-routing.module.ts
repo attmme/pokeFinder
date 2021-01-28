@@ -6,12 +6,6 @@ const routes: Routes = [
   {
     path: '',
     component: TabsPage,
-    children: [
-      {
-        path: 'buscador',
-        loadChildren: () => import('../buscador/buscador.module').then(m => m.BuscadorPageModule)
-      }
-    ]
   }
 ];
 
