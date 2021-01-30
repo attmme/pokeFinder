@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Validadors } from './../validadors/validadors';
 
 @Component({
   selector: 'app-register',
@@ -10,13 +11,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegisterPage implements OnInit {
 
-  registerForm: FormGroup;
-
   constructor(
     private _router: Router,
     private fbService: FirebaseService,
     private formBuilder: FormBuilder
   ) { }
+
+  registerForm: FormGroup;
+  validador = new Validadors();
 
   // Altres variables
   formulariCorrecte = false;
@@ -62,41 +64,16 @@ export class RegisterPage implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(20)
       ]], */
-      email: ['', [
-        Validators.required,
-        Validators.email,
-        Validators.maxLength(40),
-        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(32),
-        /* this.checkPasswords("password", "confirm") */
-      ]],
+      email: this.validador.email(),
+      password: this.validador.password(),
       confirm: ['', [
         Validators.required,
       ]],
     },
       {
-        validator: this.checkPasswords("password", "confirm"),
+        validator: this.validador.checkPasswords("password", "confirm", this.elmClicats),
       }
     );
-  }
-
-  // Acabar - Mira si els passwords coincideixen 
-  checkPasswords(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-
-      if (control.value != matchingControl.value) {
-        this.elmClicats.confirm = true;
-        matchingControl.setErrors({ passwordNotMatch: true });
-      } else {
-        this.elmClicats.confirm = false;
-      }
-    }
   }
 
   // Fa el registre amb firebase

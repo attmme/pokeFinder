@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Validadors } from './../validadors/validadors';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +11,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginPage implements OnInit {
 
-  loginForm: FormGroup;
-
   constructor(
     private _router: Router,
     private formBuilder: FormBuilder,
     public service: AuthService,
     private router: Router
   ) {
+  }
+
+  validador = new Validadors();
+
+  loginForm: FormGroup;
+
+  obj = {
+    teError: 0
   }
 
   // Borrar
@@ -55,17 +62,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', [
-        Validators.required,
-        // Validators.email,
-        Validators.maxLength(40),
-        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(32)
-      ]],
+      email: this.validador.email(),
+      password: this.validador.password(),
     });
   }
 

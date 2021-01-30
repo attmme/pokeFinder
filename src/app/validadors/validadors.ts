@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class Validadors {
 
@@ -6,6 +7,40 @@ export class Validadors {
 
     constructor() {
     }
+
+    email() {
+        return ['', [
+            Validators.required,
+            // Validators.email,
+            Validators.maxLength(40),
+            Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+        ]];
+    }
+
+    // Credencials
+    password() {
+        return ['', [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32)
+        ]];
+    }
+
+    // Mirar si els passwords coincideixen 
+    checkPasswords(controlName: string, matchingControlName: string, elmClicats) {
+        return (formGroup: FormGroup) => {
+            const control = formGroup.controls[controlName];
+            const matchingControl = formGroup.controls[matchingControlName];
+
+            if (control.value != matchingControl.value) {
+                elmClicats.confirm = true;
+                matchingControl.setErrors({ passwordNotMatch: true });
+            } else {
+                elmClicats.confirm = false;
+            }
+        }
+    }
+
 
     // Cognoms
     cognomMax(cognoms, obj) {
@@ -108,22 +143,6 @@ export class Validadors {
     }
 
     nomInvalid(nom, obj) {
-
-        let j = 0;
-
-        for (let i = 0; i < nom.length; i++) {
-            if (this.caractersValids.includes(nom[i])) {
-                j++;
-            }
-        }
-
-        if ((j != nom.length)) {
-            obj.teError |= (1 << 2);
-        }
-        else {
-            obj.teError &= ~(1 << 2);
-        }
-
-        return (j != nom.length);
+        return this.cognomInvalid(nom, obj);
     }
 }
