@@ -12,7 +12,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 
 import { Photo, PhotoService } from '../shared/services/photo/photo.service';
 
-import { Validadors } from './../validadors/validadors';
+import { Validadors } from '../shared/validadors/validadors';
 
 
 @Component({
@@ -87,20 +87,13 @@ export class PerfilPage implements OnInit {
 
   ngOnInit(): void {
 
-    this.photoService.loadSaved();
-
     this.show("Cargando tus datos", 400);
 
-    // Si hi ha localstorage, agafa imatge
-    let fotoGuardada = JSON.parse(localStorage.getItem("_cap_photos"))
 
-    // Si hi ha foto
-    if (fotoGuardada) {
-      if (fotoGuardada[0]) {
-        setTimeout(() => {
-          this.perfil.imatge = fotoGuardada[0].webviewPath;
-        }, 200);
-      }
+    // Si hi ha foto en firebase, no fem res
+    if (this.perfil.imatge) {
+      console.log("dins");
+
     } else {
       this.perfil.imatge = "/assets/profile/avatar.png";
     }
@@ -156,6 +149,7 @@ export class PerfilPage implements OnInit {
       nom: formulari.form.value.nom,
       cognoms: formulari.form.value.cognom,
       edat: formulari.form.value.edat,
+      imatge: this.perfil.imatge,
     }
 
     // Es guarden les dades de l'usuari en la bdd
@@ -181,48 +175,8 @@ export class PerfilPage implements OnInit {
       this.perfil.nom = userData['nom'];
       this.perfil.cognoms = userData['cognoms'];
       this.perfil.edat = userData['edat'];
-      this.perfil.imatge = userData['img'];
+      this.perfil.imatge = userData['imatge'];
     });
-  }
-
-  // capa intermitja entre els validadors ( cal per al bloqueig del botó )
-  nomMax() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.nomMax(this.perfil.nom,this.obj_err);
-  }
-  nomMin() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.nomMin(this.perfil.nom,this.obj_err);
-  }
-  nomInvalid() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.nomInvalid(this.perfil.nom,this.obj_err);
-  }
-
-  cognomInvalid() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.cognomInvalid(this.perfil.cognoms,this.obj_err);
-  }
-  cognomMin() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.cognomMin(this.perfil.cognoms,this.obj_err);
-  }
-  cognomMax() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.cognomMax(this.perfil.cognoms,this.obj_err);
-  }
-
-  edatMax() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.edatMax(this.perfil.edat,this.obj_err);
-  }
-  edatMinim() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.edatMinim(this.perfil.edat,this.obj_err);
-  }
-  edatTipus() {
-    this.refrescarBotoAcceptar(this.obj_err.teError);
-    return this.validador.edatTipus(this.perfil.edat,this.obj_err);
   }
 
   // Imatge perfil
@@ -236,26 +190,44 @@ export class PerfilPage implements OnInit {
       .catch();
   }
 
-  public async showActionSheet(photo: Photo, position: number) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
-      buttons: [{
-        text: 'Delete',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          this.photoService.deletePicture(photo, position);
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          // Nothing to do, action sheet is automatically closed
-        }
-      }]
-    });
-    await actionSheet.present();
+  // capa intermitja entre els validadors ( cal per al bloqueig del botó )
+  nomMax() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.nomMax(this.perfil.nom, this.obj_err);
+  }
+  nomMin() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.nomMin(this.perfil.nom, this.obj_err);
+  }
+  nomInvalid() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.nomInvalid(this.perfil.nom, this.obj_err);
+  }
+
+  cognomInvalid() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.cognomInvalid(this.perfil.cognoms, this.obj_err);
+  }
+  cognomMin() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.cognomMin(this.perfil.cognoms, this.obj_err);
+  }
+  cognomMax() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.cognomMax(this.perfil.cognoms, this.obj_err);
+  }
+
+  edatMax() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.edatMax(this.perfil.edat, this.obj_err);
+  }
+  edatMinim() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.edatMinim(this.perfil.edat, this.obj_err);
+  }
+  edatTipus() {
+    this.refrescarBotoAcceptar(this.obj_err.teError);
+    return this.validador.edatTipus(this.perfil.edat, this.obj_err);
   }
 
 }

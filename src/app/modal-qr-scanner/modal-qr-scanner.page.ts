@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import * as EventEmitter from 'events';
 
-import { Toast } from '../toast/toast';
+import { Toast } from '../shared/toast/toast';
 
 @Component({
   selector: 'app-modal-qr-scanner',

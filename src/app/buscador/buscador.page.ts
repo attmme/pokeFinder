@@ -13,7 +13,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MenuController } from '@ionic/angular';
 
-import { Toast } from '../toast/toast';
+import { Toast } from '../shared/toast/toast';
 
 @Component({
   selector: 'app-buscador',
@@ -30,7 +30,6 @@ export class BuscadorPage implements OnInit {
   input_buscador: any;
   toast = new Toast();
   arrPokemonsFiltrats = []
-
 
   constructor(
     private router: Router,
@@ -107,9 +106,7 @@ export class BuscadorPage implements OnInit {
   click_pokemon(slider, index) {
     if (index != null){
       let indexReal = (this.sliderPokemons.pokemons.length - 1) - index;
-      console.log("Index: ", index, " Real: ", indexReal)
       slider.slideTo(indexReal, 500); // el número és la suavitat
-
     }
   }
 

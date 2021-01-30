@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Validadors } from './../validadors/validadors';
+import { Validadors } from '../shared/validadors/validadors';
 
 @Component({
   selector: 'app-register',
