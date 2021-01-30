@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output } from '@angular/core';
-import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, Platform } from '@ionic/angular';
 import jsQR from 'jsqr';
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,8 @@ import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { Router } from '@angular/router';
 import { AngularFireModule } from '@angular/fire';
 import * as EventEmitter from 'events';
+
+import { Toast } from '../toast/toast';
 
 @Component({
   selector: 'app-modal-qr-scanner',
@@ -28,6 +30,7 @@ export class ModalQrScannerPage implements OnInit {
   scanActive = false;
   scanResult = null;
   loading: HTMLIonLoadingElement = null;
+  toast = new Toast();
 
   @ViewChild('video', { static: false }) video: ElementRef;
   @ViewChild('canvas', { static: false }) canvas: ElementRef;
@@ -35,7 +38,6 @@ export class ModalQrScannerPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private plt: Platform,
     private http: HttpClient,
@@ -54,9 +56,8 @@ export class ModalQrScannerPage implements OnInit {
   }
 
   closeModal() {
-    this.modalCtrl.dismiss({
-      'dismissed': true
-    });
+    this.modalCtrl.getTop(); // en principi no cal
+    this.modalCtrl.dismiss();
   }
 
   ngOnInit() {
@@ -67,15 +68,6 @@ export class ModalQrScannerPage implements OnInit {
     this.canvasElement = this.canvas.nativeElement;
     this.canvasContext = this.canvasElement.getContext('2d');
     this.videoElement = this.video.nativeElement;
-  }
-
-  async showQrToast(msg) {
-    const toast = await this.toastCtrl.create({
-      message: msg,
-      position: 'middle',
-      duration: 2500
-    });
-    toast.present();
   }
 
   reset() {
@@ -106,8 +98,8 @@ export class ModalQrScannerPage implements OnInit {
       requestAnimationFrame(this.scan.bind(this));
 
     } catch (error) {
-      this.showQrToast(`Error con la cámara`);
       this.closeModal();
+      this.toast.show(`Error con la cámara`, 2500);
     }
   }
 
@@ -152,7 +144,7 @@ export class ModalQrScannerPage implements OnInit {
           missatge = 'Capturat!';
         }
 
-        this.showQrToast(missatge);
+        this.toast.show(missatge, 2500);
         this.closeModal();
 
       } else {
@@ -196,6 +188,4 @@ export class ModalQrScannerPage implements OnInit {
         );
       });
   }
-
-
 }

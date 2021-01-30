@@ -137,7 +137,9 @@ export class PerfilPage implements OnInit {
 
   // No guarda res i torna al home
   cancelar() {
-    this.modalCtrl.dismiss({ 'dismissed': true });
+    this.modalCtrl.getTop(); // en principi no cal
+    this.modalCtrl.dismiss();
+    // this.modalCtrl.dismiss({ 'dismissed': true });
   }
 
   acceptar(formulari) {

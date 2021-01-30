@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonInfiniteScroll, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, IonInfiniteScroll, LoadingController } from '@ionic/angular';
 
 import { ModalController } from '@ionic/angular';
 import { PerfilPage } from '../perfil/perfil.page';
@@ -12,6 +12,8 @@ import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MenuController } from '@ionic/angular';
+
+import { Toast } from '../toast/toast';
 
 @Component({
   selector: 'app-buscador',
@@ -26,9 +28,10 @@ export class BuscadorPage implements OnInit {
   sliderPokemons: any;
   index_pokemon_capturat: any;
   input_buscador: any;
+  toast = new Toast();
 
   constructor(
-    private _router: Router,
+    private router: Router,
     public modalController: ModalController,
     public service: AuthService,
     public firebase: FirebaseService,
@@ -36,9 +39,7 @@ export class BuscadorPage implements OnInit {
     public menuCtrl: MenuController,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    private toastCtrl: ToastController
   ) {
-
 
     this.sliderPokemons =
     {
@@ -86,12 +87,12 @@ export class BuscadorPage implements OnInit {
         this.click_pokemon(this.slideWithNav, 0);
 
         // working
-/*         let t = localStorage.getItem('index_pokemon');
-        console.log("Index pokemon: ", t)
-        console.log("Pokemons: ", this.sliderPokemons.pokemons)
-        if (Number(t) >= 0) {
-          this.click_pokemon(this.slideWithNav, t);
-        } */
+        /*         let t = localStorage.getItem('index_pokemon');
+                console.log("Index pokemon: ", t)
+                console.log("Pokemons: ", this.sliderPokemons.pokemons)
+                if (Number(t) >= 0) {
+                  this.click_pokemon(this.slideWithNav, t);
+                } */
 
       }
     );
@@ -152,7 +153,7 @@ export class BuscadorPage implements OnInit {
 
     this.service.removeToken();
     this.service.logout();
-    this._router.navigateByUrl('/login'); // trucazo
+    this.router.navigateByUrl('/login'); // trucazo
   }
 
   async eliminarUsuari() {
@@ -201,22 +202,14 @@ export class BuscadorPage implements OnInit {
         })
           .catch((e) => {
             // console.log("e2: ", e);
-            this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
+            this.toast.show("Esta operación es peligrosa, haz login y borra", 3000);
+            // this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
             this.logout();
           });
       })
       .catch((e) => {
         // console.log("e1: ", e);
       });
-  }
-
-  async showToast(msg, temps) {
-    const toast = await this.toastCtrl.create({
-      message: msg,
-      position: 'middle',
-      duration: temps
-    });
-    toast.present();
   }
   // ------------------------------------------------------------------ </usuari>
 }
