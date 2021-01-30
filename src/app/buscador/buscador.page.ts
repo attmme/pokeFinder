@@ -29,6 +29,8 @@ export class BuscadorPage implements OnInit {
   index_pokemon_capturat: any;
   input_buscador: any;
   toast = new Toast();
+  arrPokemonsFiltrats = []
+
 
   constructor(
     private router: Router,
@@ -68,7 +70,9 @@ export class BuscadorPage implements OnInit {
 
   fakePipe(buscador, pokemon) {
     let filtrat = pokemon.toLowerCase().includes(buscador.toLowerCase());
-    // fer un filtrat
+
+    this.filtratPokemons(buscador, pokemon);
+
     return filtrat;
   }
 
@@ -83,23 +87,84 @@ export class BuscadorPage implements OnInit {
           this.sliderPokemons.pokemons.unshift(pokemon);
         });
 
-        // Movem al primer pokemon de la llista (ja que és unshift)
-        this.click_pokemon(this.slideWithNav, 0);
+        // Movem el pokemon capturat
+        let t = localStorage.getItem('index_pokemon');
+        if (Number(t) >= 0) {
+          this.click_pokemon(this.slideWithNav, t);
+        }
 
         // working
-        /*         let t = localStorage.getItem('index_pokemon');
-                console.log("Index pokemon: ", t)
-                console.log("Pokemons: ", this.sliderPokemons.pokemons)
-                if (Number(t) >= 0) {
-                  this.click_pokemon(this.slideWithNav, t);
-                } */
+        /*         
+        if (Number(t) >= 0) {
+          this.click_pokemon(this.slideWithNav, t);
+        } 
+        */
 
       }
     );
   }
 
   click_pokemon(slider, index) {
-    slider.slideTo(index, 500); // el número és la suavitat
+    if (index != null){
+      let indexReal = (this.sliderPokemons.pokemons.length - 1) - index;
+      console.log("Index: ", index, " Real: ", indexReal)
+      slider.slideTo(indexReal, 500); // el número és la suavitat
+
+    }
+  }
+
+  // Filtra en temps real, si només hi ha 1 tipus el clica
+  filtratPokemons(_buscador: String, _pokemon: String) {
+    let buscadorParseat = _buscador.toLowerCase();
+    let pokemonparseat = _pokemon.toLocaleLowerCase();
+    let totsPokemons = this.sliderPokemons.pokemons;
+    let aplicarSeleccio = true;
+
+    if (pokemonparseat.includes(buscadorParseat) && _buscador.length > 0) {
+
+      // Es mira el número de pokemons que es filtraran
+      let limitPush = 0;
+      totsPokemons.map(el => {
+        let nom = el.name.toLowerCase();
+
+        if (nom.includes(buscadorParseat)) {
+
+          limitPush++;
+
+          // Per evitar que es facin push extres en l'array
+          if (this.arrPokemonsFiltrats.length < limitPush) {
+            this.arrPokemonsFiltrats.push(nom);
+          }
+
+        }
+      })
+
+      if (limitPush == this.arrPokemonsFiltrats.length) {
+        // Si hi ha un sol tipus de pokemon en filtrats
+        this.arrPokemonsFiltrats.map(el => {
+
+          if (el != this.arrPokemonsFiltrats[0]) {
+            aplicarSeleccio = false;
+          }
+
+        })
+      }
+
+      // Si s'ha complert el filtrat, es mou cap el pokemon que toca
+      if (aplicarSeleccio) {
+        this.sliderPokemons.pokemons.map(el => {
+
+          if (el.name.toLowerCase() == this.arrPokemonsFiltrats[0]) {
+            aplicarSeleccio = false;
+            this.click_pokemon(this.slideWithNav, el.index);
+          }
+        })
+      }
+
+      // Reset
+      this.arrPokemonsFiltrats = [];
+    }
+
   }
 
   canvis_firestore_pokemon() {
@@ -201,7 +266,6 @@ export class BuscadorPage implements OnInit {
           );
         })
           .catch((e) => {
-            // console.log("e2: ", e);
             this.toast.show("Esta operación es peligrosa, haz login y borra", 3000);
             // this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
             this.logout();
