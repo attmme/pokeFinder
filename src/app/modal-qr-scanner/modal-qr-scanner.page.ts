@@ -141,7 +141,7 @@ export class ModalQrScannerPage implements OnInit {
         if (code.data.includes('https://pokeapi.co/api/v2/pokemon/')) {
 
           this.registrarPokemon(this.scanResult);
-          missatge = 'Capturat!';
+          missatge = 'Capturado!';
         }
 
         this.toast.show(missatge, 2500);
