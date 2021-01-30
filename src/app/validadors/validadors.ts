@@ -143,22 +143,6 @@ export class Validadors {
     }
 
     nomInvalid(nom, obj) {
-
-        let j = 0;
-
-        for (let i = 0; i < nom.length; i++) {
-            if (this.caractersValids.includes(nom[i])) {
-                j++;
-            }
-        }
-
-        if ((j != nom.length)) {
-            obj.teError |= (1 << 2);
-        }
-        else {
-            obj.teError &= ~(1 << 2);
-        }
-
-        return (j != nom.length);
+        return this.cognomInvalid(nom, obj);
     }
 }
