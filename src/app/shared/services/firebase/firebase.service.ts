@@ -171,6 +171,28 @@ export class FirebaseService {
     this.firestore.collection('/users/').doc(id).set(objecte);
   }
 
+  _test_victor(id,objecte)
+  {
+      if(objecte.nom == undefined)
+      {
+        objecte.nom = '';
+      }
+      if(objecte.cognoms == undefined)
+      {
+        objecte.cognoms = '';
+      }
+      if(objecte.edat == undefined)
+      {
+        objecte.edat = '';
+      }
+      if(objecte.img == undefined)
+      {
+        objecte.img = '';
+      }
+
+    this.firestore.collection('/users/').doc(id).set(objecte);
+  }
+
   async avis(msg) {
     const toast = await this.toastCtrl.create({
       message: msg,

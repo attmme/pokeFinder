@@ -22,8 +22,6 @@ import { Validadors } from './../validadors/validadors';
 })
 export class PerfilPage implements OnInit {
 
-  validador = new Validadors();
-
   constructor(
     private formBuilder: FormBuilder,
     public service: AuthService,
@@ -40,6 +38,7 @@ export class PerfilPage implements OnInit {
     this.canvis_firestore_usuari();
   }
 
+  validador = new Validadors();
   perfilForm: FormGroup;
 
   obj = {
@@ -53,6 +52,8 @@ export class PerfilPage implements OnInit {
     cognoms: "",
     edat: null
   }
+
+  blob_imatge; // aqui deixem la imatge a enviar/rebre de firebase
 
   // Text que apareix i no són errors
   llistatApartats = {
@@ -164,6 +165,30 @@ export class PerfilPage implements OnInit {
     this.cancelar();
   }
 
+  victor_temporal(formulari) {
+    console.log("enviat");
+
+/*     let id = this.service.getToken();
+
+    let obj = {
+      nom: formulari.form.value.nom,
+      cognoms: formulari.form.value.cognom,
+      edat: formulari.form.value.edat,
+      img: this.blob_imatge
+    }
+
+    this.fireService._test_victor(id, obj); */
+
+
+    this.photoService.base64AImatge(this.blob_imatge)
+    .then(
+      (dada) => {
+        console.log("dada rebuda : ", dada );
+      }
+    )
+    .catch();
+  }
+
   refrescarBotoAcceptar(error) {
 
     let algo = 'true';
@@ -181,23 +206,21 @@ export class PerfilPage implements OnInit {
       this.perfil.nom = userData['nom'];
       this.perfil.cognoms = userData['cognoms'];
       this.perfil.edat = userData['edat'];
+      // this.blob_imatge = userData['img'];
+      this.perfil.imatge = userData['img'];
     });
   }
 
   // Imatge perfil
   addPhotoToGallery() {
-
-    /*   for (let i = 0; i < this.photoService.photos.length; i++) {
-        await this.photoService.deletePicture(this.photoService.photos[i], i);
-      } */
-
-    this.photoService.addNewToGallery().then(el => {
-      let temp = this.photoService.photos
-      console.log("Es guardara: ", temp[0].webviewPath)
-      if (temp)
-        this.perfil.imatge = temp[0].webviewPath;
-    });
-
+    this.photoService.imatgeABase64()
+      .then(
+        (dada) => {
+          // this.blob_imatge = dada;
+          this.perfil.imatge = dada;
+        }
+      )
+      .catch();
   }
 
   public async showActionSheet(photo: Photo, position: number) {

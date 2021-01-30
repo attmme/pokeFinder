@@ -45,6 +45,11 @@ export class Validadors {
     // Cognoms
     cognomMax(cognoms, obj) {
 
+        if(cognoms == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
         if (cognoms.length > 40) {
             obj.teError |= (1 << 3);
             return true;
@@ -55,6 +60,11 @@ export class Validadors {
     }
 
     cognomMin(cognoms, obj) {
+
+        if(cognoms == undefined) // afegit nou, provar
+        {
+            return false;
+        }
 
         if (cognoms.length >= 1 && cognoms.length < 3) {
             obj.teError |= (1 << 4);
@@ -68,6 +78,11 @@ export class Validadors {
     cognomInvalid(cognoms, obj) {
 
         let k = 0;
+
+        if(cognoms == undefined) // afegit nou, provar
+        {
+            return false;
+        }
 
         for (let i = 0; i < cognoms.length; i++) {
             if (this.caractersCognomValids.includes(cognoms[i])) {
@@ -88,6 +103,11 @@ export class Validadors {
     // Edat
     edatTipus(edat, obj) {
 
+        if(edat == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
         if (Number(edat) >= 0 || edat < 0) {
             obj.teError &= ~(1 << 6);
             return false;
@@ -98,6 +118,11 @@ export class Validadors {
     }
 
     edatMax(edat, obj) {
+
+        if(edat == undefined) // afegit nou, provar
+        {
+            return false;
+        }
 
         if (Number(edat) > 110) {
             obj.teError |= (1 << 7);
@@ -110,6 +135,11 @@ export class Validadors {
 
     edatMinim(edat, obj) {
 
+        if(edat == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+        
         if (Number(edat) < 0) {
             obj.teError |= (1 << 8);
             return true;
@@ -122,6 +152,11 @@ export class Validadors {
     // Nom
     nomMax(nom, obj) {
 
+        if(nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
         if (nom.length > 20) {
             obj.teError |= (1 << 0); // set bit 0
             return true;
@@ -133,6 +168,11 @@ export class Validadors {
 
     nomMin(nom, obj) {
 
+        if(nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
         if (nom.length >= 1 && nom.length < 3) {
             obj.teError |= (1 << 1);
             return true;
@@ -143,6 +183,12 @@ export class Validadors {
     }
 
     nomInvalid(nom, obj) {
+        
+        if(nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
         return this.cognomInvalid(nom, obj);
     }
 }
