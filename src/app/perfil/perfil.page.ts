@@ -77,7 +77,9 @@ export class PerfilPage implements OnInit {
     this.show("Cargando tus datos", 400);
 
     // Si no hi ha foto en firebase, posem una predeterminada
-    if (this.perfil.imatge == undefined) {
+    // no és inmediat això. Pensa que primer posa l'avatar
+    // i si ningú l'actualitza, es queda aquest.
+    if (this.perfil.imatge == undefined || this.perfil.imatge == '') {
       this.perfil.imatge = "/assets/profile/avatar.png";
     }
 
@@ -107,7 +109,6 @@ export class PerfilPage implements OnInit {
   cancelar() {
     this.modalCtrl.getTop(); // en principi no cal
     this.modalCtrl.dismiss();
-    // this.modalCtrl.dismiss({ 'dismissed': true });
   }
 
   acceptar(formulari) {
