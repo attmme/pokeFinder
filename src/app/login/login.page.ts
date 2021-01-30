@@ -23,10 +23,6 @@ export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
 
-  obj = {
-    teError: 0
-  }
-
   // Borrar
   submitted = false;
 
