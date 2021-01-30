@@ -4,6 +4,16 @@ ion-buttons {
   flex-basis: 50px;
 }
 
+ion-content {
+  ion-list {
+    ion-item {
+      ion-label {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
 /*  */
 #slider_pokemon {
   display: flex;
