@@ -40,11 +40,11 @@
                 </li>
                 <!-- Error nom -->
                 <ion-label>
-                    <li class="error" *ngIf="validador('nomMax')">
+                    <li class="error" *ngIf="validador.nomMax(perfil.nom, obj)">
                         {{llistatErrors.nomLlarg}}</li>
-                    <li class="error" *ngIf="validador('nomMin')">
+                    <li class="error" *ngIf="validador.nomMin(perfil.nom, obj)">
                         {{llistatErrors.nomCurt}}</li>
-                    <li class="error" *ngIf="validador('nomInvalid')">
+                    <li class="error" *ngIf="validador.nomInvalid(perfil.nom, obj)">
                         {{llistatErrors.nomWrong}}</li>
                 </ion-label>
 
@@ -56,11 +56,11 @@
                 </li>
                 <!-- Error cognom -->
                 <ion-label>
-                    <li class="error" *ngIf="validador('cognomInvalid')">
+                    <li class="error" *ngIf="validador.cognomInvalid(perfil.cognoms, obj)">
                         {{llistatErrors.cognomWrong}}</li>
-                    <li class="error" *ngIf="validador('cognomMin')">
+                    <li class="error" *ngIf="validador.cognomMin(perfil.cognoms, obj)">
                         {{llistatErrors.cognomCurt}}</li>
-                    <li class="error" *ngIf="validador('cognomMax')">
+                    <li class="error" *ngIf="validador.cognomMax(perfil.cognoms, obj)">
                         {{llistatErrors.cognomLlarg}}</li>
                 </ion-label>
 
@@ -72,13 +72,13 @@
                 </li>
                 <!-- Error edat -->
                 <ion-label>
-                    <li class="error" *ngIf="validador('edatMax')">
+                    <li class="error" *ngIf="validador.edatMax(perfil.edat, obj)">
                         {{llistatErrors.edatMax}}</li>
 
-                    <li class="error" *ngIf="validador('edatMinim')">
+                    <li class="error" *ngIf="validador.edatMinim(perfil.edat, obj)">
                         {{llistatErrors.edatMin}}</li>
 
-                    <li class="error" *ngIf="validador('edatTipus')">
+                    <li class="error" *ngIf="validador.edatTipus(perfil.edat, obj)">
                         {{llistatErrors.tipusNumber}}</li>
                 </ion-label>
 

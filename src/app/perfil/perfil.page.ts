@@ -12,12 +12,17 @@ import { AngularFireAuth } from "@angular/fire/auth";
 
 import { Photo, PhotoService } from '../shared/services/photo/photo.service';
 
+import { Validadors } from './../validadors/validadors';
+
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
+
+  validador = new Validadors();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,7 +41,10 @@ export class PerfilPage implements OnInit {
   }
 
   perfilForm: FormGroup;
-  teError = 0;
+
+  obj = {
+    teError: 0
+  }
 
   // Agafar de local
   perfil = {
@@ -156,116 +164,15 @@ export class PerfilPage implements OnInit {
     this.cancelar();
   }
 
-  validador(params) {
+  refrescarBotoAcceptar(error) {
 
-    if (this.teError == 0) {
-      document.getElementById('boto_dels_collons').setAttribute("disabled", "false");
-    } else {
-      document.getElementById('boto_dels_collons').setAttribute("disabled", "true");
+    let algo = 'true';
+
+    if (error == 0) {
+      algo = 'false';
     }
 
-    let nom = this.perfil.nom;
-    // let cognom = this.perfil.cognoms;
-    let edat = Number(this.perfil.edat);
-
-    let caractersValids = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let caractersCognomValids = caractersValids + " ";
-
-    switch (params) {
-      // Nom
-      case "nomMax":
-        if (nom.length > 20) {
-          this.teError |= (1 << 0); // set bit 0
-          return true
-        }
-        this.teError &= ~(1 << 0); // clear bit 0
-        return false
-
-      case "nomMin":
-        if (nom.length >= 1 && nom.length < 3) {
-          this.teError |= (1 << 1);
-          return true
-        }
-        this.teError &= ~(1 << 1);
-        return false
-
-      case "nomInvalid":
-        let j = 0;
-        for (let i = 0; i < nom.length; i++) {
-          if (caractersValids.includes(nom[i])) {
-            j++;
-          }
-        }
-
-        if ((j != nom.length)) {
-          this.teError |= (1 << 2);
-        }
-        else {
-          this.teError &= ~(1 << 2);
-        }
-
-        return (j != nom.length);
-
-      // Cognom
-      case "cognomMax":
-        if (this.perfil.cognoms.length > 40) {
-          this.teError |= (1 << 3);
-          return true
-        }
-        this.teError &= ~(1 << 3);
-        return false
-
-      case "cognomMin":
-        if (this.perfil.cognoms.length >= 1 && this.perfil.cognoms.length < 3) {
-          this.teError |= (1 << 4);
-          return true
-        }
-        this.teError &= ~(1 << 4);
-        return false
-
-      case "cognomInvalid":
-        let k = 0;
-        for (let i = 0; i < this.perfil.cognoms.length; i++) {
-          if (caractersCognomValids.includes(this.perfil.cognoms[i])) {
-            k++;
-          }
-        }
-
-        if ((k != this.perfil.cognoms.length)) {
-          this.teError |= (1 << 5);
-        }
-        else {
-          this.teError &= ~(1 << 5);
-        }
-
-        return (k != this.perfil.cognoms.length);
-
-      // Edat
-      case "edatTipus":
-        if (edat >= 0 || edat < 0) {
-          this.teError &= ~(1 << 6);
-          return false
-        }
-        this.teError |= (1 << 6);
-        return true
-
-      case "edatMax":
-        if (edat > 110) {
-          this.teError |= (1 << 7);
-          return true
-        }
-        this.teError &= ~(1 << 7);
-        return false
-
-      case "edatMinim":
-        if (edat < 0) {
-          this.teError |= (1 << 8);
-          return true
-        }
-        this.teError &= ~(1 << 8);
-        return false
-    }
-
+    document.getElementById('boto_dels_collons').setAttribute("disabled", algo);
   }
 
   canvis_firestore_usuari() {
@@ -276,7 +183,6 @@ export class PerfilPage implements OnInit {
       this.perfil.edat = userData['edat'];
     });
   }
-
 
   // Imatge perfil
   addPhotoToGallery() {
@@ -315,6 +221,5 @@ export class PerfilPage implements OnInit {
     });
     await actionSheet.present();
   }
-
 
 }
