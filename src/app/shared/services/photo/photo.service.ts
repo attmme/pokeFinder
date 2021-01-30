@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  Plugins, CameraResultType, Capacitor, FilesystemDirectory,
+  Plugins, CameraResultType, /* Capacitor, FilesystemDirectory, */
   CameraPhoto, CameraSource
 } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
@@ -11,7 +11,7 @@ const { Camera, Filesystem } = Plugins;
   providedIn: 'root'
 })
 export class PhotoService {
-  public photos: Photo[] = [];
+  // public photos: Photo[] = [];
   private platform: Platform;
 
   constructor(platform: Platform) {
@@ -70,8 +70,8 @@ export class PhotoService {
   });
 
 }
-
+/* 
 export interface Photo {
   filepath: string;
   webviewPath: string;
-}
+} */

@@ -41,11 +41,70 @@ export class Validadors {
         }
     }
 
+    // Nom
+    nom() {
+        return ['', [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(20),
+            Validators.pattern("^[a-z0-9._%+-]$")
+        ]];
+    }
+    nomMax(nom, obj) {
+
+        if (nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
+        if (nom.length > 20) {
+            obj.teError |= (1 << 0); // set bit 0
+            return true;
+        }
+
+        obj.teError &= ~(1 << 0);
+        return false;
+    }
+
+    nomMin(nom, obj) {
+
+        if (nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
+        if (nom.length >= 1 && nom.length < 3) {
+            obj.teError |= (1 << 1);
+            return true;
+        }
+
+        obj.teError &= ~(1 << 1);
+        return false;
+    }
+
+    nomInvalid(nom, obj) {
+
+        if (nom == undefined) // afegit nou, provar
+        {
+            return false;
+        }
+
+        return this.cognomInvalid(nom, obj);
+    }
 
     // Cognoms
+    cognom() {
+        return ['', [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(32),
+            Validators.pattern("^[a-z0-9._%+-]$")
+        ]];
+    }
+
     cognomMax(cognoms, obj) {
 
-        if(cognoms == undefined) // afegit nou, provar
+        if (cognoms == undefined) // afegit nou, provar
         {
             return false;
         }
@@ -61,7 +120,7 @@ export class Validadors {
 
     cognomMin(cognoms, obj) {
 
-        if(cognoms == undefined) // afegit nou, provar
+        if (cognoms == undefined) // afegit nou, provar
         {
             return false;
         }
@@ -79,7 +138,7 @@ export class Validadors {
 
         let k = 0;
 
-        if(cognoms == undefined) // afegit nou, provar
+        if (cognoms == undefined) // afegit nou, provar
         {
             return false;
         }
@@ -101,9 +160,17 @@ export class Validadors {
     }
 
     // Edat
+    edat() {
+        return ['', [
+            Validators.required,
+            Validators.maxLength(3),
+            Validators.max(110),
+            Validators.pattern("^[0-9]$")
+        ]];
+    }
     edatTipus(edat, obj) {
 
-        if(edat == undefined) // afegit nou, provar
+        if (edat == undefined) // afegit nou, provar
         {
             return false;
         }
@@ -119,7 +186,7 @@ export class Validadors {
 
     edatMax(edat, obj) {
 
-        if(edat == undefined) // afegit nou, provar
+        if (edat == undefined) // afegit nou, provar
         {
             return false;
         }
@@ -135,11 +202,11 @@ export class Validadors {
 
     edatMinim(edat, obj) {
 
-        if(edat == undefined) // afegit nou, provar
+        if (edat == undefined) // afegit nou, provar
         {
             return false;
         }
-        
+
         if (Number(edat) < 0) {
             obj.teError |= (1 << 8);
             return true;
@@ -147,48 +214,5 @@ export class Validadors {
 
         obj.teError &= ~(1 << 8);
         return false;
-    }
-
-    // Nom
-    nomMax(nom, obj) {
-
-        if(nom == undefined) // afegit nou, provar
-        {
-            return false;
-        }
-
-        if (nom.length > 20) {
-            obj.teError |= (1 << 0); // set bit 0
-            return true;
-        }
-
-        obj.teError &= ~(1 << 0);
-        return false;
-    }
-
-    nomMin(nom, obj) {
-
-        if(nom == undefined) // afegit nou, provar
-        {
-            return false;
-        }
-
-        if (nom.length >= 1 && nom.length < 3) {
-            obj.teError |= (1 << 1);
-            return true;
-        }
-
-        obj.teError &= ~(1 << 1);
-        return false;
-    }
-
-    nomInvalid(nom, obj) {
-        
-        if(nom == undefined) // afegit nou, provar
-        {
-            return false;
-        }
-
-        return this.cognomInvalid(nom, obj);
     }
 }

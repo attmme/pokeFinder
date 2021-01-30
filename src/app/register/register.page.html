@@ -18,11 +18,11 @@
         <!-- Error nom -->
         <!--                 <ion-label *ngIf="elmClicats.nom">
           <li class="error" *ngIf="registerForm.hasError('required', 'nom')">
-            {{llistatErrors.nomBuit}}</li>
+            {{err.nomBuit}}</li>
           <li class="error" *ngIf="registerForm.hasError('minlength', 'nom')">
-            {{llistatErrors.nomLength}}</li>
+            {{err.nomLength}}</li>
           <li class="error" *ngIf="registerForm.hasError('maxlength', 'nom')">
-            {{llistatErrors.nomLengthMax}}</li>
+            {{err.nomLengthMax}}</li>
         </ion-label> -->
 
         <div class="separador"></div>
@@ -35,15 +35,15 @@
         <!-- Error email -->
         <ion-label *ngIf="elmClicats.email">
           <li class="error" *ngIf="registerForm.hasError('required', 'email')">
-            {{llistatErrors.emailBuit}}</li>
+            {{err.emailBuit}}</li>
           <li class="error" *ngIf="registerForm.hasError('pattern', 'email')">
-            {{llistatErrors.emailFormat}}</li>
+            {{err.emailFormat}}</li>
           <li class="error" *ngIf="registerForm.hasError('maxlength', 'email')">
-            {{llistatErrors.emailLengthmax}}</li>
+            {{err.emailLengthmax}}</li>
 
           <!-- Error amb email ja existent -->
           <li class="error" *ngIf="mailRepetit">
-            {{llistatErrors.repeatMail}}</li>
+            {{err.repeatMail}}</li>
         </ion-label>
 
         <div class="separador"></div>
@@ -56,11 +56,11 @@
         <!-- Error password -->
         <ion-label *ngIf="elmClicats.password">
           <li class="error" *ngIf="registerForm.hasError('required', 'password')">
-            {{llistatErrors.passBuit}}</li>
+            {{err.passBuit}}</li>
           <li class="error" *ngIf="registerForm.hasError('minlength', 'password')">
-            {{llistatErrors.passLength}}</li>
+            {{err.passLength}}</li>
           <li class="error" *ngIf="registerForm.hasError('maxlength', 'password')">
-            {{llistatErrors.passLengthMax}}</li>
+            {{err.passLengthMax}}</li>
         </ion-label>
 
         <div class="separador"></div>
@@ -75,9 +75,9 @@
         <ion-label>
           <div *ngIf="elmClicats.confirm">
             <li class="error" *ngIf="registerForm.hasError('required', 'confirm')">
-              {{llistatErrors.confBuit}}</li>
+              {{err.confBuit}}</li>
             <li class="error" *ngIf="registerForm.hasError('passwordNotMatch', 'confirm')">
-              {{llistatErrors.confErr}}</li>
+              {{err.confErr}}</li>
           </div>
         </ion-label>
       </ul>

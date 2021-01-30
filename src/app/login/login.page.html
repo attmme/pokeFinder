@@ -18,13 +18,13 @@
         <!-- Error email -->
         <ion-label *ngIf="elmClicats.email">
           <li class="error" *ngIf="loginForm.hasError('required', 'email')">
-            {{llistatErrors.emailBuit}}</li>
+            {{err.emailBuit}}</li>
           <li class="error" *ngIf="loginForm.hasError('pattern', 'email')">
-            {{llistatErrors.emailFormat}}</li>
+            {{err.emailFormat}}</li>
           <li class="error" *ngIf="loginForm.hasError('maxlength', 'email')">
-            {{llistatErrors.emailLengthmax}}</li>
+            {{err.emailLengthmax}}</li>
           <li class="error" *ngIf="emailIncorrecte">
-            {{llistatErrors.wrongMail}}</li>
+            {{err.wrongMail}}</li>
         </ion-label>
 
         <div class="separador"></div>
@@ -37,13 +37,13 @@
         <!-- Error password -->
         <ion-label *ngIf="elmClicats.password">
           <li class="error" *ngIf="loginForm.hasError('required', 'password')">
-            {{llistatErrors.passBuit}}</li>
+            {{err.passBuit}}</li>
           <li class="error" *ngIf="loginForm.hasError('minlength', 'password')">
-            {{llistatErrors.passLength}}</li>
+            {{err.passLength}}</li>
           <li class="error" *ngIf="loginForm.hasError('maxlength', 'password')">
-            {{llistatErrors.passLengthMax}}</li>
+            {{err.passLengthMax}}</li>
           <li class="error" *ngIf="passwordIncorrecte">
-            {{llistatErrors.wrongPass}}</li>
+            {{err.wrongPass}}</li>
         </ion-label>
 
       </ul>

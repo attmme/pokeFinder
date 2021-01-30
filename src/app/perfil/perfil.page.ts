@@ -10,9 +10,10 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from "@angular/fire/auth";
 
-import { Photo, PhotoService } from '../shared/services/photo/photo.service';
+import { PhotoService } from '../shared/services/photo/photo.service';
 
 import { Validadors } from '../shared/validadors/validadors';
+import { MissatgesErrors } from '../shared/missatgesErrors/missatgesErrors';
 
 
 @Component({
@@ -23,9 +24,10 @@ import { Validadors } from '../shared/validadors/validadors';
 export class PerfilPage implements OnInit {
 
   validador = new Validadors();
+  err = new MissatgesErrors();
   perfilForm: FormGroup;
 
-  obj_err = {
+  obj_err = { // es comparteix amb la classe validadors
     teError: 0,
   };
 
@@ -70,53 +72,19 @@ export class PerfilPage implements OnInit {
     edat: false
   }
 
-  // Text d'errors
-  llistatErrors = {
-    nomLlarg: "El campo introducido es demasiado largo",
-    nomCurt: "El campo introducido es demasiado corto",
-    nomWrong: "El campo nombre tiene carácteres incorrectos",
-
-    cognomLlarg: "El campo introducido es demasiado largo",
-    cognomCurt: "El campo introducido es demasiado corto",
-    cognomWrong: "El campo apellido tiene carácteres incorrectos",
-
-    edatMin: "La edad introducida es incorrecta",
-    edatMax: "La edad introducida es demasiado grande",
-    tipusNumber: "El valor introducido no es un número"
-  }
-
   ngOnInit(): void {
 
     this.show("Cargando tus datos", 400);
 
-
-    // Si hi ha foto en firebase, no fem res
-    if (this.perfil.imatge) {
-      console.log("dins");
-
-    } else {
+    // Si no hi ha foto en firebase, posem una predeterminada
+    if (this.perfil.imatge == undefined) {
       this.perfil.imatge = "/assets/profile/avatar.png";
     }
 
     this.perfilForm = this.formBuilder.group({
-      nom: ['', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20),
-        Validators.pattern("^[a-z0-9._%+-]$")
-      ]],
-      cognom: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(32),
-        Validators.pattern("^[a-z0-9._%+-]$")
-      ]],
-      edat: ['', [
-        Validators.required,
-        Validators.maxLength(3),
-        Validators.max(110),
-        Validators.pattern("^[0-9]$")
-      ]],
+      nom: this.validador.nom(),
+      cognom: this.validador.cognom(),
+      edat: this.validador.edat(),
     });
   }
 
@@ -157,7 +125,7 @@ export class PerfilPage implements OnInit {
     this.cancelar();
   }
 
-  // arreglar
+  // disable / enable el botó d'acceptar en funció de si el formulari està bé
   refrescarBotoAcceptar(error) {
 
     let algo = 'false';
@@ -179,8 +147,7 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  // Imatge perfil
-  addPhotoToGallery() {
+  guardarImatgePerfil() {
     this.photoService.imatgeABase64()
       .then(
         (dada) => {

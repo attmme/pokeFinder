@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validadors } from '../shared/validadors/validadors';
+import { MissatgesErrors } from '../shared/missatgesErrors/missatgesErrors';
 
 @Component({
   selector: 'app-login',
@@ -11,22 +12,10 @@ import { Validadors } from '../shared/validadors/validadors';
 })
 export class LoginPage implements OnInit {
 
-  constructor(
-    private _router: Router,
-    private formBuilder: FormBuilder,
-    public service: AuthService,
-    private router: Router
-  ) {
-  }
-
+  err = new MissatgesErrors();
   validador = new Validadors();
-
   loginForm: FormGroup;
 
-  // Borrar
-  submitted = false;
-
-  // Altres variables
   emailIncorrecte = false;
   passwordIncorrecte = false;
 
@@ -36,16 +25,12 @@ export class LoginPage implements OnInit {
     password: false,
   }
 
-  // Text d'errors
-  llistatErrors = {
-    emailBuit: "El campo del correo no puede quedar vacío",
-    emailFormat: "El formato del correo no es correcto",
-    emailLengthmax: "El correo no puede tener más de 40 carácteres",
-    passBuit: "El campo de la contraseña no puede quedar vacío",
-    passLength: "La contraseña debe de tener 6 o más dígitos",
-    passLengthMax: "La contraseña no puede tener más de 32 carácteres",
-    wrongMail: "El correo introducido no existe",
-    wrongPass: "La contraseña introducida es incorrecta"
+  constructor(
+    private _router: Router,
+    private formBuilder: FormBuilder,
+    public service: AuthService,
+    private router: Router
+  ) {
   }
 
   // Text que apareix i no són errors
@@ -63,7 +48,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-
   login(formulari) {
     let e = formulari.form.value.email;
     let p = formulari.form.value.password;
@@ -74,9 +58,8 @@ export class LoginPage implements OnInit {
       this.service.setToken(el.user.uid);
 
       // Reset
-      this.resetejarLogin();
-
       this._router.navigateByUrl('/buscador');
+      this.resetejarLogin();
     })
       .catch((err) => {
         // Usuari incorrecte
