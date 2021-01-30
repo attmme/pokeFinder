@@ -79,15 +79,19 @@ export class BuscadorPage implements OnInit {
       (dada) => {
         this.sliderPokemons.pokemons = [];
         dada.map((pokemon) => {
-          this.sliderPokemons.pokemons.push(pokemon);
+          this.sliderPokemons.pokemons.unshift(pokemon);
         });
 
-        // working
-        let t = localStorage.getItem('index_pokemon');
+        // Movem al primer pokemon de la llista (ja que és unshift)
+        this.click_pokemon(this.slideWithNav, 0);
 
+        // working
+/*         let t = localStorage.getItem('index_pokemon');
+        console.log("Index pokemon: ", t)
+        console.log("Pokemons: ", this.sliderPokemons.pokemons)
         if (Number(t) >= 0) {
           this.click_pokemon(this.slideWithNav, t);
-        }
+        } */
 
       }
     );
