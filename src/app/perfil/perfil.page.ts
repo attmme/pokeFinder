@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+//import { DomSanitizer } from '@angular/platform-browser';
 import { ChangeDetectorRef } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from "@angular/fire/auth";
