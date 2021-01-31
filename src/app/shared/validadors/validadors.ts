@@ -83,13 +83,27 @@ export class Validadors {
     }
 
     nomInvalid(nom, obj) {
+        let k = 0;
 
         if (nom == undefined) // afegit nou, provar
         {
             return false;
         }
 
-        return this.cognomInvalid(nom, obj);
+        for (let i = 0; i < nom.length; i++) {
+            if (this.caractersValids.includes(nom[i])) {
+                k++;
+            }
+        }
+
+        if ((k != nom.length)) {
+            obj.teError |= (1 << 2);
+        }
+        else {
+            obj.teError &= ~(1 << 2);
+        }
+
+        return (k != nom.length);
     }
 
     // Cognoms
