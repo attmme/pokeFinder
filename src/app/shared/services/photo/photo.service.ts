@@ -11,7 +11,6 @@ const { Camera, Filesystem } = Plugins;
   providedIn: 'root'
 })
 export class PhotoService {
-  // public photos: Photo[] = [];
   private platform: Platform;
 
   constructor(platform: Platform) {
@@ -29,9 +28,11 @@ export class PhotoService {
         })
         .then(
           (dada) => {
+            console.log("32, dada: ", dada);
+            console.log("33, dada: " + dada);
             this.readAsBase64(dada)
               .then((resultat) => {
-
+                console.log("36, dada: ", resultat);
                 resolve(resultat);
               })
               .catch();
@@ -46,13 +47,20 @@ export class PhotoService {
 
   private async readAsBase64(cameraPhoto: CameraPhoto) {
 
+/*     if (this.platform.is('hybrid')) {
+
+      const response = await fetch(cameraPhoto.path!);
+      const blob = await response.blob();
+      return await this.convertBlobToBase64(blob) as string;
+    } */
+
     // Mòbil
-    if (this.platform.is('hybrid')) {
-      const file = await Filesystem.readFile({
-        path: cameraPhoto.path
-      });
-      return file.data;
-    }
+    // if (this.platform.is('hybrid')) {
+    // const file = await Filesystem.readFile({
+    // path: cameraPhoto.path
+    // });
+    // return file.data;
+    // }
 
     // Web
     const response = await fetch(cameraPhoto.webPath!);
@@ -70,8 +78,3 @@ export class PhotoService {
   });
 
 }
-/* 
-export interface Photo {
-  filepath: string;
-  webviewPath: string;
-} */
