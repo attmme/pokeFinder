@@ -31,6 +31,7 @@ export class BuscadorPage implements OnInit {
   toast = new Toast();
   arrPokemonsFiltrats = []
 
+
   constructor(
     private router: Router,
     public modalController: ModalController,
@@ -65,6 +66,7 @@ export class BuscadorPage implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   fakePipe(buscador, pokemon) {
@@ -86,11 +88,18 @@ export class BuscadorPage implements OnInit {
           this.sliderPokemons.pokemons.unshift(pokemon);
         });
 
+        // Si hi ha 0, vol dir que la sessió ha caducat
+        if (this.sliderPokemons.pokemons.length <= 0){
+          this.firebase.logout();
+          this.router.navigate(['/login']);
+        }
+
         // Movem el pokemon capturat
         let t = localStorage.getItem('index_pokemon');
         if (Number(t) >= 0) {
           this.click_pokemon(this.slideWithNav, t);
         }
+
 
         // working
         /*         
@@ -100,11 +109,13 @@ export class BuscadorPage implements OnInit {
         */
 
       }
-    );
+    ).catch(err => {
+      console.log("Error al llegir pokemons")
+    });
   }
 
   click_pokemon(slider, index) {
-    if (index != null){
+    if (index != null) {
       let indexReal = (this.sliderPokemons.pokemons.length - 1) - index;
       slider.slideTo(indexReal, 500); // el número és la suavitat
     }
@@ -166,7 +177,7 @@ export class BuscadorPage implements OnInit {
 
   canvis_firestore_pokemon() {
     let ruta = `/users/${this.service.getToken()}/pokemons/`;
-    let temporal = this.firestore.collection(ruta).valueChanges().subscribe((userData) => {
+    let temporal = this.firestore.collection(ruta).valueChanges().subscribe((userData) => {      
       this.llegirPokemonFirestore();
     });
   }
