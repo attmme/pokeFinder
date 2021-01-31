@@ -2,8 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class Validadors {
 
-    caractersValids = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    caractersCognomValids = this.caractersValids + " ";
+    caractersValids = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+    // caractersCognomValids = this.caractersValids + " ";
 
     constructor() {
     }
@@ -144,7 +144,7 @@ export class Validadors {
         }
 
         for (let i = 0; i < cognoms.length; i++) {
-            if (this.caractersCognomValids.includes(cognoms[i])) {
+            if (this.caractersValids.includes(cognoms[i])) {
                 k++;
             }
         }
