@@ -31,6 +31,7 @@ export class BuscadorPage implements OnInit {
   toast = new Toast();
   arrPokemonsFiltrats = [];
   userTeSessio;
+  borrantDB = false;
 
   constructor(
     private router: Router,
@@ -106,8 +107,8 @@ export class BuscadorPage implements OnInit {
     this.firebase.readColl(ruta).then(
       (dada) => {
 
-        if (dada == undefined || dada.length == 0) {
-          // this.logout(); // apagat, dóna problemes.
+        if ((dada == undefined || dada.length == 0) && this.borrantDB == false) {
+          this.logout(); // apagat, dóna problemes.
           // Et tira un logout quan està borrant la taula de firebase
         }
         else {
@@ -275,8 +276,14 @@ export class BuscadorPage implements OnInit {
   }
 
   borrarCompteUsuari() {
+
+    this.borrantDB = true; // anem a borrar, evitem que el listener
+    // de la db de pokemon ens tiri el logout mentres borrem
+
     let id = this.service.getToken();
     let ruta = `/users/${id}/pokemons/`;
+    
+    console.log("id: ", id);
 
     if (this.userTeSessio) {
 
@@ -286,14 +293,14 @@ export class BuscadorPage implements OnInit {
           this.firebase.removeCollUsuari(id, dada.length)
             .then(() => {
 
-               this.firebase.eliminarUsuari().then(() => {
+              /*  this.firebase.eliminarUsuari().then(() => {
                  this.logout();
                }
                ).catch(
                  (e) => {
                    //  error al borrar el l'usuari de fireauth
                  }
-               );
+               ); */
             })
             .catch((e) => {
               // error borrar taula pokemon + taula usuari
@@ -308,5 +315,6 @@ export class BuscadorPage implements OnInit {
       this.logout();
     }
   }
+
   // ------------------------------------------------------------------ </usuari>
 }
