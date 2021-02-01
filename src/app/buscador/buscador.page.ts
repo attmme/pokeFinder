@@ -92,7 +92,7 @@ export class BuscadorPage implements OnInit {
         // console.log('User is logged in');
       }
       else {
-        console.log('User sesió caducada');
+        // console.log('User sesió caducada');
         // l'usuari té la sesió caducada
         // this.toast.show("Sesión caducada", 2500);
         // this.logout();

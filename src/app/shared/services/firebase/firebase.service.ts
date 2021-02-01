@@ -181,9 +181,9 @@ export class FirebaseService {
     {
       objecte.edat = '';
     }
-    if(objecte.img == undefined)
+    if(objecte.imatge == undefined || objecte.imatge == '')
     {
-      objecte.img = '';
+      objecte.imatge = '/assets/profile/avatar.png';
     }
 
     this.firestore.collection('/users/').doc(id).set(objecte);
