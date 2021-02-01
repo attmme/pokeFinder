@@ -1,3 +1,5 @@
+import { AuthService } from './../shared/services/firebase/auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInfiniteScroll, LoadingController } from '@ionic/angular';
 
@@ -7,10 +9,8 @@ import { PerfilPage } from '../perfil/perfil.page';
 import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
 
-import { AuthService } from '../shared/services/firebase/auth.service';
 import { FirebaseService } from '../shared/services/firebase/firebase.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-
 import { MenuController } from '@ionic/angular';
 
 import { Toast } from '../shared/toast/toast';
@@ -29,14 +29,15 @@ export class BuscadorPage implements OnInit {
   index_pokemon_capturat: any;
   input_buscador: any;
   toast = new Toast();
-  arrPokemonsFiltrats = []
-
+  arrPokemonsFiltrats = [];
+  userTeSessio;
 
   constructor(
     private router: Router,
     public modalController: ModalController,
     public service: AuthService,
     public firebase: FirebaseService,
+    public firebaseAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     public menuCtrl: MenuController,
     public loadingController: LoadingController,
@@ -50,9 +51,10 @@ export class BuscadorPage implements OnInit {
       pokemons: []
     };
 
-    localStorage.removeItem('index_pokemon');
     this.canvis_firestore_pokemon();
+    localStorage.removeItem('index_pokemon');
     this.show('Cargando tus pokemon', 400);
+    this.listenerUsuariTeSessio();
   }
 
   async show(text, temps) {
@@ -69,6 +71,10 @@ export class BuscadorPage implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+
+  }
+
   fakePipe(buscador, pokemon) {
     let filtrat = pokemon.toLowerCase().includes(buscador.toLowerCase());
 
@@ -77,40 +83,54 @@ export class BuscadorPage implements OnInit {
     return filtrat;
   }
 
+  listenerUsuariTeSessio() {
+
+    this.firebaseAuth.onAuthStateChanged((credential) => {
+      if (credential) {
+        this.userTeSessio = credential;
+        // console.log('User is logged in');
+      }
+      else {
+        console.log('User sesió caducada');
+        // l'usuari té la sesió caducada
+        // this.toast.show("Sesión caducada", 2500);
+        // this.logout();
+      }
+    })
+  }
+
   // ------------------------------------------------------------------ <pokemon>
   llegirPokemonFirestore() {
     let ruta = `/users/${this.service.getToken()}/pokemons/`;
 
     this.firebase.readColl(ruta).then(
       (dada) => {
-        this.sliderPokemons.pokemons = [];
-        dada.map((pokemon) => {
-          this.sliderPokemons.pokemons.unshift(pokemon);
-        });
 
-        // Si hi ha 0, vol dir que la sessió ha caducat
-        if (this.sliderPokemons.pokemons.length <= 0){
-          this.firebase.logout();
-          this.router.navigate(['/login']);
+        if (dada == undefined || dada.length == 0) {
+          // this.logout(); // apagat, dóna problemes.
+          // Et tira un logout quan està borrant la taula de firebase
         }
+        else {
+          this.sliderPokemons.pokemons = [];
+          dada.map((pokemon) => {
+            this.sliderPokemons.pokemons.unshift(pokemon);
+          });
 
-        // Movem el pokemon capturat
-        let t = localStorage.getItem('index_pokemon');
-        if (Number(t) >= 0) {
-          this.click_pokemon(this.slideWithNav, t);
+          // Si hi ha 0, vol dir que la sessió ha caducat
+          if (this.sliderPokemons.pokemons.length <= 0) {
+            this.firebase.logout();
+            this.router.navigate(['/login']);
+          }
+
+          // Movem el pokemon capturat
+          let t = localStorage.getItem('index_pokemon');
+          if (Number(t) >= 0) {
+            this.click_pokemon(this.slideWithNav, t);
+          }
         }
-
-
-        // working
-        /*         
-        if (Number(t) >= 0) {
-          this.click_pokemon(this.slideWithNav, t);
-        } 
-        */
-
       }
     ).catch(err => {
-      console.log("Error al llegir pokemons")
+      // Error al llegir pokemons
     });
   }
 
@@ -177,7 +197,7 @@ export class BuscadorPage implements OnInit {
 
   canvis_firestore_pokemon() {
     let ruta = `/users/${this.service.getToken()}/pokemons/`;
-    let temporal = this.firestore.collection(ruta).valueChanges().subscribe((userData) => {      
+    let temporal = this.firestore.collection(ruta).valueChanges().subscribe((userData) => {
       this.llegirPokemonFirestore();
     });
   }
@@ -223,7 +243,6 @@ export class BuscadorPage implements OnInit {
   // ------------------------------------------------------------------ <usuari>
   logout() {
     this.menuCtrl.close();
-
     this.service.removeToken();
     this.service.logout();
     this.router.navigateByUrl('/login'); // trucazo
@@ -241,7 +260,7 @@ export class BuscadorPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
+            // Confirm Cancel
           }
         }, {
           text: 'Aceptar',
@@ -259,29 +278,35 @@ export class BuscadorPage implements OnInit {
     let id = this.service.getToken();
     let ruta = `/users/${id}/pokemons/`;
 
-    this.firebase.readColl(ruta).then(
-      (dada) => {
+    if (this.userTeSessio) {
 
-        this.firebase.eliminarUsuari().then(() => {
+      this.firebase.readColl(ruta).then(
+        (dada) => {
 
-          this.firebase.removeCollUsuari(id, dada.length).then(() => {
-            this.logout();
-          }
-          ).catch(
-            (e) => {
+          this.firebase.removeCollUsuari(id, dada.length)
+            .then(() => {
 
-            }
-          );
+               this.firebase.eliminarUsuari().then(() => {
+                 this.logout();
+               }
+               ).catch(
+                 (e) => {
+                   //  error al borrar el l'usuari de fireauth
+                 }
+               );
+            })
+            .catch((e) => {
+              // error borrar taula pokemon + taula usuari
+            });
         })
-          .catch((e) => {
-            this.toast.show("Esta operación es peligrosa, haz login y borra", 3000);
-            // this.showToast("Esta operación es peligrosa, haz login y borra", 3000);
-            this.logout();
-          });
-      })
-      .catch((e) => {
-        // console.log("e1: ", e);
-      });
+        .catch((e) => {
+          // error llegir taula pokemon
+        });
+    }
+    else {
+      this.toast.show("Esta operación es peligrosa, haz login y borra", 3000);
+      this.logout();
+    }
   }
   // ------------------------------------------------------------------ </usuari>
 }

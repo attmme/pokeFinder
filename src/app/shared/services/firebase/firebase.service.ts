@@ -71,14 +71,16 @@ export class FirebaseService {
       .then((data) => data.docs.map((el) => el.data()).length.toString());
   }
 
-  removeCollUsuari(id, tamany) {
+  removeCollUsuari(id:string, tamany) {
 
     let ruta = `/users/${id}/pokemons/`;
 
     return new Promise((resolve, reject) => {
 
       for (let i = 0; i < tamany; i++) {
+        console.log("i: ", i);
         let deleteDoc = this.firestore.collection(ruta).doc(i.toString()).delete();
+        console.log("deleteDoc: ", deleteDoc);
       }
 
       this.firestore.collection('/users/').doc(id).delete();

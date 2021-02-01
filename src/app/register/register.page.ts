@@ -71,8 +71,9 @@ export class RegisterPage implements OnInit {
       this.fbService.registrar(dades)
         .then(() => {
           // Reset
-          this.resetejarFormulari();
-          this._router.navigate(['/login']);
+          this.login();
+          // this.resetejarFormulari();
+          // this._router.navigate(['/login']);
         }).catch(err => {
 
           // Si el mail ja existeix
