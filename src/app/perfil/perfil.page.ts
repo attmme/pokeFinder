@@ -27,6 +27,8 @@ export class PerfilPage implements OnInit {
   err = new MissatgesErrors();
   perfilForm: FormGroup;
 
+  valorStorage;
+
   obj_err = { // es comparteix amb la classe validadors
     teError: 0,
   };
@@ -79,8 +81,18 @@ export class PerfilPage implements OnInit {
     // Si no hi ha foto en firebase, posem una predeterminada
     // no és inmediat això. Pensa que primer posa l'avatar
     // i si ningú l'actualitza, es queda aquest.
-    if (this.perfil.imatge == undefined || this.perfil.imatge == '') {
+
+    this.valorStorage = localStorage.getItem('imatgePerfil');
+
+    if (this.valorStorage == undefined || this.valorStorage == '') {
       this.perfil.imatge = "/assets/profile/avatar.png";
+    } else {
+      // B64 a blob
+      fetch(this.valorStorage)
+        .then(res => res.blob())
+        .then(blob => {
+          this.perfil.imatge = window.URL.createObjectURL(blob);
+        });
     }
 
     this.perfilForm = this.formBuilder.group({
@@ -90,10 +102,10 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    this.cdRef.detectChanges();
-  }
-
+  /*   ngAfterViewInit() {
+      this.cdRef.detectChanges();
+    }
+   */
   // spinner
   async show(text, temps) {
     const loading = await this.loadingController.create({
@@ -107,7 +119,7 @@ export class PerfilPage implements OnInit {
 
   // No guarda res i torna al home
   cancelar() {
-    this.modalCtrl.getTop(); // en principi no cal
+    //this.modalCtrl.getTop(); // en principi no cal
     this.modalCtrl.dismiss();
   }
 
@@ -121,7 +133,9 @@ export class PerfilPage implements OnInit {
       imatge: this.perfil.imatge,
     }
 
-    // Es guarden les dades de l'usuari en la bdd
+    // Es guarden les dades de l'usuari
+    localStorage.setItem('imatgePerfil', this.valorStorage);
+
     this.fireService.updateUsuari(id, obj);
     this.cancelar();
   }
@@ -144,7 +158,7 @@ export class PerfilPage implements OnInit {
       this.perfil.nom = userData['nom'];
       this.perfil.cognoms = userData['cognoms'];
       this.perfil.edat = userData['edat'];
-      this.perfil.imatge = userData['imatge'];
+      //this.perfil.imatge = userData['imatge'];
     });
   }
 
@@ -152,6 +166,7 @@ export class PerfilPage implements OnInit {
     this.photoService.imatgeABase64()
       .then(
         (dada) => {
+          this.valorStorage = dada;
           this.perfil.imatge = dada;
         }
       )

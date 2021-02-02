@@ -28,11 +28,10 @@ export class PhotoService {
         })
         .then(
           (dada) => {
-            console.log("32, dada: ", dada);
-            console.log("33, dada: " + dada);
+            //console.log("32, dada: ", dada);
             this.readAsBase64(dada)
               .then((resultat) => {
-                console.log("36, dada: ", resultat);
+                //console.log("36, dada: ", resultat);
                 resolve(resultat);
               })
               .catch();
